@@ -1,81 +1,3368 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>迭代准入策略 · 离线工具</title>
-  <link rel="stylesheet" href="../assets/theme.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>迭代准入策略报告</title>
+<style>
+/**
+ * Default dark theme — HeroUI-inspired (native CSS, no React/build).
+ * Strong radius (near-pill). Marketing can override --header-bg darker.
+ */
+:root {
+  --hu-snow: oklch(0.9911 0 0);
+  --hu-eclipse: oklch(0.12 0.005 286);
+  --hu-accent: oklch(0.6204 0.195 253.83);
+  /* Strong radius ≈ HeroUI showcase */
+  --hu-radius: 1rem;
+
+  --bg: oklch(0.12 0.006 286);
+  --card: oklch(0.18 0.008 286);
+  --surface: oklch(0.22 0.009 286);
+  --surface-raised: oklch(0.26 0.01 286);
+  /* Dashboard: outer canvas vs workbench sheet */
+  --wb-canvas: oklch(0.10 0.005 286);
+  --wb-sheet: oklch(0.17 0.008 286);
+  --wb-block: oklch(0.205 0.009 286);
+  --table-header: oklch(0.72 0.015 286);
+  --table-row-hover: color-mix(in oklab, var(--accent) 10%, transparent);
+  --table-divider: oklch(0.28 0.01 286);
+  --accent: var(--hu-accent);
+  --accent-hover: color-mix(in oklab, var(--hu-accent) 82%, var(--hu-snow) 18%);
+  --accent-soft: color-mix(in oklab, var(--hu-accent) 22%, transparent);
+  --border: oklch(0.30 0.01 286);
+  --text: oklch(0.96 0.005 286);
+  --text-muted: oklch(0.72 0.015 286);
+  --text-strong: oklch(0.98 0.002 286);
+  --text-dim: oklch(0.78 0.012 286);
+  --text-subtle: oklch(0.58 0.012 286);
+
+  --success: oklch(0.78 0.17 155);
+  --warn: oklch(0.82 0.14 76);
+  --danger: oklch(0.68 0.19 25);
+  --hard: oklch(0.70 0.19 25);
+  --soft: oklch(0.72 0.16 155);
+
+  --table-even: color-mix(in oklab, var(--wb-block) 92%, var(--text) 8%);
+  --card-soft: oklch(0.23 0.009 286);
+  --tag-bg: color-mix(in oklab, var(--accent) 22%, transparent);
+  --tag-border: color-mix(in oklab, var(--accent) 40%, transparent);
+  --tag-primary-bg: color-mix(in oklab, var(--accent) 25%, transparent);
+  --tag-primary-border: color-mix(in oklab, var(--accent) 45%, transparent);
+
+  --border-strong: oklch(0.38 0.012 286);
+  --border-soft: color-mix(in oklab, var(--accent) 35%, transparent);
+  --border-success: color-mix(in oklab, var(--success) 40%, transparent);
+  --bg-soft-blue: color-mix(in oklab, var(--accent) 14%, var(--card));
+  --bg-soft-green: color-mix(in oklab, var(--success) 12%, var(--card));
+
+  --on-dark: var(--hu-snow);
+  --on-accent: var(--hu-snow);
+  /* Workbench header: deep but not pure black */
+  --header-bg: oklch(0.16 0.02 264);
+  /* Marketing hero: blacker */
+  --hero-bg: oklch(0.08 0.01 286);
+  --link-soft: color-mix(in oklab, var(--accent) 55%, var(--hu-snow));
+
+  --bg-warn-soft: color-mix(in oklab, var(--warn) 16%, var(--card));
+  --bg-warn-chip: color-mix(in oklab, var(--warn) 26%, var(--card));
+  --bg-danger-soft: color-mix(in oklab, var(--danger) 14%, var(--card));
+  --bg-danger-chip: color-mix(in oklab, var(--danger) 22%, var(--card));
+  --bg-info-chip: color-mix(in oklab, var(--accent) 18%, var(--card));
+  --bg-info-soft: color-mix(in oklab, var(--accent) 12%, var(--card));
+  --bg-purple-chip: color-mix(in oklab, var(--accent) 24%, var(--card));
+  --border-danger-chip: color-mix(in oklab, var(--danger) 40%, transparent);
+  --border-warn-chip: color-mix(in oklab, var(--warn) 42%, transparent);
+  --border-purple-chip: color-mix(in oklab, var(--accent) 42%, transparent);
+  --border-success-soft: color-mix(in oklab, var(--success) 42%, transparent);
+  --border-warn-soft: color-mix(in oklab, var(--warn) 45%, transparent);
+  --text-warn-dark: color-mix(in oklab, var(--warn) 70%, var(--hu-snow));
+  --text-danger-dark: color-mix(in oklab, var(--danger) 65%, var(--hu-snow));
+  --text-warn-chip: color-mix(in oklab, var(--warn) 75%, var(--hu-snow));
+  --text-soft: var(--text-dim);
+
+  --row-selected: color-mix(in oklab, var(--accent) 18%, var(--card));
+  --placeholder-border: color-mix(in oklab, var(--accent) 45%, transparent);
+  --placeholder-bg: color-mix(in oklab, var(--accent) 10%, transparent);
+
+  --field-bg: oklch(0.18 0.008 286);
+  --field-border: oklch(0.34 0.012 286);
+  --field-placeholder: var(--text-subtle);
+
+  --radius-sm: calc(var(--hu-radius) * 0.65);
+  --radius-md: var(--hu-radius);
+  --radius-lg: calc(var(--hu-radius) * 1.35);
+  --radius-pill: 999px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+
+  --shadow-surface: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 16px 40px rgba(0, 0, 0, 0.45);
+  --focus-ring: 0 0 0 2px var(--card), 0 0 0 4px var(--accent);
+
+  --tooltip-bg: oklch(0.28 0.012 286);
+  --tooltip-fg: var(--text);
+
+  --chart-bg: oklch(0.17 0.008 286);
+  --chart-grid: oklch(0.32 0.01 286);
+  --chart-axis: oklch(0.62 0.015 286);
+  --chart-label: oklch(0.75 0.012 286);
+  --track-cross: oklch(0.72 0.16 305);
+
+  color-scheme: dark;
+}
+
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "PingFang SC", system-ui, sans-serif;
+  background: var(--wb-canvas);
+  color: var(--text);
+  line-height: 1.5;
+  font-size: 14px;
+}
+.app-header {
+  background: var(--header-bg);
+  color: var(--on-dark);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.app-header h1 { margin: 0; font-size: 1.35rem; font-weight: 700; }
+.app-header p { margin: .35rem 0 0; opacity: .9; font-size: .85rem; color: var(--text-dim); }
+.content { padding: 1rem 1.25rem 2.5rem; max-width: none; margin: 0; flex: 1; min-width: 0; }
+.report-shell {
+  display: flex; align-items: flex-start; gap: 0;
+  max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 3.5rem);
+}
+.report-toc {
+  position: sticky; top: 0; align-self: flex-start;
+  width: 14.5rem; flex: 0 0 14.5rem;
+  max-height: 100vh; overflow: auto;
+  padding: 1rem .75rem 2rem 1rem;
+  border-right: 1px solid var(--border-soft);
+  background: color-mix(in oklab, var(--wb-sheet, #111) 92%, transparent);
+  z-index: 20;
+}
+.report-toc .toc-title {
+  font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 .65rem;
+}
+.report-toc nav { display: flex; flex-direction: column; gap: .15rem; }
+.report-toc .toc-group { display: flex; flex-direction: column; gap: .08rem; }
+.report-toc .toc-sub {
+  display: flex; flex-direction: column; gap: .04rem;
+  padding: 0 0 .2rem .45rem; margin: 0 0 .1rem;
+  border-left: 1px solid var(--border-soft);
+  margin-left: .5rem;
+}
+.report-toc a {
+  display: block; padding: .35rem .5rem; border-radius: 6px;
+  color: var(--text-dim); text-decoration: none; font-size: .8rem; line-height: 1.35;
+}
+.report-toc .toc-sub a {
+  font-size: .72rem; padding: .22rem .45rem; color: var(--text-muted);
+}
+.report-toc a:hover { background: color-mix(in oklab, var(--accent) 12%, transparent); color: var(--text); }
+.report-toc a.is-active {
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+  color: var(--accent); font-weight: 600;
+}
+.report-toc a.is-parent-active { color: var(--text); font-weight: 600; }
+.report-section, .submodule[id] { scroll-margin-top: .75rem; }
+.toc-mobile-btn {
+  display: none; position: fixed; right: 1rem; bottom: 1rem; z-index: 40;
+  appearance: none; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--wb-sheet); color: var(--text); padding: .55rem 1rem;
+  font-size: .85rem; box-shadow: var(--shadow-surface); cursor: pointer;
+}
+.report-toc-backdrop { display: none; }
+@media (max-width: 900px) {
+  .report-shell { display: block; }
+  .report-toc {
+    position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-105%);
+    transition: transform .2s ease; width: min(16rem, 82vw); max-height: none;
+    box-shadow: var(--shadow-surface);
+  }
+  .report-toc.is-open { transform: translateX(0); }
+  .toc-mobile-btn { display: inline-flex; }
+  .report-toc-backdrop.is-open {
+    display: block; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 19;
+  }
+}
+.collapse-head {
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  margin: 0 0 .65rem;
+}
+.collapse-head h2, .collapse-head .submodule-title { margin: 0; flex: 1; min-width: 0; }
+.collapse-toggle, .swap-src-toggle {
+  appearance: none; border: 1px solid var(--border); background: var(--surface, transparent);
+  color: var(--text); border-radius: var(--radius-sm, 6px); padding: .2rem .65rem;
+  font-size: .75rem; cursor: pointer; flex: 0 0 auto; white-space: nowrap;
+}
+.collapse-toggle:hover, .swap-src-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.report-section.is-collapsed > .collapse-body,
+.submodule.is-collapsed > .collapse-body { display: none; }
+.report-section.is-collapsed { padding-bottom: .85rem; }
+.report-document section {
+  background: var(--wb-sheet);
+  padding: 1.35rem 1.45rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-surface);
+}
+.report-document h2 {
+  border-bottom: none;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-strong);
+}
+.report-document h3 {
+  font-size: .92rem;
+  color: var(--text-strong);
+  margin: 1rem 0 .65rem;
+  font-weight: 600;
+}
+.report-document h4 {
+  font-size: .84rem;
+  color: var(--text-dim);
+  margin: .75rem 0 .4rem;
+  font-weight: 600;
+}
+.report-document p { font-size: .88rem; color: var(--text-dim); margin: .35rem 0; }
+.sample-scope {
+  margin: 0 0 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--wb-block);
+}
+.sample-scope h2 { margin-top: 0; }
+.sample-scope .scope-lead {
+  font-size: .92rem; color: var(--text); line-height: 1.55; margin: 0 0 .65rem;
+}
+.sample-scope .scope-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: .4rem;
+  font-size: .88rem; color: var(--text-dim); line-height: 1.5;
+}
+.sample-scope .scope-list li { padding-left: 0; }
+.sample-scope .scope-list .k {
+  display: inline-block; min-width: 5.5rem; margin-right: .35rem;
+  font-weight: 700; color: var(--text-muted); font-size: .75rem;
+}
+.sample-scope code { word-break: break-all; }
+.rv-wb-meta {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.35rem 0.5rem; padding: 0.1rem 0 0.45rem;
+}
+.rv-chip {
+  display: inline-flex; align-items: center;
+  padding: 0.15rem 0.55rem; border-radius: var(--radius-pill);
+  font-size: 0.75rem; border: 1px solid var(--tag-border);
+  background: var(--tag-bg); color: var(--text);
+}
+.rv-chip-muted {
+  background: var(--surface); border-color: var(--border); color: var(--text-muted);
+}
+.rv-result-card {
+  background: var(--wb-block);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem;
+  margin-top: .75rem;
+}
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: .75rem; margin: .35rem 0 .85rem;
+}
+.metric-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: .85rem .9rem;
+  text-align: center;
+}
+.metric-card .val {
+  font-size: 1.25rem; font-weight: 700; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.metric-card .val.bad { color: var(--danger); }
+.metric-card .val.good { color: var(--success); }
+.metric-card .sub {
+  margin-top: 0.2rem; font-size: 0.72rem; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; line-height: 1.35;
+}
+.metric-card .lbl { font-size: .72rem; color: var(--text-muted); margin-top: .35rem; }
+.table-wrap { overflow-x: auto; margin: .35rem 0; }
+.data-table {
+  width: max-content; max-width: none;
+  border-collapse: collapse; font-size: .82rem; margin: .35rem 0 0;
+}
+.data-table th, .data-table td {
+  border: none; border-bottom: 1px solid var(--table-divider);
+  padding: .55rem .65rem; text-align: left; vertical-align: middle;
+}
+.data-table th {
+  background: transparent; color: var(--table-header);
+  font-weight: 600; font-size: .72rem; letter-spacing: .03em;
+  white-space: nowrap;
+}
+.data-table tbody tr:hover { background: var(--table-row-hover); }
+.data-table .num {
+  text-align: right; font-variant-numeric: tabular-nums;
+  color: var(--text-strong); white-space: nowrap;
+}
+.data-table th.num { color: var(--table-header); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table .rate-heat { font-weight: 600; text-align: right; }
+.data-table td .sub { font-size: .68rem; color: var(--text-muted); font-weight: 400; }
+/* 双方案对照表：表头与单元格统一左对齐，两方案列等宽 */
+.data-table.plan-compare-table {
+  width: 100%;
+  max-width: 56rem;
+  table-layout: fixed;
+}
+.data-table.plan-compare-table th,
+.data-table.plan-compare-table td {
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+.data-table.plan-compare-table th:first-child,
+.data-table.plan-compare-table td:first-child {
+  width: 7.5rem;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.data-table.plan-compare-table th:not(:first-child),
+.data-table.plan-compare-table td:not(:first-child) {
+  width: calc((100% - 7.5rem) / 2);
+}
+.data-table.plan-compare-table td.num {
+  text-align: left;
+  white-space: normal;
+}
+.data-table.plan-compare-table code {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-all;
+}
+.th-sort-btn {
+  background: none; border: none; font: inherit; color: inherit;
+  cursor: pointer; padding: 0; text-align: inherit;
+}
+.th-sort-btn:hover { color: var(--accent); }
+.th-sortable[data-sort-dir="asc"] .th-sort-btn::after { content: " ↑"; color: var(--accent); }
+.th-sortable[data-sort-dir="desc"] .th-sort-btn::after { content: " ↓"; color: var(--accent); }
+.wf-drag-cell { width: 1.6rem; padding-right: 0 !important; color: var(--text-muted); }
+.drag-handle { cursor: grab; user-select: none; font-size: .95rem; line-height: 1; opacity: .55; }
+.drag-handle:active { cursor: grabbing; }
+.drag-handle-disabled { opacity: .2; cursor: default; pointer-events: none; }
+tr.wf-row.hard td:nth-child(2) { box-shadow: inset 3px 0 0 var(--hard, #64748b); }
+tr.wf-row.soft td:nth-child(2), tr.wf-row.custom td:nth-child(2) { box-shadow: inset 3px 0 0 var(--soft, #0d9488); }
+tr.wf-row.wf-sort-hidden { display: none; }
+tr.wf-row.wf-dragging { opacity: .9; background: var(--surface, #fff); }
+tr.segment-row td { background: color-mix(in oklab, var(--bg-info-soft, #eef2ff) 55%, transparent); font-size: .82rem; }
+.kind-tag.segment { background: var(--border); color: var(--text-dim); }
+.swap-src-block { margin-top: 1rem; }
+.swap-src-head {
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  margin: .75rem 0 .35rem;
+}
+.swap-src-head h4 { margin: 0; font-size: .95rem; }
+.swap-src-toggle {
+  appearance: none; border: 1px solid var(--border); background: var(--surface, #fff);
+  color: var(--text); border-radius: var(--radius-sm, 6px); padding: .2rem .65rem;
+  font-size: .78rem; cursor: pointer;
+}
+.swap-src-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.swap-src-body.is-collapsed { display: none; }
+.swap-seg-chart { display: flex; height: 1.35rem; border-radius: 6px; overflow: hidden; margin: .5rem 0 .75rem; border: 1px solid var(--border); }
+.swap-seg-chart span { display: block; height: 100%; min-width: 0; }
+.swap-seg-chart .seg-inin { background: color-mix(in oklab, var(--accent, #60a5fa) 70%, transparent); }
+.swap-seg-chart .seg-swapin { background: color-mix(in oklab, var(--ok, #22c55e) 65%, transparent); }
+.swap-seg-chart .seg-swapout { background: color-mix(in oklab, var(--warn, #f59e0b) 70%, transparent); }
+.swap-seg-chart .seg-outout { background: color-mix(in oklab, var(--text-muted, #94a3b8) 45%, transparent); }
+.swap-seg-legend { display: flex; flex-wrap: wrap; gap: .5rem .9rem; margin: 0 0 .75rem; font-size: .78rem; color: var(--text-muted); }
+.swap-seg-legend i { display: inline-block; width: .65rem; height: .65rem; border-radius: 2px; margin-right: .3rem; vertical-align: -1px; }
+.swap-seg-legend i.seg-inin { background: color-mix(in oklab, var(--accent, #60a5fa) 70%, transparent); }
+.swap-seg-legend i.seg-swapin { background: color-mix(in oklab, var(--ok, #22c55e) 65%, transparent); }
+.swap-seg-legend i.seg-swapout { background: color-mix(in oklab, var(--warn, #f59e0b) 70%, transparent); }
+.swap-seg-legend i.seg-outout { background: color-mix(in oklab, var(--text-muted, #94a3b8) 45%, transparent); }
+.swap-bar-chart { display: grid; gap: .35rem; margin: .5rem 0 .85rem; }
+.swap-bar-row { display: grid; grid-template-columns: minmax(7rem, 28%) 1fr auto; gap: .45rem; align-items: center; font-size: .78rem; }
+.swap-bar-row .bar-track { height: .55rem; background: color-mix(in oklab, var(--border) 55%, transparent); border-radius: 99px; overflow: hidden; }
+.swap-bar-row .bar-fill { height: 100%; background: color-mix(in oklab, var(--accent, #60a5fa) 75%, transparent); border-radius: 99px; }
+.waterfall-placeholder-row td { padding: 0; border: none; background: transparent; }
+.waterfall-placeholder-row .waterfall-placeholder {
+  height: 2.4rem; margin: .15rem .35rem;
+  border: 1px dashed var(--accent); border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .78rem; color: var(--text-dim);
+}
+.muted { color: var(--text-muted); font-size: .84rem; }
+.cfg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: .45rem .9rem; font-size: .84rem; color: var(--text-dim);
+}
+.cfg-grid b { color: var(--text); font-weight: 600; }
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: .75rem;
+}
+.decision-strip {
+  background: var(--wb-block);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem 1rem;
+}
+.decision-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 5rem; font-size: 0.75rem; font-weight: 700;
+  border-radius: 999px; padding: 0.2rem 0.6rem;
+  background: var(--border); color: var(--text-dim);
+}
+.decision-strip.good .decision-badge { background: var(--bg-soft-green); color: var(--success); }
+.decision-strip.warn .decision-badge { background: var(--bg-warn-soft); color: var(--text-warn-dark); }
+.decision-strip.bad .decision-badge { background: var(--bg-danger-soft); color: var(--text-danger-dark); }
+.decision-title { margin: .45rem 0 .25rem; font-weight: 700; color: var(--text-strong); }
+.decision-text { font-size: .86rem; color: var(--text-dim); }
+.decision-list {
+  list-style: none; margin: .35rem 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: .35rem;
+  font-size: .86rem; color: var(--text-dim); line-height: 1.45;
+}
+.decision-list .k {
+  display: inline-block; min-width: 3.2rem; margin-right: .35rem;
+  font-weight: 700; font-size: .72rem; color: var(--text-muted);
+  letter-spacing: .02em;
+}
+.decision-mini-wrap { margin: 0 0 .15rem; }
+.decision-mini-table { font-size: .78rem; }
+.decision-mini-table th,
+.decision-mini-table td { padding: .28rem .4rem; }
+.rule-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: .75rem .85rem .9rem;
+  background: color-mix(in oklab, var(--wb-block, #111) 88%, transparent);
+}
+.rule-card-current { border-left: 3px solid var(--border); }
+.rule-card-plan { border-left: 3px solid var(--accent); }
+.rule-card-head {
+  display: flex; align-items: center; gap: .4rem; flex-wrap: wrap;
+  margin: 0 0 .45rem;
+}
+.rule-card-head h4 {
+  margin: 0; font-size: .9rem; font-weight: 700; color: var(--text-strong);
+}
+.plan-rule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: .85rem;
+  margin-top: .85rem;
+}
+.kind-tag.added { background: var(--bg-soft-green); color: var(--success); border-color: var(--border-success-soft); }
+.gate-chip-row {
+  display: flex; flex-wrap: wrap; gap: .35rem; margin: .25rem 0 .4rem;
+}
+.gate-details {
+  margin: .45rem 0 0;
+  font-size: .84rem; color: var(--text-dim);
+}
+.gate-details > summary {
+  cursor: pointer; color: var(--text-strong); font-weight: 600;
+  list-style-position: outside;
+}
+.gate-bullet-list {
+  list-style: none; margin: .5rem 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: .45rem;
+}
+.gate-bullet-list li {
+  padding: .4rem .55rem;
+  border-left: 3px solid var(--border-soft);
+  background: color-mix(in oklab, var(--wb-block, #111) 80%, transparent);
+  border-radius: 0 var(--radius-sm, 4px) var(--radius-sm, 4px) 0;
+}
+.gate-bullet-label {
+  display: block; font-weight: 700; color: var(--text-strong);
+  font-size: .78rem; margin-bottom: .15rem;
+}
+.gate-bullet-detail { display: block; line-height: 1.45; }
+.cfg-gate-cell .gate-chip-row { margin-top: .35rem; }
+.backtest-block { margin: 0; }
+.submodule {
+  margin: 0.85rem 0 1.1rem;
+  padding: 0.75rem 0.9rem 0.9rem;
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--wb-block, #111) 88%, transparent);
+}
+.submodule + .submodule { margin-top: 0.75rem; }
+.submodule-title {
+  display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap;
+  margin: 0 0 .55rem; font-size: .95rem; font-weight: 700; color: var(--text-strong);
+  line-height: 1.35;
+}
+.submodule-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2.4rem; padding: 0.12rem 0.4rem;
+  border-radius: 999px; font-size: .72rem; font-weight: 700;
+  letter-spacing: .02em;
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+  color: var(--accent); border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  flex-shrink: 0;
+}
+.submodule-body > :first-child { margin-top: 0; }
+.submodule-body > :last-child { margin-bottom: 0; }
+.submodule.submodule-nested {
+  border-left-color: var(--border);
+  background: color-mix(in oklab, var(--bg-info-soft, #1a2030) 35%, transparent);
+}
+.submodule.submodule-nested .submodule-num {
+  background: var(--border); color: var(--text-dim); border-color: var(--border);
+}
+.module-stack { display: flex; flex-direction: column; gap: 0.15rem; }
+.lamp {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-weight: 600; font-size: .82rem;
+}
+.lamp::before {
+  content: ""; width: .55rem; height: .55rem; border-radius: 50%;
+  background: var(--border);
+}
+.lamp.good { color: var(--success); }
+.lamp.good::before { background: var(--success); }
+.lamp.warn { color: var(--text-warn-dark); }
+.lamp.warn::before { background: var(--warn); }
+.lamp.bad { color: var(--text-danger-dark); }
+.lamp.bad::before { background: var(--danger); }
+.status.ok { color: var(--success); }
+.status.err { color: var(--danger); }
+details.appendix, details.model-bins {
+  margin-top: .5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: .55rem .75rem;
+}
+details.appendix + details.appendix,
+details.model-bins + details.model-bins { margin-top: .45rem; }
+details.appendix summary, details.model-bins summary {
+  cursor: pointer; font-weight: 600; font-size: .88rem; color: var(--text-strong);
+}
+.bin-matrix thead th { background: var(--bg, var(--surface)); }
+.bin-matrix .bin-period-start { border-left: 1px solid var(--table-divider); }
+.bin-matrix .bin-sticky-1,
+.bin-matrix .bin-sticky-2 {
+  position: sticky;
+  z-index: 2;
+  background: var(--bg, var(--surface));
+}
+.bin-matrix thead .bin-sticky-1,
+.bin-matrix thead .bin-sticky-2 { z-index: 3; }
+.bin-matrix .bin-sticky-1 { left: 0; }
+.bin-matrix .bin-sticky-2 { left: 2.6rem; min-width: 7.5rem; }
+.bin-matrix tbody tr:hover .bin-sticky-1,
+.bin-matrix tbody tr:hover .bin-sticky-2 { background: var(--table-row-hover); }
+.bin-matrix .hit-sticky-rule,
+.bin-matrix .hit-sticky-side {
+  position: sticky;
+  z-index: 2;
+  background: var(--bg, var(--surface));
+}
+.bin-matrix thead .hit-sticky-rule,
+.bin-matrix thead .hit-sticky-side { z-index: 3; }
+.bin-matrix .hit-sticky-rule {
+  left: 0;
+  width: 16rem;
+  min-width: 16rem;
+  max-width: 16rem;
+  white-space: normal;
+  word-break: break-all;
+}
+.bin-matrix .hit-sticky-rule code {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-all;
+}
+.bin-matrix .hit-sticky-side {
+  left: 16rem;
+  width: 4.2rem;
+  min-width: 4.2rem;
+  white-space: nowrap;
+  box-shadow: 1px 0 0 var(--table-divider);
+}
+.bin-matrix tbody tr:hover .hit-sticky-rule,
+.bin-matrix tbody tr:hover .hit-sticky-side { background: var(--table-row-hover); }
+.bin-combo { margin: .55rem 0 1.1rem; }
+.bin-combo-legend {
+  display: flex; flex-wrap: wrap; gap: .35rem 1rem;
+  font-size: .75rem; color: var(--text-muted); margin: 0 0 .35rem;
+}
+.bin-combo-legend i {
+  display: inline-block; width: .75rem; height: .65rem; margin-right: .3rem;
+  vertical-align: -1px; border-radius: 2px;
+}
+.bin-combo-legend .lg-bar { background: color-mix(in oklab, var(--accent, #60a5fa) 38%, transparent); border: 1px solid var(--accent, #60a5fa); }
+.bin-combo-legend .lg-risk { background: var(--danger, #f87171); }
+.bin-combo-legend .lg-lift { background: var(--warn, #fbbf24); }
+.bin-combo-plot { position: relative; cursor: crosshair; }
+.bin-combo svg { width: 100%; height: auto; display: block; overflow: hidden; }
+.bin-combo-grid { stroke: var(--table-divider, #2a3344); stroke-width: 1; }
+.bin-combo-axis { stroke: var(--text-muted, #94a3b8); stroke-width: 1; }
+.bin-combo-lift1 { stroke: var(--warn, #fbbf24); stroke-width: 1; stroke-dasharray: 3 3; opacity: .45; }
+.bin-combo-bar { fill: color-mix(in oklab, var(--accent, #60a5fa) 32%, transparent); }
+.bin-combo-line-risk { stroke: var(--danger, #f87171); stroke-width: 1.8; }
+.bin-combo-line-lift { stroke: var(--warn, #fbbf24); stroke-width: 1.6; stroke-dasharray: 5 3; }
+.bin-combo-dot-risk { fill: var(--danger, #f87171); }
+.bin-combo-dot-lift { fill: var(--warn, #fbbf24); }
+.bin-combo-tick, .bin-combo-x, .bin-combo-axis-title {
+  fill: var(--text-muted, #94a3b8); font-size: 9px;
+}
+.bin-combo-tick-risk { fill: var(--danger, #f87171); }
+.bin-combo-tick-lift { fill: var(--warn, #fbbf24); }
+.bin-combo-axis-title { font-size: 10px; }
+.bin-combo-tip {
+  position: fixed; z-index: 80; pointer-events: none;
+  min-width: 11rem; max-width: 18rem;
+  background: var(--surface-raised, var(--surface));
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: .4rem .55rem; font-size: .75rem; line-height: 1.5;
+  color: var(--text); box-shadow: 0 6px 18px rgba(0,0,0,.22);
+}
+.bin-combo-tip[hidden] { display: none; }
+.bin-combo-tip .k { color: var(--text-muted); }
+.check-list { margin: .35rem 0 0; padding-left: 1.1rem; color: var(--text-dim); font-size: .86rem; }
+.check-list li { margin: .2rem 0; }
+.hint { font-size: .78rem; color: var(--text-subtle); margin: .25rem 0 .5rem; }
+.tabs {
+  display: flex; gap: .35rem; flex-wrap: wrap;
+  margin: .85rem 0 .65rem; border-bottom: 1px solid var(--border);
+  padding-bottom: .65rem; align-items: center;
+}
+.tab-btn {
+  padding: .4rem .9rem; border: 1px solid transparent; background: transparent;
+  cursor: pointer; font-size: .85rem; color: var(--text-muted);
+  border-radius: var(--radius-pill); font-family: inherit;
+}
+.tab-btn:hover { background: var(--surface); color: var(--text); }
+.tab-btn.active {
+  color: var(--on-accent); font-weight: 600;
+  background: var(--accent); border-color: var(--accent);
+}
+.plan-tab-panels { margin-top: .35rem; }
+.plan-panel { display: none; margin-top: 0; }
+.plan-panel.is-active { display: block; }
+.plan-panel > h3 { margin-top: 1.1rem; }
+.plan-panel > h3:first-child { margin-top: 0; }
+.plan-panel .plan-title { margin: 0 0 .35rem; font-size: 1rem; }
+.round-block {
+  margin: .55rem 0 .85rem;
+  padding: .65rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.round-block h4 { margin: 0 0 .4rem; font-size: .84rem; color: var(--text-strong); }
+.kind-tag {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .05rem .35rem;
+  border-radius: var(--radius-pill);
+  margin-right: .25rem;
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.kind-tag.hard { background: var(--bg-danger-soft); color: var(--text-danger-dark); border-color: var(--border-danger-chip); }
+.kind-tag.custom, .kind-tag.soft { background: var(--bg-soft-green); color: var(--success); border-color: var(--border-success-soft); }
+
+</style>
   <link rel="stylesheet" href="../assets/site.css" />
-  <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
-  <div id="landing" class="ai-landing ai-hidden">
-    <div class="ai-landing-inner">
-      <h1>迭代准入策略</h1>
-      <p class="lead">
-        上传进件 CSV，配置风险/放行率目标与 Baseline 规则，在本机完成挖规、双方案组装与 Swap 估算，并下载独立报告。
-        全程离线，数据不离开浏览器。
-      </p>
-      <div class="ai-landing-actions">
-        <button type="button" class="ai-btn ai-btn-primary" id="btnEnter">进入工作台</button>
-        <a class="ai-btn" href="../index.html">返回门户</a>
+<header class="app-header">
+  <h1>迭代准入策略报告</h1>
+</header>
+<button type="button" class="toc-mobile-btn" id="tocMobileBtn" aria-controls="reportToc">目录</button>
+<div class="report-toc-backdrop" id="tocBackdrop"></div>
+<div class="report-shell">
+<aside class="report-toc" id="reportToc" aria-label="报告目录">
+  <div class="toc-title">目录</div>
+  <nav>
+      <a href="#tab-admission-scope" data-toc-link="tab-admission-scope">样本口径</a>
+      <div class="toc-group">
+        <a href="#tab-admission-decision" data-toc-link="tab-admission-decision">结论</a>
+        <div class="toc-sub">
+          <a class="toc-sub-link" href="#toc-decision-1b" data-toc-link="toc-decision-1b">结.1b 影响对照</a>
+          <a class="toc-sub-link" href="#toc-decision-2" data-toc-link="toc-decision-2">结.2 规则与瀑布</a>
+        </div>
       </div>
+      <a href="#tab-admission-plan-eval" data-toc-link="tab-admission-plan-eval">方案评估</a>
+      <a href="#tab-admission-plans-detail" data-toc-link="tab-admission-plans-detail">双方案详情</a>
+      <a href="#tab-admission-status" data-toc-link="tab-admission-status">现状对照</a>
+      <a href="#tab-admission-potential" data-toc-link="tab-admission-potential">潜在模型</a>
+      <div class="toc-group">
+        <a href="#tab-admission-mine" data-toc-link="tab-admission-mine">挖规过程</a>
+        <div class="toc-sub">
+          <a class="toc-sub-link" href="#toc-mine-cands" data-toc-link="toc-mine-cands">6.2 Candidates</a>
+          <a class="toc-sub-link" href="#toc-mine-rounds" data-toc-link="toc-mine-rounds">6.3 采纳轮次</a>
+          <a class="toc-sub-link" href="#toc-mine-residual" data-toc-link="toc-mine-residual">6.5 残差未入选</a>
+        </div>
+      </div>
+      <a href="#tab-admission-meta" data-toc-link="tab-admission-meta">口径与自查</a>
+      <div class="toc-group">
+        <a href="#tab-admission-appendix" data-toc-link="tab-admission-appendix">附录·近失</a>
+        <div class="toc-sub">
+          <a class="toc-sub-link" href="#toc-appendix-1" data-toc-link="toc-appendix-1">附.1 近失</a>
+          <a class="toc-sub-link" href="#toc-appendix-2" data-toc-link="toc-appendix-2">附.2 规则命中</a>
+        </div>
+      </div>
+  </nav>
+</aside>
+<main class="content">
+  <div class="report-document">
+
+<section id="tab-admission-scope" class="report-section sample-scope" data-collapse-key="tab-admission-scope" data-collapse-level="section" data-toc="样本口径">
+    <div class="section-head collapse-head">
+      <h2>样本口径</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="section-body collapse-body"><p class="scope-lead">本报告在指定客群与时间窗内，用与主站同源的 <code>RV.domain</code> 运行时完成挖规与测算。训练窗用于挖规、跨月门禁、剪枝与方案主结论；回测窗在规则冻结后重算 Swap 风险预估与贷后瀑布，不重挖。</p>
+      <ul class="scope-list">
+        <li><span class="k">计算路径</span>domain 运行时（非 HTML 页面重算）</li>
+        <li><span class="k">迭代客群</span>—（客群行 n=1530）</li>
+        <li><span class="k">决策组</span>贷后/贷前指标与挖规均在 <b>B 组</b>；对照表另报 A 组</li>
+        <li><span class="k">训练·贷后</span><code>submit_month&gt;=2026-06</code> · 窗内贷后 B=765</li>
+        <li><span class="k">训练·贷前</span><code>submit_date&gt;=2026-06-01</code> · 窗内贷前 B=765</li>
+        <li><span class="k">回测·贷后</span><code>submit_month&gt;=2026-10</code> · 窗内贷后 B=155</li>
+        <li><span class="k">回测·贷前</span><code>submit_date&gt;=2026-10-01</code> · 窗内贷前 B=155</li>
+        <li><span class="k">覆盖月份</span>2026-06、2026-07、2026-08、2026-09、2026-10（训练窗内出现的 submit_month）</li>
+        <li><span class="k">风险口径</span>业务 <code>fpd1_cnt%</code>（命中子集 Σfz/Σfm）；方案通过率主口径为策略放行率</li>
+        <li><span class="k">线上 Soft</span><code>p3_demo_score gt 800</code>（Swap 对照「线上」侧）</li>
+        <li><span class="k">新策略 Soft</span>与线上 Soft 相同（全量叠加）+ Candidates</li>
+        <li><span class="k">Swap 线上</span>硬∪线上 Soft</li>
+        <li><span class="k">Baseline 放行</span>79.80%</li>
+      </ul></div>
+  </section>
+
+<section id="tab-admission-decision" class="report-section " data-collapse-key="tab-admission-decision" data-collapse-level="section" data-toc="结论">
+    <div class="section-head collapse-head">
+      <h2>1. 结论（决策条）</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" data-sub="结.1" data-collapse-key="sub-结.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">结.1</span><span>双方案灯条</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="decision-grid">
+        <div class="decision-strip bad">
+          <span class="decision-badge">红灯</span>
+          <div class="decision-title">风险方案</div>
+          <ul class="decision-list"><li><span class="k">主指标</span>方案后 B 风险（观测） <b>21.06%</b> · 预估 R̂ <b>21.06%</b> vs 目标 28.00%（现状 26.11%）</li><li><span class="k">相对偏差</span>风险超标 0.00% · 放行 14.00%（任一≥5% 红灯）</li><li><span class="k">规则</span>0 条 · 未同时满足主停+辅约束（辅约束回退 1 次；残差续挖接纳 0 条）；见 assembleLog</li></ul>
+        </div>
+        <div class="decision-strip bad">
+          <span class="decision-badge">红灯</span>
+          <div class="decision-title">通过率方案</div>
+          <ul class="decision-list"><li><span class="k">主指标</span>方案后 B 策略放行率 <b>79.80%</b> vs 目标 70.00%</li><li><span class="k">相对偏差</span>风险超标 0.00% · 放行 14.00%（任一≥5% 红灯）</li><li><span class="k">规则</span>0 条 · 未同时满足主停+辅约束（辅约束回退 1 次；残差续挖接纳 0 条）；见 assembleLog</li></ul>
+        </div>
+      </div></div>
+  </div>
+        <div class="submodule" id="toc-decision-1b" data-sub="结.1b" data-collapse-key="sub-结.1b" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">结.1b</span><span>训练 / 回测 · 影响对照</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="module-stack" style="gap:1rem">
+            <div>
+              <h4 style="margin:0 0 .35rem;font-size:.9rem">风险方案</h4>
+              
+    <div class="table-wrap">
+      <table class="data-table compare-table">
+        <thead><tr>
+          <th>窗</th>
+          <th class="num">现状风险</th>
+          <th class="num">预估风险 R̂</th>
+          <th class="num">风险相对影响</th>
+          <th class="num">现状通过率（历史）</th>
+          <th class="num">Baseline放行</th>
+          <th class="num">新方案放行</th>
+          <th class="num">放行相对影响</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+    <td>训练</td>
+    <td class="num">26.11%</td>
+    <td class="num">21.06%</td>
+    <td class="num"><b>-19.34%</b>（-5.05 pp）</td>
+    <td class="num">67.90%</td>
+    <td class="num">79.80%</td>
+    <td class="num">79.80%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+          <tr>
+    <td>回测</td>
+    <td class="num">28.99%</td>
+    <td class="num">23.88%</td>
+    <td class="num"><b>-17.61%</b>（-5.11 pp）</td>
+    <td class="num">65.02%</td>
+    <td class="num">79.16%</td>
+    <td class="num">79.16%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+    
+            </div>
+            <div>
+              <h4 style="margin:0 0 .35rem;font-size:.9rem">通过率方案</h4>
+              
+    <div class="table-wrap">
+      <table class="data-table compare-table">
+        <thead><tr>
+          <th>窗</th>
+          <th class="num">现状风险</th>
+          <th class="num">预估风险 R̂</th>
+          <th class="num">风险相对影响</th>
+          <th class="num">现状通过率（历史）</th>
+          <th class="num">Baseline放行</th>
+          <th class="num">新方案放行</th>
+          <th class="num">放行相对影响</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+    <td>训练</td>
+    <td class="num">26.11%</td>
+    <td class="num">21.06%</td>
+    <td class="num"><b>-19.34%</b>（-5.05 pp）</td>
+    <td class="num">67.90%</td>
+    <td class="num">79.80%</td>
+    <td class="num">79.80%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+          <tr>
+    <td>回测</td>
+    <td class="num">28.99%</td>
+    <td class="num">23.88%</td>
+    <td class="num"><b>-17.61%</b>（-5.11 pp）</td>
+    <td class="num">65.02%</td>
+    <td class="num">79.16%</td>
+    <td class="num">79.16%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+    
+            </div>
+            <p class="hint" style="margin:0.5rem 0 0.25rem">相对影响 =（新 − 旧）/ 旧；风险对比观测与 Swap 预估 R̂，放行对比 Baseline 与新方案。回测规则冻结。</p>
+    <details class="appendix" style="margin:0.25rem 0 0.75rem">
+      <summary>口径说明（列含义）</summary>
+      <div class="table-wrap" style="margin-top:0.5rem">
+        <table class="data-table">
+          <thead><tr><th>列</th><th>含义</th></tr></thead>
+          <tbody>
+            <tr><td>现状风险</td><td>该窗 B 组观测 <code>fpd1_cnt%</code></td></tr>
+            <tr><td>预估风险 R̂</td><td>Swap 预估（模型分箱 × k，按贷前结构加权）</td></tr>
+            <tr><td>风险相对影响</td><td>(R̂ − 现状风险) / 现状风险</td></tr>
+            <tr><td>现状通过率（历史）</td><td>历史通过率，仅对照，不作相对影响分母</td></tr>
+            <tr><td>Baseline 放行</td><td>硬 ∪ 线上 Soft（含 p1）的策略放行率；放行相对影响的分母</td></tr>
+            <tr><td>新方案放行</td><td>硬 ∪ 新策略侧 Soft（可不含 p1）∪ 本方案 Candidates</td></tr>
+            <tr><td>放行相对影响</td><td>(新方案放行 − Baseline 放行) / Baseline 放行</td></tr>
+            <tr><td>回测</td><td>规则冻结，不重挖；只重算上表指标</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+          </div></div>
+  </div>
+        <div class="submodule" id="toc-decision-2" data-sub="结.2" data-collapse-key="sub-结.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">结.2</span><span>方案规则与影响摘要</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="rule-card rule-card-current">
+    <div class="rule-card-head"><span class="rv-chip rv-chip-muted">当前</span><h4>当前规则（线上 Baseline）</h4></div>
+    
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>类型</th><th>规则</th></tr></thead>
+        <tbody><tr><td><span class="kind-tag hard">硬</span></td><td><code>hard_rule_demo</code></td></tr><tr><td><span class="kind-tag soft">软</span></td><td><code>p3_demo_score gt 800</code></td></tr></tbody>
+      </table>
     </div>
   </div>
-
-  <div id="app" class="ai-wrap">
-    <header class="ai-header">
-      <div>
-        <h1>迭代准入 · 工作台</h1>
-        <p>数据 → 目标与窗 → Baseline → 计算 → 报告</p>
-      </div>
-      <button type="button" class="ai-btn" id="btnBackLanding">返回</button>
-    </header>
-
-    <nav class="ai-steps" id="stepNav" aria-label="步骤"></nav>
-
-    <div id="decisionBar" class="ai-decision"></div>
-    <div id="kpiBar" class="ai-kpi ai-hidden"></div>
-
-    <section id="stepPanels"></section>
-
-    <div id="progressBox" class="ai-progress ai-hidden">
-      <div id="progressLabel">准备中…</div>
-      <div class="ai-progress-bar"><i id="progressFill"></i></div>
-      <pre class="ai-progress-log" id="progressLog"></pre>
-    </div>
-
-    <div id="errorBox" class="ai-error ai-hidden"></div>
-    <div id="resultBox" class="ai-hidden"></div>
+          <div class="plan-tabs-wrap" style="margin-top:.85rem">
+            <div class="tabs" role="tablist" aria-label="结.2 双方案">
+              <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-plan-tab="decision-2-panel-risk">风险方案</button>
+              <button type="button" class="tab-btn" role="tab" aria-selected="false" data-plan-tab="decision-2-panel-pass">通过率方案</button>
+            </div>
+            <div class="plan-tab-panels">
+              <div class="plan-panel is-active" id="decision-2-panel-risk" data-plan-panel role="tabpanel"><div class="rule-card rule-card-plan">
+    <div class="rule-card-head"><h4>新增 0 条</h4></div>
+    <p class="hint" style="margin:0 0 .45rem">沿用当前：硬 1 · 软 1（老规则不下线）</p>
+      <p class="muted" style="margin:0 0 .45rem">无新增 Candidates（Baseline-only）</p>
+    <div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>训练窗 · 贷后风险瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="risk">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">59.35%<div class="sub">den 2657</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">17496<div class="sub">未命中侧 den</div></td>
+      <td class="num">21.06%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>训练窗 · 贷前命中瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="pre" data-plan-key="risk">
+    <thead><tr><th>规则</th><th class="num">命中进件</th><th class="num">命中率</th><th class="num">仅命中率</th><th class="num">仅命中样本</th><th class="num">瀑布步进件</th><th class="num">步进率</th><th class="num">累计拒量</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">9,874</td>
+      <td class="num">20.20%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num wf-ord-step">9,874</td>
+      <td class="num wf-ord-step-rate">20.20%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag custom">custom</span> p3_demo_score gt 800</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+      <td class="num">0.00%</td>
+      <td class="num">0</td>
+      <td class="num wf-ord-step">0</td>
+      <td class="num wf-ord-step-rate">0.00%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr></tbody>
+  </table></div>
   </div>
+    <div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>回测窗 · 贷后风险瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="risk-bt">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">61.79%<div class="sub">den 526</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">3379<div class="sub">未命中侧 den</div></td>
+      <td class="num">23.88%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>回测窗 · 贷前命中瀑布</strong></p>
+    <p class="muted">（无贷前命中瀑布）</p>
+  </div>
+    
+  </div></div>
+              <div class="plan-panel" id="decision-2-panel-pass" data-plan-panel role="tabpanel"><div class="rule-card rule-card-plan">
+    <div class="rule-card-head"><h4>新增 0 条</h4></div>
+    <p class="hint" style="margin:0 0 .45rem">沿用当前：硬 1 · 软 1（老规则不下线）</p>
+      <p class="muted" style="margin:0 0 .45rem">无新增 Candidates（Baseline-only）</p>
+    <div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>训练窗 · 贷后风险瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="pass">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">59.35%<div class="sub">den 2657</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">17496<div class="sub">未命中侧 den</div></td>
+      <td class="num">21.06%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>训练窗 · 贷前命中瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="pre" data-plan-key="pass">
+    <thead><tr><th>规则</th><th class="num">命中进件</th><th class="num">命中率</th><th class="num">仅命中率</th><th class="num">仅命中样本</th><th class="num">瀑布步进件</th><th class="num">步进率</th><th class="num">累计拒量</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">9,874</td>
+      <td class="num">20.20%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num wf-ord-step">9,874</td>
+      <td class="num wf-ord-step-rate">20.20%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag custom">custom</span> p3_demo_score gt 800</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+      <td class="num">0.00%</td>
+      <td class="num">0</td>
+      <td class="num wf-ord-step">0</td>
+      <td class="num wf-ord-step-rate">0.00%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr></tbody>
+  </table></div>
+  </div>
+    <div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>回测窗 · 贷后风险瀑布</strong></p>
+    <div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="pass-bt">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">61.79%<div class="sub">den 526</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">3379<div class="sub">未命中侧 den</div></td>
+      <td class="num">23.88%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div>
+    <p class="hint" style="margin:.55rem 0 .35rem"><strong>回测窗 · 贷前命中瀑布</strong></p>
+    <p class="muted">（无贷前命中瀑布）</p>
+  </div>
+    
+  </div></div>
+            </div>
+          </div></div>
+  </div>
+      </div></div>
+  </section>
 
-  <!-- RV runtime (synced from main repo) -->
-  <script src="vendor/rv/bootstrap.js"></script>
-  <script src="vendor/rv/app/state.js"></script>
-  <script src="vendor/rv/infra.js"></script>
-  <script src="vendor/rv/data.js"></script>
-  <script src="vendor/rv/domain/metrics.js"></script>
-  <script src="vendor/rv/domain/rules.js"></script>
-  <script src="vendor/rv/domain/rules-pack.js"></script>
-  <script src="vendor/rv/domain/eda.js"></script>
-  <script src="vendor/rv/domain/binning.js"></script>
-  <script src="vendor/rv/domain/rule-mining.js"></script>
-  <script src="vendor/rv/domain/pre-strategy.js"></script>
-  <script src="vendor/rv/domain/summary.js"></script>
-  <script src="vendor/rv/domain/validity.js"></script>
-  <script src="vendor/rv/domain/post-risk.js"></script>
+<section id="tab-admission-plan-eval" class="report-section " data-collapse-key="tab-admission-plan-eval" data-collapse-level="section" data-toc="方案评估">
+    <div class="section-head collapse-head">
+      <h2>2. 方案评估（分箱 · 分月命中 · 分月瀑布）</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="section-body collapse-body"><div class="plan-tabs-wrap">
+    <div class="tabs" role="tablist" aria-label="方案评估">
+      <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-plan-tab="eval-panel-risk">风险方案</button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-plan-tab="eval-panel-pass">通过率方案</button>
+    </div>
+    <div class="plan-tab-panels">
+      <div class="rv-result-card plan-panel is-active" id="eval-panel-risk" data-plan-panel role="tabpanel">
+    <h3 class="plan-title">风险方案</h3>
+    <p class="hint muted">全期贷后 B（不分训练/回测）· 风险=fpd1_cnt%（Σfz/Σfm）· 分母=fpd1_cnt_fm · 规则=硬∪沿用软∪ Candidates · 分箱默认等频 5 箱；取值数 &lt; 12 则按枚举值</p>
+    <p class="muted">瀑布掩码与贷后 B 行未对齐，分月瀑布/命中表未生成。请重跑 enrich / report。</p>
+    <div class="module-stack">
+      <div class="submodule is-collapsed" data-sub="2.1" data-collapse-key="eval-panel-risk-bins" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.1</span><span>用到模型的分箱</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（本方案规则未解析出模型列，或请重跑 enrich）</p></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="2.2" data-collapse-key="eval-panel-risk-wf" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.2</span><span>分月瀑布命中风险</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无分月瀑布命中；请重跑 enrich / report）</p></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="2.3" data-collapse-key="eval-panel-risk-hit" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.3</span><span>规则分月命中 / 不命中</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无规则分月命中；请重跑 enrich / report）</p></div>
+  </div>
+      
+    </div>
+  </div>
+      <div class="rv-result-card plan-panel" id="eval-panel-pass" data-plan-panel role="tabpanel">
+    <h3 class="plan-title">通过率方案</h3>
+    <p class="hint muted">全期贷后 B（不分训练/回测）· 风险=fpd1_cnt%（Σfz/Σfm）· 分母=fpd1_cnt_fm · 规则=硬∪沿用软∪ Candidates · 分箱默认等频 5 箱；取值数 &lt; 12 则按枚举值</p>
+    <p class="muted">瀑布掩码与贷后 B 行未对齐，分月瀑布/命中表未生成。请重跑 enrich / report。</p>
+    <div class="module-stack">
+      <div class="submodule is-collapsed" data-sub="2.1" data-collapse-key="eval-panel-pass-bins" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.1</span><span>用到模型的分箱</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（本方案规则未解析出模型列，或请重跑 enrich）</p></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="2.2" data-collapse-key="eval-panel-pass-wf" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.2</span><span>分月瀑布命中风险</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无分月瀑布命中；请重跑 enrich / report）</p></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="2.3" data-collapse-key="eval-panel-pass-hit" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.3</span><span>规则分月命中 / 不命中</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无规则分月命中；请重跑 enrich / report）</p></div>
+  </div>
+      
+    </div>
+  </div>
+    </div>
+  </div></div>
+  </section>
 
-  <!-- Shared with skill CLI: report HTML + EDA enrich + theme embed -->
-  <script src="vendor/admission/theme-css.js"></script>
-  <script src="vendor/admission/render-report-html.js"></script>
-  <script src="vendor/admission/enrich-report-eda.js"></script>
+<section id="tab-admission-plans-detail" class="report-section " data-collapse-key="tab-admission-plans-detail" data-collapse-level="section" data-toc="双方案详情">
+    <div class="section-head collapse-head">
+      <h2>3. 双方案详情</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="section-body collapse-body"><div class="plan-tabs-wrap">
+    <div class="tabs" role="tablist" aria-label="双方案">
+      <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-plan-tab="plan-panel-risk">风险方案</button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-plan-tab="plan-panel-pass">通过率方案</button>
+    </div>
+    <div class="plan-tab-panels">
+      <div class="rv-result-card plan-panel is-active" id="plan-panel-risk" data-plan-panel role="tabpanel">
+    <h3 class="plan-title">风险方案</h3>
+    <div class="module-stack">
+      <div class="submodule" data-sub="1" data-collapse-key="plan-panel-risk-1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1</span><span>方案概要</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">挖规目标：压风险 ≤ 28.00% · 规则 0 条 · 方案后风险（观测） 21.06% · 预估 R̂ 21.06% · 策略放行率 79.80%（39013/48887）</p>
+    <div class="cfg-grid">
+      <div>规则<br><b>—</b></div>
+    </div>
+    <div class="callout callout-warn" style="margin:0.5rem 0 1rem"><strong>缺口：</strong>未同时满足主停+辅约束（辅约束回退 1 次；残差续挖接纳 0 条）；见 assembleLog</div>
+    <details class="appendix" style="margin:0.5rem 0 1rem">
+    <summary>叠规试装轨迹 <span class="muted">（接纳 0 · 回退 1；第一轮按不同模型种子回退，先双达标即停）</span></summary>
+    <div class="table-wrap" style="margin-top:0.5rem">
+      <table class="data-table">
+        <thead><tr>
+          <th class="num">#</th><th class="num">种子</th><th>动作</th><th>表达式</th><th>说明</th>
+          <th class="num">叠后放行</th><th class="num">叠后观测风险</th>
+          <th class="num">训练 R̂</th><th class="num">回测 R̂</th><th>双达标</th><th>来源</th>
+        </tr></thead>
+        <tbody><tr>
+      <td class="num">1</td>
+      <td class="num">—</td>
+      <td>辅带回退</td>
+      <td><code>p3_demo_score gte 800</code></td>
+      <td>放行率辅约束</td>
+      <td class="num">60.11%</td>
+      <td class="num">15.59%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">共享挖规</td>
+    </tr><tr>
+      <td class="num">2</td>
+      <td class="num">—</td>
+      <td>续挖耗尽</td>
+      <td><span class="muted">—</span></td>
+      <td>残差续挖无过门禁候选（轮次 1）</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">—</td>
+    </tr><tr>
+      <td class="num">3</td>
+      <td class="num">—</td>
+      <td>缺口</td>
+      <td><span class="muted">—</span></td>
+      <td>触顶或续挖无解，未同时满足主停+辅约束</td>
+      <td class="num">79.80%</td>
+      <td class="num">21.06%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">—</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </details>
+    </div>
+  </div>
+      <div class="submodule" data-sub="2" data-collapse-key="plan-panel-risk-2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2</span><span>训练 / 回测 · 影响对照</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body">
+    <div class="table-wrap">
+      <table class="data-table compare-table">
+        <thead><tr>
+          <th>窗</th>
+          <th class="num">现状风险</th>
+          <th class="num">预估风险 R̂</th>
+          <th class="num">风险相对影响</th>
+          <th class="num">现状通过率（历史）</th>
+          <th class="num">Baseline放行</th>
+          <th class="num">新方案放行</th>
+          <th class="num">放行相对影响</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+    <td>训练</td>
+    <td class="num">26.11%</td>
+    <td class="num">21.06%</td>
+    <td class="num"><b>-19.34%</b>（-5.05 pp）</td>
+    <td class="num">67.90%</td>
+    <td class="num">79.80%</td>
+    <td class="num">79.80%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+          <tr>
+    <td>回测</td>
+    <td class="num">28.99%</td>
+    <td class="num">23.88%</td>
+    <td class="num"><b>-17.61%</b>（-5.11 pp）</td>
+    <td class="num">65.02%</td>
+    <td class="num">79.16%</td>
+    <td class="num">79.16%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin:0.5rem 0 0.25rem">相对影响 =（新 − 旧）/ 旧；风险对比观测与 Swap 预估 R̂，放行对比 Baseline 与新方案。回测规则冻结。</p>
+    <details class="appendix" style="margin:0.25rem 0 0.75rem">
+      <summary>口径说明（列含义）</summary>
+      <div class="table-wrap" style="margin-top:0.5rem">
+        <table class="data-table">
+          <thead><tr><th>列</th><th>含义</th></tr></thead>
+          <tbody>
+            <tr><td>现状风险</td><td>该窗 B 组观测 <code>fpd1_cnt%</code></td></tr>
+            <tr><td>预估风险 R̂</td><td>Swap 预估（模型分箱 × k，按贷前结构加权）</td></tr>
+            <tr><td>风险相对影响</td><td>(R̂ − 现状风险) / 现状风险</td></tr>
+            <tr><td>现状通过率（历史）</td><td>历史通过率，仅对照，不作相对影响分母</td></tr>
+            <tr><td>Baseline 放行</td><td>硬 ∪ 线上 Soft（含 p1）的策略放行率；放行相对影响的分母</td></tr>
+            <tr><td>新方案放行</td><td>硬 ∪ 新策略侧 Soft（可不含 p1）∪ 本方案 Candidates</td></tr>
+            <tr><td>放行相对影响</td><td>(新方案放行 − Baseline 放行) / Baseline 放行</td></tr>
+            <tr><td>回测</td><td>规则冻结，不重挖；只重算上表指标</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details></div>
+  </div>
+      <div class="submodule" data-sub="3" data-collapse-key="plan-panel-risk-3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">3</span><span>训练窗 · Swap（线上硬+软 vs 新=硬+Baseline软+本方案 Candidates）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">估算 R̂ = <strong>21.06%</strong>（观测 + 贷前结构：w=1.000 · inin 21.06% · swapin —）</p>
+  <div class="rv-result-card" style="margin:0.75rem 0">
+    <h4>分箱列选用理由</h4>
+    <p><code>p3_demo_score</code> · KS 名次 <strong>#1</strong>（KS=—）· mode=<code>ks_gradient</code></p>
+    <p class="hint">KS 序首个通过 4 箱严格单调自检</p>
+    <p class="muted">无跳过列（KS#1 即通过）</p>
+  </div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>段</th><th class="num">行数</th><th class="num">进件量</th><th class="num">进件占比</th><th class="num">贷后风险</th></tr></thead>
+    <tbody><tr>
+        <td>双方通过</td>
+        <td class="num">612</td>
+        <td class="num">39,013</td>
+        <td class="num">79.80%</td>
+        <td class="num">21.06%<div class="sub">3684/17496</div></td>
+      </tr><tr>
+        <td>新进</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>换出</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>双方拒绝</td>
+        <td class="num">153</td>
+        <td class="num">9,874</td>
+        <td class="num">20.20%</td>
+        <td class="num">59.35%<div class="sub">1577/2657</div></td>
+      </tr></tbody>
+  </table></div>
+  <h4>swapin 分箱预估（p3_demo_score · 4 箱等频 · k=1.2）</h4>
+    <p class="hint">箱内预估 = 该箱 inin 风险 × k；总 swapin 预估按各箱<strong>贷前 swapin 进件</strong>结构加权</p>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>箱</th><th class="num">inin 风险</th><th class="num">swapin 预估</th><th class="num">swapin 观测</th><th class="num">贷前进件</th><th class="num">结构占比</th></tr></thead>
+      <tbody><tr>
+      <td><code>(缺失)</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>负数</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[560, 640)</code></td>
+      <td class="num">9.29%<div class="sub">473/5089</div></td>
+      <td class="num">11.15%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[640, 720)</code></td>
+      <td class="num">15.43%<div class="sub">717/4647</div></td>
+      <td class="num">18.52%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[720, 800)</code></td>
+      <td class="num">23.19%<div class="sub">998/4303</div></td>
+      <td class="num">27.83%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[800, 880]</code></td>
+      <td class="num">43.27%<div class="sub">1496/3457</div></td>
+      <td class="num">51.93%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr></tbody>
+    </table></div>
+  </div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="4" data-collapse-key="plan-panel-risk-4" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">4</span><span>训练窗 · 贷后风险瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="risk">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">59.35%<div class="sub">den 2657</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">17496<div class="sub">未命中侧 den</div></td>
+      <td class="num">21.06%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="5" data-collapse-key="plan-panel-risk-5" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">5</span><span>训练窗 · 贷前命中瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="pre" data-plan-key="risk">
+    <thead><tr><th>规则</th><th class="num">命中进件</th><th class="num">命中率</th><th class="num">仅命中率</th><th class="num">仅命中样本</th><th class="num">瀑布步进件</th><th class="num">步进率</th><th class="num">累计拒量</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">9,874</td>
+      <td class="num">20.20%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num wf-ord-step">9,874</td>
+      <td class="num wf-ord-step-rate">20.20%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag custom">custom</span> p3_demo_score gt 800</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+      <td class="num">0.00%</td>
+      <td class="num">0</td>
+      <td class="num wf-ord-step">0</td>
+      <td class="num wf-ord-step-rate">0.00%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr></tbody>
+  </table></div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="6" data-collapse-key="risk-bt" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6</span><span>回测窗（规则冻结 · 不重挖）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint muted">规则冻结自训练窗；回测窗仅重算 Swap/R̂ 与贷后瀑布，不重挖不重剪枝</p>
+    <div class="gate-chip-row">
+      <span class="rv-chip">回测贷后 <code>submit_month&gt;=2026-10</code></span>
+      <span class="rv-chip">回测贷前 <code>submit_date&gt;=2026-10-01</code></span>
+      <span class="rv-chip rv-chip-muted">贷后 B=155</span>
+      <span class="rv-chip rv-chip-muted">贷前 B=155</span>
+      <span class="rv-chip rv-chip-muted">窗内 B 现状风险 28.99%</span>
+      <span class="rv-chip">R̂ 23.88%</span>
+      <span class="rv-chip rv-chip-muted">新策略放行风险 23.88%</span>
+    </div>
+    <div class="module-stack">
+      <div class="submodule submodule-nested" data-sub="6.1" data-collapse-key="sub-6.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.1</span><span>Swap 风险预估</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">估算 R̂ = <strong>23.88%</strong>（观测 + 贷前结构：w=1.000 · inin 23.88% · swapin —）</p>
+  <div class="rv-result-card" style="margin:0.75rem 0">
+    <h4>分箱列选用理由</h4>
+    <p><code>p3_demo_score</code> · KS 名次 <strong>#1</strong>（KS=—）· mode=<code>ks_gradient</code></p>
+    <p class="hint">KS 序首个通过 4 箱严格单调自检</p>
+    <p class="muted">无跳过列（KS#1 即通过）</p>
+  </div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>段</th><th class="num">行数</th><th class="num">进件量</th><th class="num">进件占比</th><th class="num">贷后风险</th></tr></thead>
+    <tbody><tr>
+        <td>双方通过</td>
+        <td class="num">124</td>
+        <td class="num">7,781</td>
+        <td class="num">79.16%</td>
+        <td class="num">23.88%<div class="sub">807/3379</div></td>
+      </tr><tr>
+        <td>新进</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>换出</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>双方拒绝</td>
+        <td class="num">31</td>
+        <td class="num">2,048</td>
+        <td class="num">20.84%</td>
+        <td class="num">61.79%<div class="sub">325/526</div></td>
+      </tr></tbody>
+  </table></div>
+  <h4>swapin 分箱预估（p3_demo_score · 4 箱等频 · k=1.2）</h4>
+    <p class="hint">箱内预估 = 该箱 inin 风险 × k；总 swapin 预估按各箱<strong>贷前 swapin 进件</strong>结构加权</p>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>箱</th><th class="num">inin 风险</th><th class="num">swapin 预估</th><th class="num">swapin 观测</th><th class="num">贷前进件</th><th class="num">结构占比</th></tr></thead>
+      <tbody><tr>
+      <td><code>(缺失)</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>负数</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[560, 640)</code></td>
+      <td class="num">12.02%<div class="sub">117/973</div></td>
+      <td class="num">14.43%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[640, 720)</code></td>
+      <td class="num">18.10%<div class="sub">168/928</div></td>
+      <td class="num">21.72%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[720, 800)</code></td>
+      <td class="num">25.58%<div class="sub">200/782</div></td>
+      <td class="num">30.69%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[800, 880]</code></td>
+      <td class="num">46.26%<div class="sub">322/696</div></td>
+      <td class="num">55.52%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr></tbody>
+    </table></div>
+  </div>
+  </div>
+      <div class="submodule submodule-nested" data-sub="6.2" data-collapse-key="sub-6.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.2</span><span>贷后风险瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="risk-bt">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">61.79%<div class="sub">den 526</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">3379<div class="sub">未命中侧 den</div></td>
+      <td class="num">23.88%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div></div>
+  </div>
+      <div class="submodule submodule-nested" data-sub="6.3" data-collapse-key="sub-6.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.3</span><span>贷前命中瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无贷前命中瀑布）</p></div>
+  </div>
+    </div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="7" data-collapse-key="plan-panel-risk-7" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">7</span><span>训练窗 · 轮次与按月命中</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">本方案无采纳轮次</p></div>
+  </div>
+    </div>
+    
+  </div>
+      <div class="rv-result-card plan-panel" id="plan-panel-pass" data-plan-panel role="tabpanel">
+    <h3 class="plan-title">通过率方案</h3>
+    <div class="module-stack">
+      <div class="submodule" data-sub="1" data-collapse-key="plan-panel-pass-1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1</span><span>方案概要</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">挖规目标：保策略放行率 ≥ 70.00% · 规则 0 条 · 方案后风险（观测） 21.06% · 预估 R̂ 21.06% · 策略放行率 79.80%（39013/48887）</p>
+    <div class="cfg-grid">
+      <div>规则<br><b>—</b></div>
+    </div>
+    <div class="callout callout-warn" style="margin:0.5rem 0 1rem"><strong>缺口：</strong>未同时满足主停+辅约束（辅约束回退 1 次；残差续挖接纳 0 条）；见 assembleLog</div>
+    <details class="appendix" style="margin:0.5rem 0 1rem">
+    <summary>叠规试装轨迹 <span class="muted">（接纳 0 · 回退 1；第一轮按不同模型种子回退，先双达标即停）</span></summary>
+    <div class="table-wrap" style="margin-top:0.5rem">
+      <table class="data-table">
+        <thead><tr>
+          <th class="num">#</th><th class="num">种子</th><th>动作</th><th>表达式</th><th>说明</th>
+          <th class="num">叠后放行</th><th class="num">叠后观测风险</th>
+          <th class="num">训练 R̂</th><th class="num">回测 R̂</th><th>双达标</th><th>来源</th>
+        </tr></thead>
+        <tbody><tr>
+      <td class="num">1</td>
+      <td class="num">—</td>
+      <td>辅带回退</td>
+      <td><code>p3_demo_score gte 800</code></td>
+      <td>风险辅约束</td>
+      <td class="num">60.11%</td>
+      <td class="num">15.59%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">共享挖规</td>
+    </tr><tr>
+      <td class="num">2</td>
+      <td class="num">—</td>
+      <td>续挖耗尽</td>
+      <td><span class="muted">—</span></td>
+      <td>残差续挖无过门禁候选（轮次 1）</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">—</td>
+    </tr><tr>
+      <td class="num">3</td>
+      <td class="num">—</td>
+      <td>缺口</td>
+      <td><span class="muted">—</span></td>
+      <td>触顶或续挖无解，未同时满足主停+辅约束</td>
+      <td class="num">79.80%</td>
+      <td class="num">21.06%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>—</td>
+      <td class="muted">—</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </details>
+    </div>
+  </div>
+      <div class="submodule" data-sub="2" data-collapse-key="plan-panel-pass-2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2</span><span>训练 / 回测 · 影响对照</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body">
+    <div class="table-wrap">
+      <table class="data-table compare-table">
+        <thead><tr>
+          <th>窗</th>
+          <th class="num">现状风险</th>
+          <th class="num">预估风险 R̂</th>
+          <th class="num">风险相对影响</th>
+          <th class="num">现状通过率（历史）</th>
+          <th class="num">Baseline放行</th>
+          <th class="num">新方案放行</th>
+          <th class="num">放行相对影响</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+    <td>训练</td>
+    <td class="num">26.11%</td>
+    <td class="num">21.06%</td>
+    <td class="num"><b>-19.34%</b>（-5.05 pp）</td>
+    <td class="num">67.90%</td>
+    <td class="num">79.80%</td>
+    <td class="num">79.80%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+          <tr>
+    <td>回测</td>
+    <td class="num">28.99%</td>
+    <td class="num">23.88%</td>
+    <td class="num"><b>-17.61%</b>（-5.11 pp）</td>
+    <td class="num">65.02%</td>
+    <td class="num">79.16%</td>
+    <td class="num">79.16%</td>
+    <td class="num"><b>0.00%</b>（+0.00 pp）</td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin:0.5rem 0 0.25rem">相对影响 =（新 − 旧）/ 旧；风险对比观测与 Swap 预估 R̂，放行对比 Baseline 与新方案。回测规则冻结。</p>
+    <details class="appendix" style="margin:0.25rem 0 0.75rem">
+      <summary>口径说明（列含义）</summary>
+      <div class="table-wrap" style="margin-top:0.5rem">
+        <table class="data-table">
+          <thead><tr><th>列</th><th>含义</th></tr></thead>
+          <tbody>
+            <tr><td>现状风险</td><td>该窗 B 组观测 <code>fpd1_cnt%</code></td></tr>
+            <tr><td>预估风险 R̂</td><td>Swap 预估（模型分箱 × k，按贷前结构加权）</td></tr>
+            <tr><td>风险相对影响</td><td>(R̂ − 现状风险) / 现状风险</td></tr>
+            <tr><td>现状通过率（历史）</td><td>历史通过率，仅对照，不作相对影响分母</td></tr>
+            <tr><td>Baseline 放行</td><td>硬 ∪ 线上 Soft（含 p1）的策略放行率；放行相对影响的分母</td></tr>
+            <tr><td>新方案放行</td><td>硬 ∪ 新策略侧 Soft（可不含 p1）∪ 本方案 Candidates</td></tr>
+            <tr><td>放行相对影响</td><td>(新方案放行 − Baseline 放行) / Baseline 放行</td></tr>
+            <tr><td>回测</td><td>规则冻结，不重挖；只重算上表指标</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details></div>
+  </div>
+      <div class="submodule" data-sub="3" data-collapse-key="plan-panel-pass-3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">3</span><span>训练窗 · Swap（线上硬+软 vs 新=硬+Baseline软+本方案 Candidates）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">估算 R̂ = <strong>21.06%</strong>（观测 + 贷前结构：w=1.000 · inin 21.06% · swapin —）</p>
+  <div class="rv-result-card" style="margin:0.75rem 0">
+    <h4>分箱列选用理由</h4>
+    <p><code>p3_demo_score</code> · KS 名次 <strong>#1</strong>（KS=—）· mode=<code>ks_gradient</code></p>
+    <p class="hint">KS 序首个通过 4 箱严格单调自检</p>
+    <p class="muted">无跳过列（KS#1 即通过）</p>
+  </div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>段</th><th class="num">行数</th><th class="num">进件量</th><th class="num">进件占比</th><th class="num">贷后风险</th></tr></thead>
+    <tbody><tr>
+        <td>双方通过</td>
+        <td class="num">612</td>
+        <td class="num">39,013</td>
+        <td class="num">79.80%</td>
+        <td class="num">21.06%<div class="sub">3684/17496</div></td>
+      </tr><tr>
+        <td>新进</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>换出</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>双方拒绝</td>
+        <td class="num">153</td>
+        <td class="num">9,874</td>
+        <td class="num">20.20%</td>
+        <td class="num">59.35%<div class="sub">1577/2657</div></td>
+      </tr></tbody>
+  </table></div>
+  <h4>swapin 分箱预估（p3_demo_score · 4 箱等频 · k=1.2）</h4>
+    <p class="hint">箱内预估 = 该箱 inin 风险 × k；总 swapin 预估按各箱<strong>贷前 swapin 进件</strong>结构加权</p>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>箱</th><th class="num">inin 风险</th><th class="num">swapin 预估</th><th class="num">swapin 观测</th><th class="num">贷前进件</th><th class="num">结构占比</th></tr></thead>
+      <tbody><tr>
+      <td><code>(缺失)</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>负数</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[560, 640)</code></td>
+      <td class="num">9.29%<div class="sub">473/5089</div></td>
+      <td class="num">11.15%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[640, 720)</code></td>
+      <td class="num">15.43%<div class="sub">717/4647</div></td>
+      <td class="num">18.52%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[720, 800)</code></td>
+      <td class="num">23.19%<div class="sub">998/4303</div></td>
+      <td class="num">27.83%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[800, 880]</code></td>
+      <td class="num">43.27%<div class="sub">1496/3457</div></td>
+      <td class="num">51.93%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr></tbody>
+    </table></div>
+  </div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="4" data-collapse-key="plan-panel-pass-4" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">4</span><span>训练窗 · 贷后风险瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="pass">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">59.35%<div class="sub">den 2657</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">2657</td>
+      <td class="num">59.35%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">17496<div class="sub">未命中侧 den</div></td>
+      <td class="num">21.06%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="5" data-collapse-key="plan-panel-pass-5" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">5</span><span>训练窗 · 贷前命中瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="pre" data-plan-key="pass">
+    <thead><tr><th>规则</th><th class="num">命中进件</th><th class="num">命中率</th><th class="num">仅命中率</th><th class="num">仅命中样本</th><th class="num">瀑布步进件</th><th class="num">步进率</th><th class="num">累计拒量</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">9,874</td>
+      <td class="num">20.20%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num wf-ord-step">9,874</td>
+      <td class="num wf-ord-step-rate">20.20%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag custom">custom</span> p3_demo_score gt 800</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+      <td class="num">0.00%</td>
+      <td class="num">0</td>
+      <td class="num wf-ord-step">0</td>
+      <td class="num wf-ord-step-rate">0.00%</td>
+      <td class="num wf-ord-cum">9,874</td>
+    </tr></tbody>
+  </table></div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="6" data-collapse-key="pass-bt" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6</span><span>回测窗（规则冻结 · 不重挖）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint muted">规则冻结自训练窗；回测窗仅重算 Swap/R̂ 与贷后瀑布，不重挖不重剪枝</p>
+    <div class="gate-chip-row">
+      <span class="rv-chip">回测贷后 <code>submit_month&gt;=2026-10</code></span>
+      <span class="rv-chip">回测贷前 <code>submit_date&gt;=2026-10-01</code></span>
+      <span class="rv-chip rv-chip-muted">贷后 B=155</span>
+      <span class="rv-chip rv-chip-muted">贷前 B=155</span>
+      <span class="rv-chip rv-chip-muted">窗内 B 现状风险 28.99%</span>
+      <span class="rv-chip">R̂ 23.88%</span>
+      <span class="rv-chip rv-chip-muted">新策略放行风险 23.88%</span>
+    </div>
+    <div class="module-stack">
+      <div class="submodule submodule-nested" data-sub="6.1" data-collapse-key="sub-6.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.1</span><span>Swap 风险预估</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">估算 R̂ = <strong>23.88%</strong>（观测 + 贷前结构：w=1.000 · inin 23.88% · swapin —）</p>
+  <div class="rv-result-card" style="margin:0.75rem 0">
+    <h4>分箱列选用理由</h4>
+    <p><code>p3_demo_score</code> · KS 名次 <strong>#1</strong>（KS=—）· mode=<code>ks_gradient</code></p>
+    <p class="hint">KS 序首个通过 4 箱严格单调自检</p>
+    <p class="muted">无跳过列（KS#1 即通过）</p>
+  </div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>段</th><th class="num">行数</th><th class="num">进件量</th><th class="num">进件占比</th><th class="num">贷后风险</th></tr></thead>
+    <tbody><tr>
+        <td>双方通过</td>
+        <td class="num">124</td>
+        <td class="num">7,781</td>
+        <td class="num">79.16%</td>
+        <td class="num">23.88%<div class="sub">807/3379</div></td>
+      </tr><tr>
+        <td>新进</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>换出</td>
+        <td class="num">0</td>
+        <td class="num">0</td>
+        <td class="num">0.00%</td>
+        <td class="num">—<div class="sub">0/0</div></td>
+      </tr><tr>
+        <td>双方拒绝</td>
+        <td class="num">31</td>
+        <td class="num">2,048</td>
+        <td class="num">20.84%</td>
+        <td class="num">61.79%<div class="sub">325/526</div></td>
+      </tr></tbody>
+  </table></div>
+  <h4>swapin 分箱预估（p3_demo_score · 4 箱等频 · k=1.2）</h4>
+    <p class="hint">箱内预估 = 该箱 inin 风险 × k；总 swapin 预估按各箱<strong>贷前 swapin 进件</strong>结构加权</p>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>箱</th><th class="num">inin 风险</th><th class="num">swapin 预估</th><th class="num">swapin 观测</th><th class="num">贷前进件</th><th class="num">结构占比</th></tr></thead>
+      <tbody><tr>
+      <td><code>(缺失)</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>负数</code></td>
+      <td class="num">—<div class="sub">0/0</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[560, 640)</code></td>
+      <td class="num">12.02%<div class="sub">117/973</div></td>
+      <td class="num">14.43%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[640, 720)</code></td>
+      <td class="num">18.10%<div class="sub">168/928</div></td>
+      <td class="num">21.72%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[720, 800)</code></td>
+      <td class="num">25.58%<div class="sub">200/782</div></td>
+      <td class="num">30.69%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr><tr>
+      <td><code>[800, 880]</code></td>
+      <td class="num">46.26%<div class="sub">322/696</div></td>
+      <td class="num">55.52%</td>
+      <td class="num">—</td>
+      <td class="num">0</td>
+      <td class="num">0.00%</td>
+    </tr></tbody>
+    </table></div>
+  </div>
+  </div>
+      <div class="submodule submodule-nested" data-sub="6.2" data-collapse-key="sub-6.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.2</span><span>贷后风险瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+    <table class="data-table wf-table" data-wf-kind="post" data-plan-key="pass-bt">
+    <thead><tr><th>规则</th><th class="num">命中样本</th><th class="num">命中风险</th><th class="num">瀑布命中风险</th><th class="num">仅命中风险</th></tr></thead>
+    <tbody><tr class="wf-row hard hard" data-rule-id="hard_1" data-kind="hard">
+      
+      <td><span class="kind-tag hard">hard</span> hard_rule_demo</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">61.79%<div class="sub">den 526</div></td>
+      <td class="num">—</td>
+    </tr><tr class="wf-row soft" data-rule-id="soft_1" data-kind="soft">
+      
+      <td><span class="kind-tag soft">soft</span> p3_demo_score gt 800</td>
+      <td class="num">526</td>
+      <td class="num">61.79%</td>
+      <td class="num wf-ord-risk">—<div class="sub">den 0</div></td>
+      <td class="num">—<div class="sub">den 0</div></td>
+    </tr></tbody>
+    <tfoot><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      
+      <td><span class="kind-tag segment">segment</span> 未命中任意规则<div class="sub">口径：硬∪软均未命中（放行残差）</div></td>
+      <td class="num">3379<div class="sub">未命中侧 den</div></td>
+      <td class="num">23.88%<div class="sub">未命中侧 fpd1</div></td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot>
+  </table></div></div>
+  </div>
+      <div class="submodule submodule-nested" data-sub="6.3" data-collapse-key="sub-6.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.3</span><span>贷前命中瀑布</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">（无贷前命中瀑布）</p></div>
+  </div>
+    </div></div>
+  </div>
+      <div class="submodule is-collapsed" data-sub="7" data-collapse-key="plan-panel-pass-7" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">7</span><span>训练窗 · 轮次与按月命中</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="muted">本方案无采纳轮次</p></div>
+  </div>
+    </div>
+    
+  </div>
+    </div>
+  </div></div>
+  </section>
 
-  <script src="src/engine.js"></script>
-  <script src="src/pipeline.js"></script>
-  <script src="src/report.js"></script>
+<section id="tab-admission-status" class="report-section  is-collapsed" data-collapse-key="tab-admission-status" data-collapse-level="section" data-toc="现状对照">
+    <div class="section-head collapse-head">
+      <h2>4. 现状对照</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" data-sub="1.1" data-collapse-key="sub-1.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1.1</span><span>B/A 现状指标</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="metric-cards">
+        <div class="metric-card">
+          <div class="val bad">26.11%</div>
+          <div class="sub">5261/20153 · 样本 765</div>
+          <div class="lbl">B 贷后风险 · -1.89 pp vs 目标 28.00%</div>
+        </div>
+        <div class="metric-card">
+          <div class="val good">67.90%</div>
+          <div class="sub">33196/48887</div>
+          <div class="lbl">B 贷前通过率（历史）· -2.10 pp vs 目标 70.00%</div>
+        </div>
+        <div class="metric-card">
+          <div class="val">21.36%</div>
+          <div class="sub">4333/20288</div>
+          <div class="lbl">A 贷后风险</div>
+        </div>
+        <div class="metric-card">
+          <div class="val">68.12%</div>
+          <div class="sub">33320/48916</div>
+          <div class="lbl">A 贷前通过率（历史）</div>
+        </div>
+      </div></div>
+  </div>
+        <div class="submodule" data-sub="1.1b" data-collapse-key="sub-1.1b" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1.1b</span><span>A/B 组分月风险（训练贷后窗）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">训练贷后窗 · 业务 <code>fpd1_cnt%</code>（Σfz/Σfm）· A/B 分列 · 风险列共用色阶</p>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr>
+          <th>月</th>
+          <th class="num">B 风险</th><th class="num">B Σfz/Σfm</th><th class="num">B 行数</th>
+          <th class="num">A 风险</th><th class="num">A Σfz/Σfm</th><th class="num">A 行数</th>
+        </tr></thead>
+        <tbody><tr>
+        <td>2026-06</td>
+        <td class="num rate-heat" style="background:hsl(102.2 81.2% 46.5%);color:hsl(102.2 58.0% 17.9%)">24.92%</td>
+        <td class="num">997/4001</td>
+        <td class="num">150</td>
+        <td class="num rate-heat" style="background:hsl(187.9 64.8% 28.8%);color:hsl(187.9 46.8% 94.7%)">19.78%</td>
+        <td class="num">830/4196</td>
+        <td class="num">150</td>
+      </tr><tr>
+        <td>2026-07</td>
+        <td class="num rate-heat" style="background:hsl(104.5 80.8% 46.0%);color:hsl(104.5 58.0% 18.1%)">24.76%</td>
+        <td class="num">1045/4221</td>
+        <td class="num">155</td>
+        <td class="num rate-heat" style="background:hsl(185.3 65.3% 29.4%);color:hsl(185.3 47.3% 94.5%)">19.89%</td>
+        <td class="num">810/4072</td>
+        <td class="num">155</td>
+      </tr><tr>
+        <td>2026-08</td>
+        <td class="num rate-heat" style="background:hsl(100.7 81.5% 46.8%);color:hsl(100.7 58.0% 17.8%)">25.02%</td>
+        <td class="num">1021/4080</td>
+        <td class="num">155</td>
+        <td class="num rate-heat" style="background:hsl(192.0 64.0% 28.0%);color:hsl(192.0 46.0% 95.0%)">19.64%</td>
+        <td class="num">822/4185</td>
+        <td class="num">155</td>
+      </tr><tr>
+        <td>2026-09</td>
+        <td class="num rate-heat" style="background:hsl(72.7 86.9% 52.5%);color:hsl(72.7 58.0% 15.9%)">27.01%</td>
+        <td class="num">1066/3946</td>
+        <td class="num">150</td>
+        <td class="num rate-heat" style="background:hsl(128.8 76.1% 41.0%);color:hsl(128.8 58.1% 90.2%)">23.13%</td>
+        <td class="num">894/3865</td>
+        <td class="num">150</td>
+      </tr><tr>
+        <td>2026-10</td>
+        <td class="num rate-heat" style="background:hsl(46.0 92.0% 58.0%);color:hsl(46.0 58.0% 14.0%)">28.99%</td>
+        <td class="num">1132/3905</td>
+        <td class="num">155</td>
+        <td class="num rate-heat" style="background:hsl(106.7 80.4% 45.5%);color:hsl(106.7 58.0% 18.2%)">24.61%</td>
+        <td class="num">977/3970</td>
+        <td class="num">155</td>
+      </tr></tbody>
+        <tfoot><tr>
+          <td>合计（窗内）</td>
+          <td class="num">26.11%</td>
+          <td class="num">5261/20153</td>
+          <td class="num">765</td>
+          <td class="num">21.36%</td>
+          <td class="num">4333/20288</td>
+          <td class="num">765</td>
+        </tr></tfoot>
+      </table>
+    </div></div>
+  </div>
+        <div class="submodule" data-sub="1.2" data-collapse-key="sub-1.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1.2</span><span>在用模型指标</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">点击表头排序 · by 月 KS 分列</p>
+        <div class="table-wrap">
+    <table class="data-table sortable-table" id="tbl-inuse">
+      <thead><tr>
+        <th class="th-sortable" data-sort-key="col" data-sort-type="text"><button type="button" class="th-sort-btn">列</button></th>
+        <th class="th-sortable num" data-sort-key="ks" data-sort-type="num"><button type="button" class="th-sort-btn">KS</button></th>
+        <th class="th-sortable num" data-sort-key="auc" data-sort-type="num"><button type="button" class="th-sort-btn">AUC</button></th>
+        <th class="th-sortable num" data-sort-key="iv" data-sort-type="num"><button type="button" class="th-sort-btn">IV</button></th>
+        <th class="th-sortable num" data-sort-key="ks_2026-06" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-06</button></th><th class="th-sortable num" data-sort-key="ks_2026-07" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-07</button></th><th class="th-sortable num" data-sort-key="ks_2026-08" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-08</button></th><th class="th-sortable num" data-sort-key="ks_2026-09" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-09</button></th><th class="th-sortable num" data-sort-key="ks_2026-10" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-10</button></th>
+      </tr></thead>
+      <tbody><tr data-col="p3_demo_score">
+        <td data-sort-value="p3_demo_score"><code>p3_demo_score</code></td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td>
+      </tr></tbody>
+    </table>
+  </div></div>
+  </div>
+        <div class="submodule" data-sub="1.3" data-collapse-key="sub-1.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">1.3</span><span>等频分箱（最强列默认展开 · 其余可折叠）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">行为箱、列为整体/分月（风险 + 分子/分母）· 默认等频 5 箱 · 取值数 &lt; 12 则按枚举值升序 · 上方组合图：分母占比柱 + 风险/Lift 折线（悬停明细）· 风险格青→橙色阶</p>
+        <details class="appendix model-bins" open>
+    <summary><code>p3_demo_score</code> · KS=— · 取值 5 个，按枚举值</summary>
+    <div class="bin-combo" data-bin-combo data-pad-l="48" data-pad-r="70" data-vb-w="720">
+    <div class="bin-combo-legend">
+      <span><i class="lg-bar"></i>分母占比</span>
+      <span><i class="lg-risk"></i>风险</span>
+      <span><i class="lg-lift"></i>Lift</span>
+    </div>
+    <div class="bin-combo-plot">
+      <svg viewBox="0 0 720 208" role="img" aria-label="分箱组合图：分母占比、风险、Lift">
+        <line x1="48" y1="180.0" x2="650" y2="180.0" class="bin-combo-grid"/><line x1="48" y1="137.5" x2="650" y2="137.5" class="bin-combo-grid"/><line x1="48" y1="95.0" x2="650" y2="95.0" class="bin-combo-grid"/><line x1="48" y1="52.5" x2="650" y2="52.5" class="bin-combo-grid"/><line x1="48" y1="10.0" x2="650" y2="10.0" class="bin-combo-grid"/>
+        <line x1="48" y1="112.0" x2="650" y2="112.0" class="bin-combo-lift1"/>
+        <rect class="bin-combo-bar" x="78.1" y="94.1" width="60.2" height="85.9" rx="2"/><rect class="bin-combo-bar" x="198.5" y="101.6" width="60.2" height="78.4" rx="2"/><rect class="bin-combo-bar" x="318.9" y="107.4" width="60.2" height="72.6" rx="2"/><rect class="bin-combo-bar" x="439.3" y="121.7" width="60.2" height="58.3" rx="2"/><rect class="bin-combo-bar" x="559.7" y="135.2" width="60.2" height="44.8" rx="2"/>
+        <path class="bin-combo-line-risk" d=" M 108.2 164.2 L 228.6 153.8 L 349.0 140.6 L 469.4 106.4 L 589.8 79.1" fill="none"/>
+        <path class="bin-combo-line-lift" d=" M 108.2 155.8 L 228.6 139.8 L 349.0 119.6 L 469.4 67.3 L 589.8 25.4" fill="none"/>
+        <circle class="bin-combo-dot-risk" cx="108.2" cy="164.2" r="3.2"/><circle class="bin-combo-dot-risk" cx="228.6" cy="153.8" r="3.2"/><circle class="bin-combo-dot-risk" cx="349.0" cy="140.6" r="3.2"/><circle class="bin-combo-dot-risk" cx="469.4" cy="106.4" r="3.2"/><circle class="bin-combo-dot-risk" cx="589.8" cy="79.1" r="3.2"/><circle class="bin-combo-dot-lift" cx="108.2" cy="155.8" r="3"/><circle class="bin-combo-dot-lift" cx="228.6" cy="139.8" r="3"/><circle class="bin-combo-dot-lift" cx="349.0" cy="119.6" r="3"/><circle class="bin-combo-dot-lift" cx="469.4" cy="67.3" r="3"/><circle class="bin-combo-dot-lift" cx="589.8" cy="25.4" r="3"/>
+        <line x1="48" y1="10" x2="48" y2="180" class="bin-combo-axis"/>
+        <line x1="650" y1="10" x2="650" y2="180" class="bin-combo-axis"/>
+        <line x1="48" y1="180" x2="650" y2="180" class="bin-combo-axis"/>
+        <text x="42" y="183" class="bin-combo-tick" text-anchor="end">0%</text><text x="42" y="140.5" class="bin-combo-tick" text-anchor="end">12.5%</text><text x="42" y="98" class="bin-combo-tick" text-anchor="end">25.0%</text><text x="42" y="55.5" class="bin-combo-tick" text-anchor="end">37.5%</text><text x="42" y="13" class="bin-combo-tick" text-anchor="end">50.0%</text><text x="656" y="183" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">0%</text><text x="656" y="140.5" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">25.0%</text><text x="656" y="98" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">50.0%</text><text x="656" y="55.5" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">75.0%</text><text x="656" y="13" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">100.0%</text><text x="714" y="183" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">0</text><text x="714" y="140.5" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">0.63</text><text x="714" y="98" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">1.25</text><text x="714" y="55.5" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">1.88</text><text x="714" y="13" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">2.50</text><text class="bin-combo-x" x="108.2" y="200" text-anchor="middle">1</text><text class="bin-combo-x" x="228.6" y="200" text-anchor="middle">2</text><text class="bin-combo-x" x="349.0" y="200" text-anchor="middle">3</text><text class="bin-combo-x" x="469.4" y="200" text-anchor="middle">4</text><text class="bin-combo-x" x="589.8" y="200" text-anchor="middle">5</text>
+        <text class="bin-combo-axis-title" x="12" y="95" text-anchor="middle" transform="rotate(-90 12 95)">分母占比</text>
+      </svg>
+      <div class="bin-combo-tip" hidden></div>
+    </div>
+    <textarea class="bin-combo-data" hidden>[{"i":1,"label":"560","num":473,"den":5089,"denShare":0.25251823549843694,"rate":0.09294556887404205,"lift":0.3560410662456889},{"i":2,"label":"640","num":717,"den":4647,"denShare":0.23058601697017814,"rate":0.15429309231762428,"lift":0.5910413779656114},{"i":3,"label":"720","num":998,"den":4303,"denShare":0.21351659802510792,"rate":0.23193121078317452,"lift":0.8884451037660741},{"i":4,"label":"800","num":1496,"den":3457,"denShare":0.17153773631717362,"rate":0.4327451547584611,"lift":1.6576911430996513},{"i":5,"label":"880","num":1577,"den":2657,"denShare":0.13184141318910336,"rate":0.5935265336846067,"lift":2.273586814929838}]</textarea>
+  </div>
+    <div class="table-wrap">
+    <table class="data-table bin-matrix">
+      <thead>
+        <tr>
+          <th class="num bin-sticky-1" rowspan="2">箱</th>
+          <th class="bin-sticky-2" rowspan="2">区间</th>
+          <th class="num bin-period-start" colspan="2">整体</th><th class="num bin-period-start" colspan="2">2026-06</th><th class="num bin-period-start" colspan="2">2026-07</th><th class="num bin-period-start" colspan="2">2026-08</th><th class="num bin-period-start" colspan="2">2026-09</th><th class="num bin-period-start" colspan="2">2026-10</th>
+        </tr>
+        <tr><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th></tr>
+      </thead>
+      <tbody><tr>
+        <th class="num bin-sticky-1" scope="row">1</th>
+        <td class="bin-sticky-2"><code>560</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(185.1 65.3% 29.4%);color:hsl(185.1 47.3% 94.5%)">9.29%</td>
+    <td class="num">473/5089</td><td class="num rate-heat bin-period-start" style="background:hsl(191.7 64.1% 28.1%);color:hsl(191.7 46.1% 95.0%)">7.84%</td>
+    <td class="num">77/982</td><td class="num rate-heat bin-period-start" style="background:hsl(192.0 64.0% 28.0%);color:hsl(192.0 46.0% 95.0%)">7.80%</td>
+    <td class="num">83/1064</td><td class="num rate-heat bin-period-start" style="background:hsl(189.3 64.5% 28.5%);color:hsl(189.3 46.5% 94.8%)">8.29%</td>
+    <td class="num">88/1062</td><td class="num rate-heat bin-period-start" style="background:hsl(179.8 66.3% 30.5%);color:hsl(179.8 48.3% 94.1%)">10.71%</td>
+    <td class="num">108/1008</td><td class="num rate-heat bin-period-start" style="background:hsl(175.3 67.2% 31.4%);color:hsl(175.3 49.2% 93.7%)">12.02%</td>
+    <td class="num">117/973</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">2</th>
+        <td class="bin-sticky-2"><code>640</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(164.3 69.3% 33.7%);color:hsl(164.3 51.3% 92.9%)">15.43%</td>
+    <td class="num">717/4647</td><td class="num rate-heat bin-period-start" style="background:hsl(168.2 68.6% 32.9%);color:hsl(168.2 50.6% 93.2%)">14.18%</td>
+    <td class="num">135/952</td><td class="num rate-heat bin-period-start" style="background:hsl(169.2 68.4% 32.7%);color:hsl(169.2 50.4% 93.3%)">13.89%</td>
+    <td class="num">135/972</td><td class="num rate-heat bin-period-start" style="background:hsl(168.0 68.6% 32.9%);color:hsl(168.0 50.6% 93.2%)">14.25%</td>
+    <td class="num">127/891</td><td class="num rate-heat bin-period-start" style="background:hsl(160.1 70.1% 34.6%);color:hsl(160.1 52.1% 92.6%)">16.81%</td>
+    <td class="num">152/904</td><td class="num rate-heat bin-period-start" style="background:hsl(156.3 70.9% 35.3%);color:hsl(156.3 52.9% 92.3%)">18.10%</td>
+    <td class="num">168/928</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">3</th>
+        <td class="bin-sticky-2"><code>720</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(141.8 73.6% 38.3%);color:hsl(141.8 55.6% 91.2%)">23.19%</td>
+    <td class="num">998/4303</td><td class="num rate-heat bin-period-start" style="background:hsl(145.0 73.0% 37.7%);color:hsl(145.0 55.0% 91.5%)">22.04%</td>
+    <td class="num">190/862</td><td class="num rate-heat bin-period-start" style="background:hsl(145.1 73.0% 37.6%);color:hsl(145.1 55.0% 91.5%)">22.01%</td>
+    <td class="num">195/886</td><td class="num rate-heat bin-period-start" style="background:hsl(145.3 73.0% 37.6%);color:hsl(145.3 55.0% 91.5%)">21.93%</td>
+    <td class="num">193/880</td><td class="num rate-heat bin-period-start" style="background:hsl(137.8 74.4% 39.1%);color:hsl(137.8 56.4% 90.9%)">24.64%</td>
+    <td class="num">220/893</td><td class="num rate-heat bin-period-start" style="background:hsl(135.2 74.9% 39.7%);color:hsl(135.2 56.9% 90.7%)">25.58%</td>
+    <td class="num">200/782</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">4</th>
+        <td class="bin-sticky-2"><code>800</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(89.8 83.6% 49.0%);color:hsl(89.8 58.0% 17.1%)">43.27%</td>
+    <td class="num">1496/3457</td><td class="num rate-heat bin-period-start" style="background:hsl(91.7 83.2% 48.6%);color:hsl(91.7 58.0% 17.2%)">42.51%</td>
+    <td class="num">284/668</td><td class="num rate-heat bin-period-start" style="background:hsl(94.6 82.7% 48.0%);color:hsl(94.6 58.0% 17.4%)">41.31%</td>
+    <td class="num">302/731</td><td class="num rate-heat bin-period-start" style="background:hsl(91.4 83.3% 48.7%);color:hsl(91.4 58.0% 17.2%)">42.64%</td>
+    <td class="num">307/720</td><td class="num rate-heat bin-period-start" style="background:hsl(88.6 83.8% 49.2%);color:hsl(88.6 58.0% 17.0%)">43.77%</td>
+    <td class="num">281/642</td><td class="num rate-heat bin-period-start" style="background:hsl(82.6 85.0% 50.5%);color:hsl(82.6 58.0% 16.6%)">46.26%</td>
+    <td class="num">322/696</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">5</th>
+        <td class="bin-sticky-2"><code>880</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(51.6 90.9% 56.8%);color:hsl(51.6 58.0% 14.4%)">59.35%</td>
+    <td class="num">1577/2657</td><td class="num rate-heat bin-period-start" style="background:hsl(55.0 90.3% 56.2%);color:hsl(55.0 58.0% 14.6%)">57.91%</td>
+    <td class="num">311/537</td><td class="num rate-heat bin-period-start" style="background:hsl(54.5 90.4% 56.2%);color:hsl(54.5 58.0% 14.6%)">58.10%</td>
+    <td class="num">330/568</td><td class="num rate-heat bin-period-start" style="background:hsl(54.6 90.4% 56.2%);color:hsl(54.6 58.0% 14.6%)">58.06%</td>
+    <td class="num">306/527</td><td class="num rate-heat bin-period-start" style="background:hsl(47.5 91.7% 57.7%);color:hsl(47.5 58.0% 14.1%)">61.12%</td>
+    <td class="num">305/499</td><td class="num rate-heat bin-period-start" style="background:hsl(46.0 92.0% 58.0%);color:hsl(46.0 58.0% 14.0%)">61.79%</td>
+    <td class="num">325/526</td>
+      </tr></tbody>
+    </table>
+  </div>
+  </details>
+        </div>
+  </div>
+      </div></div>
+  </section>
+
+<section id="tab-admission-potential" class="report-section  is-collapsed" data-collapse-key="tab-admission-potential" data-collapse-level="section" data-toc="潜在模型">
+    <div class="section-head collapse-head">
+      <h2>5. 潜在模型（挖规池）</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" data-sub="2.1" data-collapse-key="sub-2.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.1</span><span>潜在模型指标（KS Top）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">点击表头排序 · by 月 KS 分列</p>
+      <div class="table-wrap">
+    <table class="data-table sortable-table" id="tbl-potential">
+      <thead><tr>
+        <th class="th-sortable" data-sort-key="col" data-sort-type="text"><button type="button" class="th-sort-btn">列</button></th>
+        <th class="th-sortable num" data-sort-key="ks" data-sort-type="num"><button type="button" class="th-sort-btn">KS</button></th>
+        <th class="th-sortable num" data-sort-key="auc" data-sort-type="num"><button type="button" class="th-sort-btn">AUC</button></th>
+        <th class="th-sortable num" data-sort-key="iv" data-sort-type="num"><button type="button" class="th-sort-btn">IV</button></th>
+        <th class="th-sortable num" data-sort-key="ks_2026-06" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-06</button></th><th class="th-sortable num" data-sort-key="ks_2026-07" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-07</button></th><th class="th-sortable num" data-sort-key="ks_2026-08" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-08</button></th><th class="th-sortable num" data-sort-key="ks_2026-09" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-09</button></th><th class="th-sortable num" data-sort-key="ks_2026-10" data-sort-type="num"><button type="button" class="th-sort-btn">KS 2026-10</button></th>
+      </tr></thead>
+      <tbody><tr data-col="p3_demo_score">
+        <td data-sort-value="p3_demo_score"><code>p3_demo_score</code></td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td>
+        <td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td><td class="num" data-sort-value="">—</td>
+      </tr></tbody>
+    </table>
+  </div></div>
+  </div>
+        <div class="submodule" data-sub="2.2" data-collapse-key="sub-2.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">2.2</span><span>潜在模型分箱（箱 × 分月）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><details class="appendix model-bins" open>
+    <summary><code>p3_demo_score</code> · KS=— · 取值 5 个，按枚举值</summary>
+    <div class="bin-combo" data-bin-combo data-pad-l="48" data-pad-r="70" data-vb-w="720">
+    <div class="bin-combo-legend">
+      <span><i class="lg-bar"></i>分母占比</span>
+      <span><i class="lg-risk"></i>风险</span>
+      <span><i class="lg-lift"></i>Lift</span>
+    </div>
+    <div class="bin-combo-plot">
+      <svg viewBox="0 0 720 208" role="img" aria-label="分箱组合图：分母占比、风险、Lift">
+        <line x1="48" y1="180.0" x2="650" y2="180.0" class="bin-combo-grid"/><line x1="48" y1="137.5" x2="650" y2="137.5" class="bin-combo-grid"/><line x1="48" y1="95.0" x2="650" y2="95.0" class="bin-combo-grid"/><line x1="48" y1="52.5" x2="650" y2="52.5" class="bin-combo-grid"/><line x1="48" y1="10.0" x2="650" y2="10.0" class="bin-combo-grid"/>
+        <line x1="48" y1="112.0" x2="650" y2="112.0" class="bin-combo-lift1"/>
+        <rect class="bin-combo-bar" x="78.1" y="94.1" width="60.2" height="85.9" rx="2"/><rect class="bin-combo-bar" x="198.5" y="101.6" width="60.2" height="78.4" rx="2"/><rect class="bin-combo-bar" x="318.9" y="107.4" width="60.2" height="72.6" rx="2"/><rect class="bin-combo-bar" x="439.3" y="121.7" width="60.2" height="58.3" rx="2"/><rect class="bin-combo-bar" x="559.7" y="135.2" width="60.2" height="44.8" rx="2"/>
+        <path class="bin-combo-line-risk" d=" M 108.2 164.2 L 228.6 153.8 L 349.0 140.6 L 469.4 106.4 L 589.8 79.1" fill="none"/>
+        <path class="bin-combo-line-lift" d=" M 108.2 155.8 L 228.6 139.8 L 349.0 119.6 L 469.4 67.3 L 589.8 25.4" fill="none"/>
+        <circle class="bin-combo-dot-risk" cx="108.2" cy="164.2" r="3.2"/><circle class="bin-combo-dot-risk" cx="228.6" cy="153.8" r="3.2"/><circle class="bin-combo-dot-risk" cx="349.0" cy="140.6" r="3.2"/><circle class="bin-combo-dot-risk" cx="469.4" cy="106.4" r="3.2"/><circle class="bin-combo-dot-risk" cx="589.8" cy="79.1" r="3.2"/><circle class="bin-combo-dot-lift" cx="108.2" cy="155.8" r="3"/><circle class="bin-combo-dot-lift" cx="228.6" cy="139.8" r="3"/><circle class="bin-combo-dot-lift" cx="349.0" cy="119.6" r="3"/><circle class="bin-combo-dot-lift" cx="469.4" cy="67.3" r="3"/><circle class="bin-combo-dot-lift" cx="589.8" cy="25.4" r="3"/>
+        <line x1="48" y1="10" x2="48" y2="180" class="bin-combo-axis"/>
+        <line x1="650" y1="10" x2="650" y2="180" class="bin-combo-axis"/>
+        <line x1="48" y1="180" x2="650" y2="180" class="bin-combo-axis"/>
+        <text x="42" y="183" class="bin-combo-tick" text-anchor="end">0%</text><text x="42" y="140.5" class="bin-combo-tick" text-anchor="end">12.5%</text><text x="42" y="98" class="bin-combo-tick" text-anchor="end">25.0%</text><text x="42" y="55.5" class="bin-combo-tick" text-anchor="end">37.5%</text><text x="42" y="13" class="bin-combo-tick" text-anchor="end">50.0%</text><text x="656" y="183" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">0%</text><text x="656" y="140.5" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">25.0%</text><text x="656" y="98" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">50.0%</text><text x="656" y="55.5" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">75.0%</text><text x="656" y="13" class="bin-combo-tick bin-combo-tick-risk" text-anchor="start">100.0%</text><text x="714" y="183" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">0</text><text x="714" y="140.5" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">0.63</text><text x="714" y="98" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">1.25</text><text x="714" y="55.5" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">1.88</text><text x="714" y="13" class="bin-combo-tick bin-combo-tick-lift" text-anchor="end">2.50</text><text class="bin-combo-x" x="108.2" y="200" text-anchor="middle">1</text><text class="bin-combo-x" x="228.6" y="200" text-anchor="middle">2</text><text class="bin-combo-x" x="349.0" y="200" text-anchor="middle">3</text><text class="bin-combo-x" x="469.4" y="200" text-anchor="middle">4</text><text class="bin-combo-x" x="589.8" y="200" text-anchor="middle">5</text>
+        <text class="bin-combo-axis-title" x="12" y="95" text-anchor="middle" transform="rotate(-90 12 95)">分母占比</text>
+      </svg>
+      <div class="bin-combo-tip" hidden></div>
+    </div>
+    <textarea class="bin-combo-data" hidden>[{"i":1,"label":"560","num":473,"den":5089,"denShare":0.25251823549843694,"rate":0.09294556887404205,"lift":0.3560410662456889},{"i":2,"label":"640","num":717,"den":4647,"denShare":0.23058601697017814,"rate":0.15429309231762428,"lift":0.5910413779656114},{"i":3,"label":"720","num":998,"den":4303,"denShare":0.21351659802510792,"rate":0.23193121078317452,"lift":0.8884451037660741},{"i":4,"label":"800","num":1496,"den":3457,"denShare":0.17153773631717362,"rate":0.4327451547584611,"lift":1.6576911430996513},{"i":5,"label":"880","num":1577,"den":2657,"denShare":0.13184141318910336,"rate":0.5935265336846067,"lift":2.273586814929838}]</textarea>
+  </div>
+    <div class="table-wrap">
+    <table class="data-table bin-matrix">
+      <thead>
+        <tr>
+          <th class="num bin-sticky-1" rowspan="2">箱</th>
+          <th class="bin-sticky-2" rowspan="2">区间</th>
+          <th class="num bin-period-start" colspan="2">整体</th><th class="num bin-period-start" colspan="2">2026-06</th><th class="num bin-period-start" colspan="2">2026-07</th><th class="num bin-period-start" colspan="2">2026-08</th><th class="num bin-period-start" colspan="2">2026-09</th><th class="num bin-period-start" colspan="2">2026-10</th>
+        </tr>
+        <tr><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th><th class="num bin-period-start">风险</th><th class="num">分子/分母</th></tr>
+      </thead>
+      <tbody><tr>
+        <th class="num bin-sticky-1" scope="row">1</th>
+        <td class="bin-sticky-2"><code>560</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(185.1 65.3% 29.4%);color:hsl(185.1 47.3% 94.5%)">9.29%</td>
+    <td class="num">473/5089</td><td class="num rate-heat bin-period-start" style="background:hsl(191.7 64.1% 28.1%);color:hsl(191.7 46.1% 95.0%)">7.84%</td>
+    <td class="num">77/982</td><td class="num rate-heat bin-period-start" style="background:hsl(192.0 64.0% 28.0%);color:hsl(192.0 46.0% 95.0%)">7.80%</td>
+    <td class="num">83/1064</td><td class="num rate-heat bin-period-start" style="background:hsl(189.3 64.5% 28.5%);color:hsl(189.3 46.5% 94.8%)">8.29%</td>
+    <td class="num">88/1062</td><td class="num rate-heat bin-period-start" style="background:hsl(179.8 66.3% 30.5%);color:hsl(179.8 48.3% 94.1%)">10.71%</td>
+    <td class="num">108/1008</td><td class="num rate-heat bin-period-start" style="background:hsl(175.3 67.2% 31.4%);color:hsl(175.3 49.2% 93.7%)">12.02%</td>
+    <td class="num">117/973</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">2</th>
+        <td class="bin-sticky-2"><code>640</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(164.3 69.3% 33.7%);color:hsl(164.3 51.3% 92.9%)">15.43%</td>
+    <td class="num">717/4647</td><td class="num rate-heat bin-period-start" style="background:hsl(168.2 68.6% 32.9%);color:hsl(168.2 50.6% 93.2%)">14.18%</td>
+    <td class="num">135/952</td><td class="num rate-heat bin-period-start" style="background:hsl(169.2 68.4% 32.7%);color:hsl(169.2 50.4% 93.3%)">13.89%</td>
+    <td class="num">135/972</td><td class="num rate-heat bin-period-start" style="background:hsl(168.0 68.6% 32.9%);color:hsl(168.0 50.6% 93.2%)">14.25%</td>
+    <td class="num">127/891</td><td class="num rate-heat bin-period-start" style="background:hsl(160.1 70.1% 34.6%);color:hsl(160.1 52.1% 92.6%)">16.81%</td>
+    <td class="num">152/904</td><td class="num rate-heat bin-period-start" style="background:hsl(156.3 70.9% 35.3%);color:hsl(156.3 52.9% 92.3%)">18.10%</td>
+    <td class="num">168/928</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">3</th>
+        <td class="bin-sticky-2"><code>720</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(141.8 73.6% 38.3%);color:hsl(141.8 55.6% 91.2%)">23.19%</td>
+    <td class="num">998/4303</td><td class="num rate-heat bin-period-start" style="background:hsl(145.0 73.0% 37.7%);color:hsl(145.0 55.0% 91.5%)">22.04%</td>
+    <td class="num">190/862</td><td class="num rate-heat bin-period-start" style="background:hsl(145.1 73.0% 37.6%);color:hsl(145.1 55.0% 91.5%)">22.01%</td>
+    <td class="num">195/886</td><td class="num rate-heat bin-period-start" style="background:hsl(145.3 73.0% 37.6%);color:hsl(145.3 55.0% 91.5%)">21.93%</td>
+    <td class="num">193/880</td><td class="num rate-heat bin-period-start" style="background:hsl(137.8 74.4% 39.1%);color:hsl(137.8 56.4% 90.9%)">24.64%</td>
+    <td class="num">220/893</td><td class="num rate-heat bin-period-start" style="background:hsl(135.2 74.9% 39.7%);color:hsl(135.2 56.9% 90.7%)">25.58%</td>
+    <td class="num">200/782</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">4</th>
+        <td class="bin-sticky-2"><code>800</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(89.8 83.6% 49.0%);color:hsl(89.8 58.0% 17.1%)">43.27%</td>
+    <td class="num">1496/3457</td><td class="num rate-heat bin-period-start" style="background:hsl(91.7 83.2% 48.6%);color:hsl(91.7 58.0% 17.2%)">42.51%</td>
+    <td class="num">284/668</td><td class="num rate-heat bin-period-start" style="background:hsl(94.6 82.7% 48.0%);color:hsl(94.6 58.0% 17.4%)">41.31%</td>
+    <td class="num">302/731</td><td class="num rate-heat bin-period-start" style="background:hsl(91.4 83.3% 48.7%);color:hsl(91.4 58.0% 17.2%)">42.64%</td>
+    <td class="num">307/720</td><td class="num rate-heat bin-period-start" style="background:hsl(88.6 83.8% 49.2%);color:hsl(88.6 58.0% 17.0%)">43.77%</td>
+    <td class="num">281/642</td><td class="num rate-heat bin-period-start" style="background:hsl(82.6 85.0% 50.5%);color:hsl(82.6 58.0% 16.6%)">46.26%</td>
+    <td class="num">322/696</td>
+      </tr><tr>
+        <th class="num bin-sticky-1" scope="row">5</th>
+        <td class="bin-sticky-2"><code>880</code></td>
+        <td class="num rate-heat bin-period-start" style="background:hsl(51.6 90.9% 56.8%);color:hsl(51.6 58.0% 14.4%)">59.35%</td>
+    <td class="num">1577/2657</td><td class="num rate-heat bin-period-start" style="background:hsl(55.0 90.3% 56.2%);color:hsl(55.0 58.0% 14.6%)">57.91%</td>
+    <td class="num">311/537</td><td class="num rate-heat bin-period-start" style="background:hsl(54.5 90.4% 56.2%);color:hsl(54.5 58.0% 14.6%)">58.10%</td>
+    <td class="num">330/568</td><td class="num rate-heat bin-period-start" style="background:hsl(54.6 90.4% 56.2%);color:hsl(54.6 58.0% 14.6%)">58.06%</td>
+    <td class="num">306/527</td><td class="num rate-heat bin-period-start" style="background:hsl(47.5 91.7% 57.7%);color:hsl(47.5 58.0% 14.1%)">61.12%</td>
+    <td class="num">305/499</td><td class="num rate-heat bin-period-start" style="background:hsl(46.0 92.0% 58.0%);color:hsl(46.0 58.0% 14.0%)">61.79%</td>
+    <td class="num">325/526</td>
+      </tr></tbody>
+    </table>
+  </div>
+  </details></div>
+  </div>
+      </div></div>
+  </section>
+
+<section id="tab-admission-mine" class="report-section  is-collapsed" data-collapse-key="tab-admission-mine" data-collapse-level="section" data-toc="挖规过程">
+    <div class="section-head collapse-head">
+      <h2>6. 挖规过程</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" data-sub="6.1" data-collapse-key="mine-6.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.1</span><span>挖规门禁与覆盖</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="cfg-grid">
+        <div>轮次 / Candidates<br><b>≤10 轮 / ≤6 条 · 全流程采纳 1</b></div>
+        <div class="cfg-gate-cell">门禁<br>
+          <div class="gate-chip-row"><span class="rv-chip rv-chip-muted">命中进件≥30</span><span class="rv-chip rv-chip-muted">Lift≥1.5</span><span class="rv-chip rv-chip-muted">老规则不下线</span><span class="rv-chip rv-chip-muted">放行率口径</span><span class="rv-chip rv-chip-muted">仅命中剪枝</span><span class="rv-chip rv-chip-muted">辅约束回退续挖</span><span class="rv-chip rv-chip-muted">fpd1&gt;35%</span><span class="rv-chip rv-chip-muted">Lift≥1.5</span></div>
+          <details class="gate-details">
+    <summary>门禁细则（与口径与自查同源）</summary>
+    <ul class="gate-bullet-list"><li>
+      <span class="gate-bullet-label">命中进件≥30</span>
+      <span class="gate-bullet-detail">命中进件量门槛≥30</span>
+    </li><li>
+      <span class="gate-bullet-label">Lift≥1.5</span>
+      <span class="gate-bullet-detail">Lift 门禁≥1.5</span>
+    </li><li>
+      <span class="gate-bullet-label">老规则不下线</span>
+      <span class="gate-bullet-detail">老规则不下线：新策略=硬∪Baseline软∪Candidates（与线上 Soft 一致，除非调用方指定 dropSoftCols）</span>
+    </li><li>
+      <span class="gate-bullet-label">放行率口径</span>
+      <span class="gate-bullet-detail">方案主口径=策略放行率；现状=历史通过率</span>
+    </li><li>
+      <span class="gate-bullet-label">仅命中剪枝</span>
+      <span class="gate-bullet-detail">仅命中剪枝</span>
+    </li><li>
+      <span class="gate-bullet-label">辅约束回退续挖</span>
+      <span class="gate-bullet-detail">辅约束回退续挖</span>
+    </li><li>
+      <span class="gate-bullet-label">fpd1&gt;35%</span>
+      <span class="gate-bullet-detail">跨月门禁：各月命中风险（fpd1_cnt%）须高于该阈值</span>
+    </li></ul>
+  </details>
+        </div>
+        <div>月覆盖<br><b>2026-06 / 2026-07 / 2026-08 / 2026-09 / 2026-10</b></div>
+        <div>风险口径<br><b>fpd1_cnt% · Swap/瀑布同源 domain</b></div>
+        <div>切点方向<br><div class="gate-chip-row"><span class="rv-chip rv-chip-muted">gte</span></div></div>
+        
+      </div></div>
+  </div>
+        <div class="submodule" id="toc-mine-cands" data-sub="6.2" data-collapse-key="mine-6.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.2</span><span>Candidates 摘要</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">本轮全流程采纳 <b>1</b> 条（明细见「双方案详情」；方案叠规可能回退部分，见方案概要试装轨迹）。</p>
+        <div class="table-wrap"><table class="data-table">
+          <thead><tr><th>#</th><th>表达式</th><th class="num">命中进件</th><th class="num">风险</th><th class="num">Lift</th></tr></thead>
+          <tbody><tr>
+            <td>1</td>
+            <td><code>p3_demo_score gte 800</code></td>
+            <td class="num">9627</td>
+            <td class="num">43.27%</td>
+            <td class="num">2.055</td>
+          </tr></tbody>
+        </table></div></div>
+  </div>
+        <div class="submodule" id="toc-mine-rounds" data-sub="6.3" data-collapse-key="mine-6.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.3</span><span>挖规采纳轮次</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint muted">分月列：命中进件/风险；带 * 为绝对风险门禁月。完整尝试见附录近失 / JSON <code>mineLog</code>。</p>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr>
+        <th class="num">轮</th><th>标签</th><th class="num">残差N</th><th>表达式</th>
+        <th class="num">命中进件</th><th class="num">风险</th><th class="num">Lift</th><th>分月（进件/风险）</th>
+      </tr></thead>
+      <tbody><tr>
+        <td class="num">1</td>
+        <td class="muted">shared</td>
+        <td class="num">612</td>
+        <td><code>p3_demo_score gte 800</code></td>
+        <td class="num">9627</td>
+        <td class="num">43.27%</td>
+        <td class="num">2.06</td>
+        <td class="muted" style="font-size:.78rem">2026-08:2007/42.64% · 2026-09:1800/43.77% · 2026-10:1952/46.26%</td>
+      </tr></tbody>
+    </table></div></div>
+  </div>
+        <div class="submodule submodule-nested" data-sub="6.4" data-collapse-key="mine-6.4" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.4</span><span>潜在池定义</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="cfg-grid">
+    <div>潜在取 TopN<br><b>1</b><div class="sub muted">KS 全池 1 列</div></div>
+    <div>扩展列<br><b>—</b></div>
+    <div>排除列<br><b>—</b></div>
+  </div></div>
+  </div>
+        <div class="submodule is-collapsed" id="toc-mine-residual" data-sub="6.5" data-collapse-key="mine-6.5" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.5</span><span>残差已挖未入选</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint muted">双达标路径上的残差扫描留档（每方案最多 16 条）。</p><p class="muted">（残差续挖未留下未入选规则；若续挖耗尽见方案试装轨迹）</p></div>
+  </div>
+      </div></div>
+  </section>
+
+<section id="tab-admission-meta" class="report-section  is-collapsed" data-collapse-key="tab-admission-meta" data-collapse-level="section" data-toc="口径与自查">
+    <div class="section-head collapse-head">
+      <h2>7. 口径与自查</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" data-sub="摘.1" data-collapse-key="sub-摘.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">摘.1</span><span>样本量 chip</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="rv-wb-meta">
+        <span class="rv-chip">客群 n=1530</span>
+        <span class="rv-chip">训练贷后 B=765</span>
+        <span class="rv-chip">训练贷前 B=765</span>
+        <span class="rv-chip">回测贷后 B=155</span>
+        <span class="rv-chip">回测贷前 B=155</span>
+        <span class="rv-chip rv-chip-muted">k=1.2</span>
+        <span class="rv-chip rv-chip-muted">Candidates 1</span>
+        <span class="rv-chip rv-chip-muted">path=domain</span>
+      </div></div>
+  </div>
+        <div class="submodule" data-sub="摘.2" data-collapse-key="sub-摘.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">摘.2</span><span>目标与时间窗</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="cfg-grid">
+        <div>训练·风险目标 / 窗<br><b>28.00%</b> · <code>submit_month&gt;=2026-06</code></div>
+        <div>训练·通过率目标 / 窗<br><b>70.00%</b> · <code>submit_date&gt;=2026-06-01</code></div>
+        <div>回测·贷后窗<br><b><code>submit_month&gt;=2026-10</code></b></div>
+        <div>回测·贷前窗<br><b><code>submit_date&gt;=2026-10-01</code></b></div>
+        <div>切点方向<br><div class="gate-chip-row"><span class="rv-chip rv-chip-muted">gte</span></div><span class="muted">仅 gte</span></div>
+        <div>风险口径<br><b>fpd1_cnt%（命中 Σfz/Σfm）</b></div>
+      </div></div>
+  </div>
+        <div class="submodule" data-sub="摘.3" data-collapse-key="sub-摘.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">摘.3</span><span>挖规门禁覆盖</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="gate-chip-row"><span class="rv-chip rv-chip-muted">命中进件≥30</span><span class="rv-chip rv-chip-muted">Lift≥1.5</span><span class="rv-chip rv-chip-muted">老规则不下线</span><span class="rv-chip rv-chip-muted">放行率口径</span><span class="rv-chip rv-chip-muted">仅命中剪枝</span><span class="rv-chip rv-chip-muted">辅约束回退续挖</span></div>
+        <details class="gate-details">
+    <summary>门禁与口径细则</summary>
+    <ul class="gate-bullet-list"><li>
+      <span class="gate-bullet-label">命中进件≥30</span>
+      <span class="gate-bullet-detail">命中进件量门槛≥30</span>
+    </li><li>
+      <span class="gate-bullet-label">Lift≥1.5</span>
+      <span class="gate-bullet-detail">Lift 门禁≥1.5</span>
+    </li><li>
+      <span class="gate-bullet-label">老规则不下线</span>
+      <span class="gate-bullet-detail">老规则不下线：新策略=硬∪Baseline软∪Candidates（与线上 Soft 一致，除非调用方指定 dropSoftCols）</span>
+    </li><li>
+      <span class="gate-bullet-label">放行率口径</span>
+      <span class="gate-bullet-detail">方案主口径=策略放行率；现状=历史通过率</span>
+    </li><li>
+      <span class="gate-bullet-label">仅命中剪枝</span>
+      <span class="gate-bullet-detail">仅命中剪枝</span>
+    </li><li>
+      <span class="gate-bullet-label">辅约束回退续挖</span>
+      <span class="gate-bullet-detail">辅约束回退续挖</span>
+    </li></ul>
+  </details></div>
+  </div>
+        <div class="submodule" data-sub="6.1" data-collapse-key="sub-6.1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.1</span><span>对照表（风险方案 vs 通过率方案）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+        <table class="data-table plan-compare-table">
+          <thead><tr><th>项</th><th>风险方案</th><th>通过率方案</th></tr></thead>
+          <tbody>
+            <tr><td>规则数</td><td>0</td><td>0</td></tr>
+            <tr><td>规则</td><td class="muted">—</td><td class="muted">—</td></tr>
+            <tr><td>B 风险</td><td>21.06%（3684/17496）</td><td>21.06%（3684/17496）</td></tr>
+            <tr><td>B 策略放行率</td><td>79.80%（39013/48887）</td><td>79.80%（39013/48887）</td></tr>
+            <tr><td>主停止</td><td>≤28.00%？ <strong>是</strong></td><td>放行率≥70.00%？ <strong>是</strong></td></tr>
+            <tr><td>相对偏差（任一≥5%红灯）</td><td>风险超标 0.00% · 放行 14.00%</td><td>风险超标 0.00% · 放行 14.00%</td></tr>
+            <tr><td>灯</td><td><span class="lamp bad">红灯</span></td><td><span class="lamp bad">红灯</span></td></tr>
+          </tbody>
+        </table>
+      </div></div>
+  </div>
+        <div class="submodule" data-sub="6.2" data-collapse-key="sub-6.2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.2</span><span>采纳与现状偏差</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p>已采纳 1 条 Candidates。现状通过率 67.90%（-2.10 pp vs 目标 70.00%）。</p></div>
+  </div>
+        <div class="submodule" data-sub="6.3" data-collapse-key="sub-6.3" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">6.3</span><span>自查灯表</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>项</th><th>灯</th><th>动作</th></tr></thead>
+          <tbody>
+            <tr><td>命中进件量门槛</td><td><span class="lamp warn">黄</span></td><td class="muted">命中进件≥30 · 分月小样本不稳定</td></tr>
+            <tr><td>风险方案灯</td><td><span class="lamp bad">红灯</span></td><td class="muted">风险超标 0.00% · 放行 14.00%（任一≥5% 红灯）</td></tr>
+            <tr><td>通过率方案灯</td><td><span class="lamp bad">红灯</span></td><td class="muted">风险超标 0.00% · 放行 14.00%（任一≥5% 红灯）</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+  </div>
+      </div></div>
+  </section>
+
+<section id="tab-admission-appendix" class="report-section  is-collapsed" data-collapse-key="tab-admission-appendix" data-collapse-level="section" data-toc="附录·近失">
+    <div class="section-head collapse-head">
+      <h2>附录. 挖规近失（含按月）</h2>
+      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+    </div>
+    <div class="section-body collapse-body"><div class="module-stack">
+        <div class="submodule" id="toc-appendix-1" data-sub="附.1" data-collapse-key="appendix-1" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">附.1</span><span>挖规残差近失（含按月）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">口径=<b>挖规工作样本残差</b>：训练贷后窗·B·未命中硬∪Baseline软·再去掉当时已采纳 Candidates。分月覆盖训练窗全月；跨月硬门禁仍看近 3 月（见「未过原因」）。命中进件=Σ进件；风险样本量=Σfpd1_cnt_fm；fpd1/Lift=业务 <code>fpd1_cnt%</code>。</p>
+      <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>表达式</th><th class="num">整体命中进件量</th><th class="num">整体风险样本量</th><th class="num">整体 fpd1风险</th><th class="num">整体 Lift</th>
+        <th class="num">2026-06 命中进件量</th><th class="num">2026-06 风险样本量</th><th class="num">2026-06 fpd1风险</th><th class="num">2026-06 Lift</th><th class="num">2026-07 命中进件量</th><th class="num">2026-07 风险样本量</th><th class="num">2026-07 fpd1风险</th><th class="num">2026-07 Lift</th><th class="num">2026-08 命中进件量</th><th class="num">2026-08 风险样本量</th><th class="num">2026-08 fpd1风险</th><th class="num">2026-08 Lift</th><th class="num">2026-09 命中进件量</th><th class="num">2026-09 风险样本量</th><th class="num">2026-09 fpd1风险</th><th class="num">2026-09 Lift</th><th class="num">2026-10 命中进件量</th><th class="num">2026-10 风险样本量</th><th class="num">2026-10 fpd1风险</th><th class="num">2026-10 Lift</th>
+        <th>未过原因</th>
+      </tr></thead>
+      <tbody><tr>
+        <td><code>p3_demo_score gte 720</code></td>
+        <td class="num">9804</td>
+        <td class="num">4303</td>
+        <td class="num rate-heat" style="background:hsl(121.1 77.6% 42.6%);color:hsl(121.1 58.0% 19.2%)">23.19%</td>
+        <td class="num">1.49</td>
+        <td class="num">1906</td><td class="num">862</td><td class="num rate-heat" style="background:hsl(128.8 76.1% 41.0%);color:hsl(128.8 58.1% 90.2%)">22.04%</td><td class="num">1.53</td><td class="num">1952</td><td class="num">886</td><td class="num rate-heat" style="background:hsl(129.0 76.1% 40.9%);color:hsl(129.0 58.1% 90.3%)">22.01%</td><td class="num">1.56</td><td class="num">2022</td><td class="num">880</td><td class="num rate-heat" style="background:hsl(129.6 76.0% 40.8%);color:hsl(129.6 58.0% 90.3%)">21.93%</td><td class="num">1.52</td><td class="num">2078</td><td class="num">893</td><td class="num rate-heat" style="background:hsl(111.6 79.4% 44.5%);color:hsl(111.6 58.0% 18.6%)">24.64%</td><td class="num">1.44</td><td class="num">1846</td><td class="num">782</td><td class="num rate-heat" style="background:hsl(105.5 80.6% 45.8%);color:hsl(105.5 58.0% 18.2%)">25.58%</td><td class="num">1.41</td>
+        <td class="muted">整体风险 23.19%≤35%；分月未过: 2026-08(进件=2022,风险样本=880,risk=21.93%,lift=1.52); 2026-09(进件=2078,风险样本=893,risk=24.64%,lift=1.44); 2026-10(进件=1846,风险样本=782,risk=25.58%,lift=1.41)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 640</code></td>
+        <td class="num">19532</td>
+        <td class="num">8950</td>
+        <td class="num rate-heat" style="background:hsl(149.0 72.2% 36.8%);color:hsl(149.0 54.2% 91.8%)">19.16%</td>
+        <td class="num">1.23</td>
+        <td class="num">3835</td><td class="num">1814</td><td class="num rate-heat" style="background:hsl(158.2 70.5% 34.9%);color:hsl(158.2 52.5% 92.5%)">17.92%</td><td class="num">1.25</td><td class="num">3979</td><td class="num">1858</td><td class="num rate-heat" style="background:hsl(159.4 70.2% 34.7%);color:hsl(159.4 52.2% 92.5%)">17.76%</td><td class="num">1.26</td><td class="num">3832</td><td class="num">1771</td><td class="num rate-heat" style="background:hsl(157.1 70.7% 35.2%);color:hsl(157.1 52.7% 92.4%)">18.07%</td><td class="num">1.25</td><td class="num">3999</td><td class="num">1797</td><td class="num rate-heat" style="background:hsl(138.0 74.3% 39.1%);color:hsl(138.0 56.3% 90.9%)">20.70%</td><td class="num">1.21</td><td class="num">3887</td><td class="num">1710</td><td class="num rate-heat" style="background:hsl(132.4 75.4% 40.3%);color:hsl(132.4 57.4% 90.5%)">21.52%</td><td class="num">1.19</td>
+        <td class="muted">整体风险 19.16%≤35%；分月未过: 2026-08(进件=3832,风险样本=1771,risk=18.07%,lift=1.25); 2026-09(进件=3999,风险样本=1797,risk=20.70%,lift=1.21); 2026-10(进件=3887,风险样本=1710,risk=21.52%,lift=1.19)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 560</code></td>
+        <td class="num">29386</td>
+        <td class="num">14039</td>
+        <td class="num rate-heat" style="background:hsl(177.0 66.9% 31.1%);color:hsl(177.0 48.9% 93.9%)">15.59%</td>
+        <td class="num">1.00</td>
+        <td class="num">5747</td><td class="num">2796</td><td class="num rate-heat" style="background:hsl(188.7 64.6% 28.7%);color:hsl(188.7 46.6% 94.8%)">14.38%</td><td class="num">1.00</td><td class="num">5981</td><td class="num">2922</td><td class="num rate-heat" style="background:hsl(192.0 64.0% 28.0%);color:hsl(192.0 46.0% 95.0%)">14.13%</td><td class="num">1.00</td><td class="num">5859</td><td class="num">2833</td><td class="num rate-heat" style="background:hsl(188.4 64.7% 28.7%);color:hsl(188.4 46.7% 94.7%)">14.40%</td><td class="num">1.00</td><td class="num">5970</td><td class="num">2805</td><td class="num rate-heat" style="background:hsl(164.5 69.3% 33.7%);color:hsl(164.5 51.3% 92.9%)">17.11%</td><td class="num">1.00</td><td class="num">5829</td><td class="num">2683</td><td class="num rate-heat" style="background:hsl(157.0 70.7% 35.2%);color:hsl(157.0 52.7% 92.4%)">18.08%</td><td class="num">1.00</td>
+        <td class="muted">整体风险 15.59%≤35%；分月未过: 2026-08(进件=5859,风险样本=2833,risk=14.40%,lift=1.00); 2026-09(进件=5970,风险样本=2805,risk=17.11%,lift=1.00); 2026-10(进件=5829,风险样本=2683,risk=18.08%,lift=1.00)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 720</code></td>
+        <td class="num">19431</td>
+        <td class="num">7760</td>
+        <td class="num rate-heat" style="background:hsl(64.8 88.4% 54.1%);color:hsl(64.8 58.0% 15.3%)">32.14%</td>
+        <td class="num">1.53</td>
+        <td class="num">3777</td><td class="num">1530</td><td class="num rate-heat" style="background:hsl(71.8 87.0% 52.7%);color:hsl(71.8 58.0% 15.8%)">30.98%</td><td class="num">1.56</td><td class="num">3949</td><td class="num">1617</td><td class="num rate-heat" style="background:hsl(73.3 86.8% 52.4%);color:hsl(73.3 58.0% 15.9%)">30.74%</td><td class="num">1.57</td><td class="num">4029</td><td class="num">1600</td><td class="num rate-heat" style="background:hsl(70.2 87.4% 53.0%);color:hsl(70.2 58.0% 15.7%)">31.25%</td><td class="num">1.55</td><td class="num">3878</td><td class="num">1535</td><td class="num rate-heat" style="background:hsl(61.9 89.0% 54.7%);color:hsl(61.9 58.0% 15.1%)">32.64%</td><td class="num">1.48</td><td class="num">3798</td><td class="num">1478</td><td class="num rate-heat" style="background:hsl(46.0 92.0% 58.0%);color:hsl(46.0 58.0% 14.0%)">35.32%</td><td class="num">1.48</td>
+        <td class="muted">整体风险 32.14%≤35%；分月未过: 2026-08(进件=4029,风险样本=1600,risk=31.25%,lift=1.55); 2026-09(进件=3878,风险样本=1535,risk=32.64%,lift=1.48); 2026-10(进件=3798,风险样本=1478,risk=35.32%,lift=1.48)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 640</code></td>
+        <td class="num">29159</td>
+        <td class="num">12407</td>
+        <td class="num rate-heat" style="background:hsl(103.6 81.0% 46.2%);color:hsl(103.6 58.0% 18.0%)">25.88%</td>
+        <td class="num">1.23</td>
+        <td class="num">5706</td><td class="num">2482</td><td class="num rate-heat" style="background:hsl(112.2 79.3% 44.4%);color:hsl(112.2 58.0% 18.6%)">24.54%</td><td class="num">1.24</td><td class="num">5976</td><td class="num">2589</td><td class="num rate-heat" style="background:hsl(113.1 79.1% 44.2%);color:hsl(113.1 58.0% 18.7%)">24.41%</td><td class="num">1.25</td><td class="num">5839</td><td class="num">2491</td><td class="num rate-heat" style="background:hsl(108.1 80.1% 45.2%);color:hsl(108.1 58.0% 18.3%)">25.17%</td><td class="num">1.25</td><td class="num">5799</td><td class="num">2439</td><td class="num rate-heat" style="background:hsl(97.9 82.1% 47.3%);color:hsl(97.9 58.0% 17.6%)">26.77%</td><td class="num">1.21</td><td class="num">5839</td><td class="num">2406</td><td class="num rate-heat" style="background:hsl(85.9 84.3% 49.8%);color:hsl(85.9 58.0% 16.8%)">28.68%</td><td class="num">1.20</td>
+        <td class="muted">整体风险 25.88%≤35%；分月未过: 2026-08(进件=5839,风险样本=2491,risk=25.17%,lift=1.25); 2026-09(进件=5799,风险样本=2439,risk=26.77%,lift=1.21); 2026-10(进件=5839,风险样本=2406,risk=28.68%,lift=1.20)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 560</code></td>
+        <td class="num">39013</td>
+        <td class="num">17496</td>
+        <td class="num rate-heat" style="background:hsl(135.6 74.8% 39.6%);color:hsl(135.6 56.8% 90.7%)">21.06%</td>
+        <td class="num">1.00</td>
+        <td class="num">7618</td><td class="num">3464</td><td class="num rate-heat" style="background:hsl(144.4 73.1% 37.8%);color:hsl(144.4 55.1% 91.4%)">19.80%</td><td class="num">1.00</td><td class="num">7978</td><td class="num">3653</td><td class="num rate-heat" style="background:hsl(146.0 72.8% 37.4%);color:hsl(146.0 54.8% 91.5%)">19.57%</td><td class="num">1.00</td><td class="num">7866</td><td class="num">3553</td><td class="num rate-heat" style="background:hsl(142.1 73.6% 38.3%);color:hsl(142.1 55.6% 91.2%)">20.12%</td><td class="num">1.00</td><td class="num">7770</td><td class="num">3447</td><td class="num rate-heat" style="background:hsl(128.6 76.2% 41.0%);color:hsl(128.6 58.2% 90.2%)">22.08%</td><td class="num">1.00</td><td class="num">7781</td><td class="num">3379</td><td class="num rate-heat" style="background:hsl(116.5 78.5% 43.5%);color:hsl(116.5 58.0% 18.9%)">23.88%</td><td class="num">1.00</td>
+        <td class="muted">整体风险 21.06%≤35%；分月未过: 2026-08(进件=7866,风险样本=3553,risk=20.12%,lift=1.00); 2026-09(进件=7770,风险样本=3447,risk=22.08%,lift=1.00); 2026-10(进件=7781,风险样本=3379,risk=23.88%,lift=1.00)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 720</code></td>
+        <td class="num">19431</td>
+        <td class="num">7760</td>
+        <td class="num rate-heat" style="background:hsl(64.8 88.4% 54.1%);color:hsl(64.8 58.0% 15.3%)">32.14%</td>
+        <td class="num">1.53</td>
+        <td class="num">3777</td><td class="num">1530</td><td class="num rate-heat" style="background:hsl(71.8 87.0% 52.7%);color:hsl(71.8 58.0% 15.8%)">30.98%</td><td class="num">1.56</td><td class="num">3949</td><td class="num">1617</td><td class="num rate-heat" style="background:hsl(73.3 86.8% 52.4%);color:hsl(73.3 58.0% 15.9%)">30.74%</td><td class="num">1.57</td><td class="num">4029</td><td class="num">1600</td><td class="num rate-heat" style="background:hsl(70.2 87.4% 53.0%);color:hsl(70.2 58.0% 15.7%)">31.25%</td><td class="num">1.55</td><td class="num">3878</td><td class="num">1535</td><td class="num rate-heat" style="background:hsl(61.9 89.0% 54.7%);color:hsl(61.9 58.0% 15.1%)">32.64%</td><td class="num">1.48</td><td class="num">3798</td><td class="num">1478</td><td class="num rate-heat" style="background:hsl(46.0 92.0% 58.0%);color:hsl(46.0 58.0% 14.0%)">35.32%</td><td class="num">1.48</td>
+        <td class="muted">整体风险 32.14%≤35%；分月未过: 2026-08(进件=4029,风险样本=1600,risk=31.25%,lift=1.55); 2026-09(进件=3878,风险样本=1535,risk=32.64%,lift=1.48); 2026-10(进件=3798,风险样本=1478,risk=35.32%,lift=1.48)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 640</code></td>
+        <td class="num">29159</td>
+        <td class="num">12407</td>
+        <td class="num rate-heat" style="background:hsl(103.6 81.0% 46.2%);color:hsl(103.6 58.0% 18.0%)">25.88%</td>
+        <td class="num">1.23</td>
+        <td class="num">5706</td><td class="num">2482</td><td class="num rate-heat" style="background:hsl(112.2 79.3% 44.4%);color:hsl(112.2 58.0% 18.6%)">24.54%</td><td class="num">1.24</td><td class="num">5976</td><td class="num">2589</td><td class="num rate-heat" style="background:hsl(113.1 79.1% 44.2%);color:hsl(113.1 58.0% 18.7%)">24.41%</td><td class="num">1.25</td><td class="num">5839</td><td class="num">2491</td><td class="num rate-heat" style="background:hsl(108.1 80.1% 45.2%);color:hsl(108.1 58.0% 18.3%)">25.17%</td><td class="num">1.25</td><td class="num">5799</td><td class="num">2439</td><td class="num rate-heat" style="background:hsl(97.9 82.1% 47.3%);color:hsl(97.9 58.0% 17.6%)">26.77%</td><td class="num">1.21</td><td class="num">5839</td><td class="num">2406</td><td class="num rate-heat" style="background:hsl(85.9 84.3% 49.8%);color:hsl(85.9 58.0% 16.8%)">28.68%</td><td class="num">1.20</td>
+        <td class="muted">整体风险 25.88%≤35%；分月未过: 2026-08(进件=5839,风险样本=2491,risk=25.17%,lift=1.25); 2026-09(进件=5799,风险样本=2439,risk=26.77%,lift=1.21); 2026-10(进件=5839,风险样本=2406,risk=28.68%,lift=1.20)</td>
+      </tr><tr>
+        <td><code>p3_demo_score gte 560</code></td>
+        <td class="num">39013</td>
+        <td class="num">17496</td>
+        <td class="num rate-heat" style="background:hsl(135.6 74.8% 39.6%);color:hsl(135.6 56.8% 90.7%)">21.06%</td>
+        <td class="num">1.00</td>
+        <td class="num">7618</td><td class="num">3464</td><td class="num rate-heat" style="background:hsl(144.4 73.1% 37.8%);color:hsl(144.4 55.1% 91.4%)">19.80%</td><td class="num">1.00</td><td class="num">7978</td><td class="num">3653</td><td class="num rate-heat" style="background:hsl(146.0 72.8% 37.4%);color:hsl(146.0 54.8% 91.5%)">19.57%</td><td class="num">1.00</td><td class="num">7866</td><td class="num">3553</td><td class="num rate-heat" style="background:hsl(142.1 73.6% 38.3%);color:hsl(142.1 55.6% 91.2%)">20.12%</td><td class="num">1.00</td><td class="num">7770</td><td class="num">3447</td><td class="num rate-heat" style="background:hsl(128.6 76.2% 41.0%);color:hsl(128.6 58.2% 90.2%)">22.08%</td><td class="num">1.00</td><td class="num">7781</td><td class="num">3379</td><td class="num rate-heat" style="background:hsl(116.5 78.5% 43.5%);color:hsl(116.5 58.0% 18.9%)">23.88%</td><td class="num">1.00</td>
+        <td class="muted">整体风险 21.06%≤35%；分月未过: 2026-08(进件=7866,风险样本=3553,risk=20.12%,lift=1.00); 2026-09(进件=7770,风险样本=3447,risk=22.08%,lift=1.00); 2026-10(进件=7781,风险样本=3379,risk=23.88%,lift=1.00)</td>
+      </tr></tbody>
+    </table>
+  </div></div>
+  </div>
+        <div class="submodule" id="toc-appendix-2" data-sub="附.2" data-collapse-key="appendix-2" data-collapse-level="sub">
+    <div class="collapse-head">
+      <h3 class="submodule-title"><span class="submodule-num">附.2</span><span>训练贷后窗 B 规则命中（含按月）</span></h3>
+      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+    </div>
+    <div class="submodule-body collapse-body"><p class="hint">口径=<b>第1轮挖规工作样本</b>：训练贷后窗·B·未命中硬∪Baseline软，<b>不含</b> Candidates 残差。规则集=Candidates ∪ 近失 ∪ mineLog（expr 去重）。用于与全量 B（扣硬）自查对齐。</p>
+      
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th>表达式</th><th class="num">整体命中进件量</th><th class="num">整体风险样本量</th><th class="num">整体 fpd1风险</th><th class="num">整体 Lift</th>
+        <th class="num">2026-06 命中进件量</th><th class="num">2026-06 风险样本量</th><th class="num">2026-06 fpd1风险</th><th class="num">2026-06 Lift</th><th class="num">2026-07 命中进件量</th><th class="num">2026-07 风险样本量</th><th class="num">2026-07 fpd1风险</th><th class="num">2026-07 Lift</th><th class="num">2026-08 命中进件量</th><th class="num">2026-08 风险样本量</th><th class="num">2026-08 fpd1风险</th><th class="num">2026-08 Lift</th><th class="num">2026-09 命中进件量</th><th class="num">2026-09 风险样本量</th><th class="num">2026-09 fpd1风险</th><th class="num">2026-09 Lift</th><th class="num">2026-10 命中进件量</th><th class="num">2026-10 风险样本量</th><th class="num">2026-10 fpd1风险</th><th class="num">2026-10 Lift</th>
+        <th>来源</th>
+      </tr></thead>
+      <tbody><tr><td colspan="26" class="muted">（无；请重跑 domain 生成 postBHitTables）</td></tr></tbody>
+    </table>
+  </div></div>
+  </div>
+      </div></div>
+  </section>
+
+  </div>
+</main>
+</div>
+<script>
+
+(function () {
+  function cellVal(td, type) {
+    const raw = td.getAttribute("data-sort-value");
+    if (type === "num") {
+      const n = raw === "" || raw == null ? NaN : Number(raw);
+      return Number.isFinite(n) ? n : -Infinity;
+    }
+    return (raw != null ? raw : td.textContent || "").toString();
+  }
+  function pct(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return (Number(x) * 100).toFixed(2) + "%";
+  }
+  function fmtInt(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return Number(x).toLocaleString("zh-CN");
+  }
+  document.querySelectorAll("table.sortable-table").forEach((table) => {
+    const thead = table.tHead;
+    if (!thead) return;
+    thead.addEventListener("click", (e) => {
+      const th = e.target.closest("th.th-sortable");
+      if (!th || !table.contains(th)) return;
+      const type = th.getAttribute("data-sort-type") || "num";
+      const colIdx = Array.prototype.indexOf.call(th.parentNode.children, th);
+      const prev = th.getAttribute("data-sort-dir");
+      const dir = prev === "desc" ? "asc" : "desc";
+      thead.querySelectorAll("th.th-sortable").forEach((x) => x.removeAttribute("data-sort-dir"));
+      th.setAttribute("data-sort-dir", dir);
+      const tbody = table.tBodies[0];
+      const rows = Array.from(tbody.rows);
+      rows.sort((a, b) => {
+        const av = cellVal(a.cells[colIdx], type);
+        const bv = cellVal(b.cells[colIdx], type);
+        let cmp = 0;
+        if (type === "num") cmp = av - bv;
+        else cmp = String(av).localeCompare(String(bv), "zh");
+        return dir === "asc" ? cmp : -cmp;
+      });
+      rows.forEach((r) => tbody.appendChild(r));
+    });
+  });
+
+  document.querySelectorAll("[data-plan-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-plan-tab");
+      const wrap = btn.closest(".plan-tabs-wrap");
+      if (!wrap || !id) return;
+      wrap.querySelectorAll("[data-plan-tab]").forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      wrap.querySelectorAll("[data-plan-panel]").forEach((p) => {
+        p.classList.toggle("is-active", p.id === id);
+      });
+    });
+  });
+
+  const dndByPlan = {};
+  document.querySelectorAll("script.wf-dnd-data").forEach((el) => {
+    const key = el.getAttribute("data-plan-key") || "";
+    try { dndByPlan[key] = JSON.parse(el.textContent || "{}"); } catch (e) { /* ignore */ }
+  });
+
+  function readOrder(tbody) {
+    return Array.from(tbody.querySelectorAll("tr.wf-row"))
+      .map((tr) => tr.getAttribute("data-rule-id"))
+      .filter(Boolean);
+  }
+
+  function applyOrderToTbody(tbody, orderIds) {
+    const map = {};
+    Array.from(tbody.querySelectorAll("tr.wf-row")).forEach((tr) => {
+      map[tr.getAttribute("data-rule-id")] = tr;
+    });
+    orderIds.forEach((id) => {
+      if (map[id]) tbody.appendChild(map[id]);
+    });
+  }
+
+  function recomputePost(dnd, orderIds) {
+    const n = dnd.post.n;
+    const cum = new Array(n).fill(false);
+    const out = {};
+    orderIds.forEach((id) => {
+      const mask = dnd.post.masks[id] || [];
+      let num = 0, den = 0;
+      for (let i = 0; i < n; i++) {
+        if (!cum[i] && mask[i]) {
+          num += dnd.post.fz[i] || 0;
+          den += dnd.post.fm[i] || 0;
+          cum[i] = true;
+        }
+      }
+      out[id] = { wfHitRisk: den > 0 ? num / den : null, wfHitDen: den };
+    });
+    return out;
+  }
+
+  function recomputePre(dnd, orderIds) {
+    const n = dnd.pre.n;
+    const total = dnd.pre.totalApply || 0;
+    const cum = new Array(n).fill(false);
+    const out = {};
+    let cumVol = 0;
+    orderIds.forEach((id) => {
+      const mask = dnd.pre.masks[id] || [];
+      let stepVol = 0;
+      for (let i = 0; i < n; i++) {
+        if (!cum[i] && mask[i]) {
+          stepVol += dnd.pre.apply[i] || 0;
+          cum[i] = true;
+        }
+      }
+      cumVol += stepVol;
+      out[id] = {
+        stepVol,
+        stepRate: total > 0 ? stepVol / total : null,
+        cumVol,
+      };
+    });
+    return out;
+  }
+
+  function paintPost(tbody, metrics) {
+    tbody.querySelectorAll("tr.wf-row").forEach((tr) => {
+      const id = tr.getAttribute("data-rule-id");
+      const m = metrics[id];
+      if (!m) return;
+      const cell = tr.querySelector(".wf-ord-risk");
+      if (!cell) return;
+      cell.innerHTML = pct(m.wfHitRisk) + (m.wfHitDen != null ? '<div class="sub">den ' + m.wfHitDen + "</div>" : "");
+    });
+  }
+
+  function paintPre(tbody, metrics) {
+    tbody.querySelectorAll("tr.wf-row").forEach((tr) => {
+      const id = tr.getAttribute("data-rule-id");
+      const m = metrics[id];
+      if (!m) return;
+      const s = tr.querySelector(".wf-ord-step");
+      const r = tr.querySelector(".wf-ord-step-rate");
+      const c = tr.querySelector(".wf-ord-cum");
+      if (s) s.textContent = fmtInt(m.stepVol);
+      if (r) r.textContent = pct(m.stepRate);
+      if (c) c.textContent = fmtInt(m.cumVol);
+    });
+  }
+
+  function syncPlanOrder(planKey, orderIds, sourceKind) {
+    const dnd = dndByPlan[planKey];
+    if (!dnd || !planKey) return;
+    document.querySelectorAll("table.wf-table").forEach((table) => {
+      if ((table.getAttribute("data-plan-key") || "") !== planKey) return;
+      const kind = table.getAttribute("data-wf-kind") || "";
+      if (kind === "swap-src") return;
+      const tbody = table.tBodies[0];
+      if (!tbody) return;
+      if (kind === "post") {
+        if (sourceKind !== "post") applyOrderToTbody(tbody, orderIds);
+        paintPost(tbody, recomputePost(dnd, orderIds));
+      } else if (kind === "pre") {
+        if (sourceKind !== "pre") applyOrderToTbody(tbody, orderIds);
+        paintPre(tbody, recomputePre(dnd, orderIds));
+      }
+    });
+  }
+
+  function bindWfDnD(tbody, planKey, kind) {
+    if (!tbody || tbody.dataset.wfBound === "1") return;
+    tbody.dataset.wfBound = "1";
+    let dragItem = null, placeholder = null, activePointer = null, orderBefore = "";
+    let rafPending = false, lastY = 0;
+
+    function movePlaceholder(y) {
+      if (!placeholder || !dragItem) return;
+      const rows = Array.from(tbody.querySelectorAll("tr.wf-row")).filter(
+        (row) => row !== dragItem && !row.classList.contains("hard")
+      );
+      let before = null;
+      for (const row of rows) {
+        const rect = row.getBoundingClientRect();
+        if (y < rect.top + rect.height / 2) { before = row; break; }
+      }
+      if (before) tbody.insertBefore(placeholder, before);
+      else if (rows.length) tbody.insertBefore(placeholder, rows[rows.length - 1].nextSibling);
+    }
+
+    function finish(commit) {
+      if (!dragItem || !placeholder) return;
+      tbody.insertBefore(dragItem, placeholder);
+      placeholder.remove();
+      dragItem.classList.remove("wf-dragging", "wf-sort-hidden");
+      if (activePointer != null) {
+        try { dragItem.releasePointerCapture(activePointer); } catch (e) { /* ignore */ }
+      }
+      if (commit) {
+        const order = readOrder(tbody);
+        if (order.join("|") !== orderBefore) syncPlanOrder(planKey, order, kind);
+      }
+      dragItem = null; placeholder = null; activePointer = null; rafPending = false;
+    }
+
+    tbody.addEventListener("pointerdown", (e) => {
+      if (!e.target.closest(".drag-handle:not(.drag-handle-disabled)")) return;
+      const item = e.target.closest("tr.wf-row");
+      if (!item || item.classList.contains("hard")) return;
+      e.preventDefault();
+      dragItem = item;
+      activePointer = e.pointerId;
+      orderBefore = readOrder(tbody).join("|");
+      placeholder = document.createElement("tr");
+      placeholder.className = "waterfall-placeholder-row";
+      placeholder.innerHTML = '<td colspan="' + item.children.length + '"><div class="waterfall-placeholder"></div></td>';
+      tbody.insertBefore(placeholder, item);
+      item.classList.add("wf-sort-hidden", "wf-dragging");
+      item.setPointerCapture(activePointer);
+      lastY = e.clientY;
+    });
+    tbody.addEventListener("pointermove", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      e.preventDefault();
+      lastY = e.clientY;
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        if (dragItem && placeholder) movePlaceholder(lastY);
+      });
+    });
+    tbody.addEventListener("pointerup", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      e.preventDefault();
+      finish(true);
+    });
+    tbody.addEventListener("pointercancel", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      finish(false);
+    });
+  }
+
+  document.querySelectorAll("table.wf-table").forEach((table) => {
+    const planKey = table.getAttribute("data-plan-key") || "";
+    const kind = table.getAttribute("data-wf-kind") || "";
+    if (kind === "swap-src") return; // handled below
+    if (!dndByPlan[planKey]) return;
+    bindWfDnD(table.tBodies[0], planKey, kind);
+  });
+
+  /* —— Swap 用户来源：收起/展开 + 瀑布 DnD（更新序步进） —— */
+  document.querySelectorAll("[data-swap-src-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("aria-controls");
+      const body = id ? document.getElementById(id) : btn.closest(".swap-src-block")?.querySelector(".swap-src-body");
+      if (!body) return;
+      const collapsed = body.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "收起";
+    });
+  });
+
+  const srcDndByKey = {};
+  document.querySelectorAll("script.swap-src-dnd-data").forEach((el) => {
+    try {
+      const planKey = el.getAttribute("data-plan-key") || "";
+      const srcKey = el.getAttribute("data-src-key") || "";
+      srcDndByKey[planKey + "::" + srcKey] = JSON.parse(el.textContent || "{}");
+    } catch (e) { /* ignore */ }
+  });
+
+  function recomputeSrcStep(dnd, orderIds) {
+    const n = dnd.n || 0;
+    const segApply = dnd.segApply || 0;
+    const cum = new Array(n).fill(false);
+    const out = {};
+    orderIds.forEach((id) => {
+      const mask = dnd.masks[id] || [];
+      let stepVol = 0;
+      for (let i = 0; i < n; i++) {
+        if (!cum[i] && mask[i]) {
+          stepVol += dnd.apply[i] || 0;
+          cum[i] = true;
+        }
+      }
+      out[id] = {
+        stepVol,
+        stepRate: segApply > 0 ? stepVol / segApply : null,
+      };
+    });
+    return out;
+  }
+
+  function paintSrcBars(wrap, metrics, orderIds) {
+    if (!wrap) return;
+    const max = Math.max(1, ...orderIds.map((id) => (metrics[id] && metrics[id].stepVol) || 0));
+    orderIds.forEach((id) => {
+      const row = wrap.querySelector('.swap-bar-row[data-rule-id="' + id + '"]');
+      if (!row) return;
+      const v = metrics[id] ? metrics[id].stepVol : 0;
+      const fill = row.querySelector(".bar-fill");
+      const val = row.querySelector(".bar-val");
+      if (fill) fill.style.width = ((v / max) * 100).toFixed(2) + "%";
+      if (val) val.textContent = fmtInt(v);
+    });
+    // reorder bar rows
+    orderIds.forEach((id) => {
+      const row = wrap.querySelector('.swap-bar-row[data-rule-id="' + id + '"]');
+      if (row) wrap.appendChild(row);
+    });
+  }
+
+  function paintSrcTable(tbody, metrics) {
+    tbody.querySelectorAll("tr.wf-row").forEach((tr) => {
+      const id = tr.getAttribute("data-rule-id");
+      const m = metrics[id];
+      if (!m) return;
+      const s = tr.querySelector(".src-step");
+      const r = tr.querySelector(".src-step-rate");
+      if (s) s.textContent = fmtInt(m.stepVol);
+      if (r) r.textContent = pct(m.stepRate);
+    });
+  }
+
+  function bindSrcWfDnD(tbody, dndKey) {
+    if (!tbody || tbody.dataset.wfBound === "1") return;
+    tbody.dataset.wfBound = "1";
+    const dnd = srcDndByKey[dndKey];
+    if (!dnd) return;
+    let dragItem = null, placeholder = null, activePointer = null, orderBefore = "";
+    let rafPending = false, lastY = 0;
+
+    function movePlaceholder(y) {
+      if (!placeholder || !dragItem) return;
+      const rows = Array.from(tbody.querySelectorAll("tr.wf-row")).filter(
+        (row) => row !== dragItem && !row.classList.contains("hard")
+      );
+      let before = null;
+      for (const row of rows) {
+        const rect = row.getBoundingClientRect();
+        if (y < rect.top + rect.height / 2) { before = row; break; }
+      }
+      if (before) tbody.insertBefore(placeholder, before);
+      else if (rows.length) tbody.insertBefore(placeholder, rows[rows.length - 1].nextSibling);
+    }
+
+    function finish(commit) {
+      if (!dragItem || !placeholder) return;
+      tbody.insertBefore(dragItem, placeholder);
+      placeholder.remove();
+      dragItem.classList.remove("wf-dragging", "wf-sort-hidden");
+      if (activePointer != null) {
+        try { dragItem.releasePointerCapture(activePointer); } catch (e) { /* ignore */ }
+      }
+      if (commit) {
+        const order = readOrder(tbody);
+        if (order.join("|") !== orderBefore) {
+          const metrics = recomputeSrcStep(dnd, order);
+          paintSrcTable(tbody, metrics);
+          const table = tbody.closest("table");
+          const block = table && table.closest(".swap-src-body, .swap-src-block");
+          const bars = block && table.parentElement && table.parentElement.previousElementSibling;
+          const barWrap = (table.parentElement && table.parentElement.previousElementSibling && table.parentElement.previousElementSibling.matches && table.parentElement.previousElementSibling.matches("[data-src-bars]"))
+            ? table.parentElement.previousElementSibling
+            : (block && block.querySelector("[data-src-bars]"));
+          // prefer bars immediately before table-wrap
+          let chart = null;
+          if (table.parentElement && table.parentElement.previousElementSibling) {
+            const prev = table.parentElement.previousElementSibling;
+            if (prev.hasAttribute && prev.hasAttribute("data-src-bars")) chart = prev;
+          }
+          paintSrcBars(chart || barWrap, metrics, order);
+        }
+      }
+      dragItem = null; placeholder = null; activePointer = null; rafPending = false;
+    }
+
+    tbody.addEventListener("pointerdown", (e) => {
+      if (!e.target.closest(".drag-handle:not(.drag-handle-disabled)")) return;
+      const item = e.target.closest("tr.wf-row");
+      if (!item || item.classList.contains("hard")) return;
+      e.preventDefault();
+      dragItem = item;
+      activePointer = e.pointerId;
+      orderBefore = readOrder(tbody).join("|");
+      placeholder = document.createElement("tr");
+      placeholder.className = "waterfall-placeholder-row";
+      placeholder.innerHTML = '<td colspan="' + item.children.length + '"><div class="waterfall-placeholder"></div></td>';
+      tbody.insertBefore(placeholder, item);
+      item.classList.add("wf-sort-hidden", "wf-dragging");
+      item.setPointerCapture(activePointer);
+      lastY = e.clientY;
+    });
+    tbody.addEventListener("pointermove", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      e.preventDefault();
+      lastY = e.clientY;
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        if (dragItem && placeholder) movePlaceholder(lastY);
+      });
+    });
+    tbody.addEventListener("pointerup", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      e.preventDefault();
+      finish(true);
+    });
+    tbody.addEventListener("pointercancel", (e) => {
+      if (!dragItem || e.pointerId !== activePointer) return;
+      finish(false);
+    });
+  }
+
+  document.querySelectorAll("table.swap-src-table").forEach((table) => {
+    const planKey = table.getAttribute("data-plan-key") || "";
+    const srcKey = table.getAttribute("data-src-key") || "";
+    bindSrcWfDnD(table.tBodies[0], planKey + "::" + srcKey);
+  });
+
+  /* —— 章节 / 子模块收起（仅收起，不隐藏；localStorage 记忆） —— */
+  const COLLAPSE_LS = "admission-report-collapse-v1";
+  function loadCollapseState() {
+    try { return JSON.parse(localStorage.getItem(COLLAPSE_LS) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function saveCollapseState(state) {
+    try { localStorage.setItem(COLLAPSE_LS, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  }
+  function setCollapsed(el, collapsed) {
+    el.classList.toggle("is-collapsed", collapsed);
+    const btn = el.querySelector(":scope > .collapse-head .collapse-toggle");
+    if (!btn) return;
+    btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    btn.textContent = collapsed ? "展开" : "收起";
+  }
+  const collapseState = loadCollapseState();
+  document.querySelectorAll("[data-collapse-key]").forEach((el) => {
+    const key = el.getAttribute("data-collapse-key");
+    if (!key || !(key in collapseState)) return;
+    setCollapsed(el, !!collapseState[key]);
+  });
+  document.querySelectorAll(".collapse-toggle").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const host = btn.closest("[data-collapse-key]");
+      if (!host) return;
+      const key = host.getAttribute("data-collapse-key");
+      const collapsed = !host.classList.contains("is-collapsed");
+      setCollapsed(host, collapsed);
+      if (key) {
+        collapseState[key] = collapsed;
+        saveCollapseState(collapseState);
+      }
+    });
+  });
+
+  /* —— 左侧目录：滚动高亮 + 移动端抽屉 —— */
+  const toc = document.getElementById("reportToc");
+  const tocBtn = document.getElementById("tocMobileBtn");
+  const tocBackdrop = document.getElementById("tocBackdrop");
+  function closeToc() {
+    if (toc) toc.classList.remove("is-open");
+    if (tocBackdrop) tocBackdrop.classList.remove("is-open");
+  }
+  function openToc() {
+    if (toc) toc.classList.add("is-open");
+    if (tocBackdrop) tocBackdrop.classList.add("is-open");
+  }
+  if (tocBtn) tocBtn.addEventListener("click", () => {
+    if (toc && toc.classList.contains("is-open")) closeToc();
+    else openToc();
+  });
+  if (tocBackdrop) tocBackdrop.addEventListener("click", closeToc);
+  function revealTocTarget(el) {
+    if (!el) return;
+    const hosts = [];
+    const sec = el.closest(".report-section");
+    if (sec) hosts.push(sec);
+    if (el.classList.contains("submodule") || el.hasAttribute("data-collapse-key")) hosts.push(el);
+    hosts.forEach((host) => {
+      if (!host.classList.contains("is-collapsed")) return;
+      setCollapsed(host, false);
+      const key = host.getAttribute("data-collapse-key");
+      if (key) {
+        collapseState[key] = false;
+        saveCollapseState(collapseState);
+      }
+    });
+  }
+  document.querySelectorAll("[data-toc-link]").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const id = a.getAttribute("data-toc-link");
+      const el = id && document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      revealTocTarget(el);
+      closeToc();
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ block: "start" });
+        try { history.replaceState(null, "", "#" + id); } catch (err) { /* ignore */ }
+      });
+    });
+  });
+  const tocLinks = Array.from(document.querySelectorAll("[data-toc-link]"));
+  function tocTargetTop(el) {
+    return el.getBoundingClientRect().top + window.scrollY;
+  }
+  function tocTargetVisible(el) {
+    const sec = el.closest(".report-section");
+    if (sec && sec.classList.contains("is-collapsed") && el !== sec) return false;
+    return true;
+  }
+  function syncTocActive() {
+    const targets = tocLinks
+      .map((a) => document.getElementById(a.getAttribute("data-toc-link") || ""))
+      .filter((el) => el && tocTargetVisible(el));
+    if (!targets.length) return;
+    const y = window.scrollY + 96;
+    let active = targets[0];
+    for (const el of targets) {
+      if (tocTargetTop(el) <= y) active = el;
+    }
+    tocLinks.forEach((a) => {
+      a.classList.toggle("is-active", a.getAttribute("data-toc-link") === active.id);
+      a.classList.remove("is-parent-active");
+    });
+    const activeLink = tocLinks.find((a) => a.getAttribute("data-toc-link") === active.id);
+    const group = activeLink && activeLink.closest(".toc-group");
+    if (group && activeLink.classList.contains("toc-sub-link")) {
+      const parentA = group.querySelector(":scope > a");
+      if (parentA && parentA !== activeLink) parentA.classList.add("is-parent-active");
+    }
+  }
+  window.addEventListener("scroll", syncTocActive, { passive: true });
+  syncTocActive();
+
+  function fmtPctJs(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return (Number(x) * 100).toFixed(2) + "%";
+  }
+  function fmtLiftJs(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return Number(x).toFixed(2);
+  }
+  function fmtNumJs(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return Number(x).toLocaleString("zh-CN");
+  }
+  document.querySelectorAll("[data-bin-combo]").forEach((wrap) => {
+    const tip = wrap.querySelector(".bin-combo-tip");
+    const raw = wrap.querySelector(".bin-combo-data");
+    const plot = wrap.querySelector(".bin-combo-plot");
+    const svg = wrap.querySelector("svg");
+    if (!tip || !raw || !plot || !svg) return;
+    let rows = [];
+    try { rows = JSON.parse(raw.value || raw.textContent || "[]"); } catch (e) { return; }
+    if (!rows.length) return;
+    const padL = Number(wrap.getAttribute("data-pad-l") || 48);
+    const padR = Number(wrap.getAttribute("data-pad-r") || 70);
+    const vbW = Number(wrap.getAttribute("data-vb-w") || 720);
+    function hideTip() { tip.hidden = true; }
+    function showTip(e) {
+      const r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      const x = (e.clientX - r.left) * (vbW / r.width);
+      if (x < padL || x > vbW - padR) { hideTip(); return; }
+      const i = Math.min(rows.length - 1, Math.max(0, Math.floor((x - padL) / ((vbW - padL - padR) / rows.length))));
+      const p = rows[i];
+      if (!p) { hideTip(); return; }
+      tip.hidden = false;
+      tip.innerHTML =
+        "<div><b>箱 " + p.i + "</b> · <code>" + String(p.label || "").replace(/</g, "&lt;") + "</code></div>" +
+        "<div><span class='k'>分子/分母</span> " + fmtNumJs(p.num) + "/" + fmtNumJs(p.den) + "</div>" +
+        "<div><span class='k'>分母占比</span> " + fmtPctJs(p.denShare) + "</div>" +
+        "<div><span class='k'>风险</span> " + fmtPctJs(p.rate) + "</div>" +
+        "<div><span class='k'>Lift</span> " + fmtLiftJs(p.lift) + "</div>";
+      let left = e.clientX + 14;
+      let top = e.clientY + 14;
+      const tw = tip.offsetWidth || 180;
+      const th = tip.offsetHeight || 90;
+      if (left + tw > window.innerWidth - 8) left = e.clientX - tw - 12;
+      if (top + th > window.innerHeight - 8) top = e.clientY - th - 12;
+      tip.style.left = Math.max(8, left) + "px";
+      tip.style.top = Math.max(8, top) + "px";
+    }
+    plot.addEventListener("mousemove", showTip);
+    plot.addEventListener("mouseleave", hideTip);
+  });
+})();
+
+</script>
   <script src="../assets/site-nav.js"></script>
-  <script src="../assets/demo-sample.js"></script>
-  <script src="src/ui.js"></script>
-  <script src="src/app.js"></script>
 </body>
 </html>

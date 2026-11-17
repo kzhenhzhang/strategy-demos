@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="zh-CN" style="--sd-nav-h: 48px;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>策略复盘与规则挖掘（离线单页版）</title>
-  <link rel="stylesheet" href="../assets/theme.css" />
-  <link rel="stylesheet" href="../assets/site.css" />
-  <link rel="stylesheet" href="src/styles/app-layout.css?v=20260724-drRestore1" />
-  <link rel="stylesheet" href="src/styles/profitability.css?v=20260714-binBar" />
-  <link rel="stylesheet" href="src/styles/risk-target.css?v=20260714-binBar" />
-  <link rel="stylesheet" href="src/styles/el-allocator.css?v=20260724-ea2" />
-  <link rel="stylesheet" href="src/styles/attribution.css?v=20260827-attrOrd" />
-  <link rel="stylesheet" href="src/styles/daily-review.css?v=20260827-drFold" />
+  <link rel="stylesheet" href="../assets/theme.css">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="src/styles/app-layout.css?v=20260724-drRestore1">
+  <link rel="stylesheet" href="src/styles/profitability.css?v=20260714-binBar">
+  <link rel="stylesheet" href="src/styles/risk-target.css?v=20260714-binBar">
+  <link rel="stylesheet" href="src/styles/el-allocator.css?v=20260724-ea2">
+  <link rel="stylesheet" href="src/styles/attribution.css?v=20260827-attrOrd">
+  <link rel="stylesheet" href="src/styles/daily-review.css?v=20260827-drFold">
 </head>
-<body class="rv-workbench-active">
+<body class="rv-workbench-active"><header class="sd-nav" role="navigation" aria-label="策略工具"><a class="sd-brand" href="../index.html">策略工具</a><a href="../review/" class="is-current" aria-current="page">策略复盘</a><a href="../iterate/">策略迭代</a><a href="../daily/">日常检视</a><a href="../platform/">全平台检视</a><span class="sd-note">合成示例 · 计算在浏览器内</span></header>
   <!-- 营销首页：打开 HTML 优先展示（含分析流程与三件事） -->
-  <div id="rvLanding" class="rv-landing" hidden>
+  <div id="rvLanding" class="rv-landing" hidden="">
     <header class="rv-landing-hero" role="banner">
       <div class="rv-landing-inner">
         <h1 class="rv-landing-title">策略复盘与规则挖掘</h1>
@@ -35,7 +34,7 @@
           <div class="rv-landing-step">
             <div class="rv-landing-step-num">步骤 1</div>
             <h3>数据接入</h3>
-            <p>上传 CSV，完成字段识别与列类型初始化。</p>
+            <p>示例已载入，字段已识别。</p>
           </div>
           <div class="rv-landing-step">
             <div class="rv-landing-step-num">步骤 2</div>
@@ -87,85 +86,106 @@
       <a href="../index.html">返回门户</a>
     </p>
   </header>
-  <div id="rvProvenanceBar" class="rv-provenance-bar" role="status" aria-live="polite">样本未加载 · 规则 — · 结果 —</div>
+  <div id="rvProvenanceBar" class="rv-provenance-bar" role="status" aria-live="polite"><span>样本 1,530 行</span> · <span>规则 0</span> · <span>Baseline 跟随侧栏</span> · <span class="pv-ok">结果较新</span></div>
 
   <div class="layout">
     <aside class="sidebar">
       <section class="workflow-stepper">
         <h2>分析流程</h2>
         <div class="workflow-step-list" id="workflowStepList">
-          <div class="workflow-step-item active" data-step-item="1">
+          <div class="workflow-step-item" data-step-item="1">
             <button type="button" class="workflow-step-btn" data-step-target="1">
               <span class="workflow-step-summary"><span class="workflow-step-title">1. 数据接入</span><span class="workflow-step-chevron">▾</span></span>
-              <span class="workflow-step-status" id="workflowStepStatus1">进行中</span>
+              <span class="workflow-step-status done" id="workflowStepStatus1">已完成</span>
             </button>
-            <p class="workflow-step-detail" id="workflowStepDetail1">上传 CSV，完成字段识别与列类型初始化。</p>
+            <p class="workflow-step-detail" id="workflowStepDetail1">示例已载入，字段已识别。</p>
           </div>
           <div class="workflow-step-item" data-step-item="2">
             <button type="button" class="workflow-step-btn" data-step-target="2">
               <span class="workflow-step-summary"><span class="workflow-step-title">2. 样本与规则</span><span class="workflow-step-chevron">▾</span></span>
-              <span class="workflow-step-status" id="workflowStepStatus2">待开始</span>
+              <span class="workflow-step-status done" id="workflowStepStatus2">已完成</span>
             </button>
             <p class="workflow-step-detail" id="workflowStepDetail2">配置贷前/贷后样本、风险比率和规则组合。</p>
           </div>
-          <div class="workflow-step-item" data-step-item="3">
-            <button type="button" class="workflow-step-btn" data-step-target="3">
+          <div class="workflow-step-item active" data-step-item="3">
+            <button type="button" class="workflow-step-btn active" data-step-target="3">
               <span class="workflow-step-summary"><span class="workflow-step-title">3. 生成与导出</span><span class="workflow-step-chevron">▾</span></span>
-              <span class="workflow-step-status" id="workflowStepStatus3">待开始</span>
+              <span class="workflow-step-status done" id="workflowStepStatus3">已完成</span>
             </button>
-            <p class="workflow-step-detail" id="workflowStepDetail3">生成主报告；下载时可勾选要导出的 Tab。</p>
+            <p class="workflow-step-detail" id="workflowStepDetail3">主报告已生成，可下载 HTML 或重新生成。</p>
           </div>
         </div>
-        <p id="workflowStatusLine" class="workflow-status-line">样本未配 · 规则 0 · 报告未生成</p>
+        <p id="workflowStatusLine" class="workflow-status-line">样本已配（比率 3） · 规则 0 · 报告已生成</p>
       </section>
 
-      <section class="sidebar-module" id="panelFileConfig" data-workflow-step="1">
+      <section class="sidebar-module" id="panelFileConfig" data-workflow-step="1" hidden="">
         <h2 class="sidebar-module-title">文件配置</h2>
-        <label>上传 CSV</label>
-        <input type="file" id="csvFile" accept=".csv,text/csv" />
-        <button type="button" class="btn btn-secondary btn-sm" id="btnLoadSample">载入示例</button>
-        <p id="loadStatus" class="status">正在载入合成示例…</p>
-        <div class="import-config-block is-locked" id="importConfigBlock">
-          <label>导入配置 JSON</label>
-          <input type="file" id="configFile" accept=".json,application/json" hidden />
-          <button type="button" class="btn btn-secondary btn-sm" id="btnImportConfig" disabled>导入配置 JSON</button>
-          <p id="importConfigHint" class="sidebar-hint">请先上传 CSV 后再导入配置</p>
+        
+        
+        
+        <p id="loadStatus" class="status ok">示例已载入 · 1,530 行</p>
+        <div class="import-config-block" id="importConfigBlock">
+          
+          
+          
+          
           <p id="configImportStatus" class="status"></p>
         </div>
       </section>
 
-      <section class="sidebar-module" id="panelPostSample" data-workflow-step="2" hidden>
+      <section class="sidebar-module" id="panelPostSample" data-workflow-step="2" hidden="">
         <h2 class="sidebar-module-title">贷后样本定义</h2>
         <div class="sidebar-section" id="postSampleBlock">
           <h3 class="sidebar-section-title">样本筛选</h3>
           <div class="sidebar-sub-block sample-sub-filter">
             <h5>筛选字段</h5>
-            <div id="postPrimaryFilterSelected" class="sample-filter-selected-tags"></div>
-            <div id="postPrimaryFilterEditor" class="sample-filter-editor-panel" hidden>
+            <div id="postPrimaryFilterSelected" class="sample-filter-selected-tags"><span class="sample-filter-tag sample-filter-tag-primary" title="决策组（不选=全部）" data-prefix="post" data-sample-primary="1"><span class="sample-filter-tag-text">决策组 · 全部</span></span></div>
+            <div id="postPrimaryFilterEditor" class="sample-filter-editor-panel" hidden="">
               <div class="sample-filter-editor-head">
                 <span>编辑主筛选</span>
                 <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="post" data-sample-primary="1">完成</button>
               </div>
               <label>字段</label>
-              <select id="postPrimaryFilterCol"></select>
+              <select id="postPrimaryFilterCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option></select>
               <div id="postPrimaryFilterEditorBody" class="primary-filter-ui"></div>
             </div>
-            <div id="postPrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden aria-hidden="true"></div>
+            <div id="postPrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden="" aria-hidden="true"><div class="filter-rule primary-filter-rule" data-mode="enum">
+    <div class="filter-rule-time-wrap" style="display:none">
+      <div class="filter-time-row">
+        <label class="filter-time-label rv-heading-with-hint">起<span class="rv-hint rv-tip-anchor" data-rv-tip="时间区间含两端；不选=全部" tabindex="0" role="img" aria-label="说明：时间区间含两端；不选=全部">ⓘ</span><select class="filter-time-min"></select></label>
+        <span class="filter-time-sep">至</span>
+        <label class="filter-time-label">止<select class="filter-time-max"></select></label>
+      </div>
+      <div class="filter-time-actions">
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="3">最近 3 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="6">最近 6 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-mode-enum-from-time-btn">枚举点选</button>
+      </div>
+    </div>
+    <div class="filter-rule-enum-wrap" style="display: block;">
+      <div class="filter-rule-tags"></div>
+      <div class="filter-value-combo">
+        <input type="search" class="chk-filter-input filter-rule-values-search" placeholder="搜索并添加取值…" autocomplete="off">
+        <div class="filter-value-dropdown" style="display:none"></div>
+      </div>
+      <div class="filter-rule-values filter-rule-values-hidden" aria-hidden="true"></div>
+      <button type="button" class="btn btn-secondary btn-sm filter-mode-time-btn" style="display:none">时间区间</button>
+    </div></div></div>
             <p id="postPrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
           </div>
           <div class="sidebar-sub-block sample-sub-filter">
             <h5>额外筛选（且）</h5>
-            <div id="postFilterSelected" class="sample-filter-selected-tags"></div>
-            <div id="postFilterEditor" class="sample-filter-editor-panel" hidden>
+            <div id="postFilterSelected" class="sample-filter-selected-tags"><p class="sample-filter-selected-empty">无额外筛选 · 点击「+ 筛选」添加</p></div>
+            <div id="postFilterEditor" class="sample-filter-editor-panel" hidden="">
               <div class="sample-filter-editor-head">
                 <span id="postFilterEditorTitle">编辑筛选</span>
                 <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="post">完成</button>
               </div>
               <div id="postFilterEditorBody"></div>
             </div>
-            <div id="postFilterRules" class="sample-filter-rules-pool" hidden aria-hidden="true"></div>
+            <div id="postFilterRules" class="sample-filter-rules-pool" hidden="" aria-hidden="true" data-rv-da-invalidate-bound="1"></div>
             <div class="filter-add-row">
-              <input type="search" id="postFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" />
+              <input type="search" id="postFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off">
               <button type="button" class="btn btn-secondary btn-sm" id="addPostFilter">+ 筛选</button>
             </div>
             <div class="batch-actions-inline">
@@ -177,13 +197,25 @@
         </div>
         <div class="sidebar-section" id="panelPostRatio">
           <h3 class="sidebar-section-title">贷后风险定义</h3>
-          <div id="ratioRows"></div>
+          <div id="ratioRows" data-rv-da-invalidate-bound="1"><div class="ratio-row">
+    <div><label>名称</label><input type="text" class="ratio-name" value="fpd1_cnt%"></div>
+    <div><label>分子列</label><select class="ratio-num"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <div><label>分母列</label><select class="ratio-den"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <button type="button" class="btn btn-secondary btn-sm ratio-remove">删</button></div><div class="ratio-row">
+    <div><label>名称</label><input type="text" class="ratio-name" value="fpd7_cnt%"></div>
+    <div><label>分子列</label><select class="ratio-num"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <div><label>分母列</label><select class="ratio-den"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <button type="button" class="btn btn-secondary btn-sm ratio-remove">删</button></div><div class="ratio-row">
+    <div><label>名称</label><input type="text" class="ratio-name" value="dpd_cnt%"></div>
+    <div><label>分子列</label><select class="ratio-num"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <div><label>分母列</label><select class="ratio-den"><option value="决策组">决策组</option><option value="提交日期">提交日期</option><option value="submit_date">submit_date</option><option value="submit_month">submit_month</option><option value="客群">客群</option><option value="渠道">渠道</option><option value="进件量">进件量</option><option value="通过量">通过量</option><option value="放款订单数">放款订单数</option><option value="放款金额">放款金额</option><option value="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score">p3_demo_score</option><option value="模型分">模型分</option></select></div>
+    <button type="button" class="btn btn-secondary btn-sm ratio-remove">删</button></div></div>
           <button type="button" class="btn btn-secondary btn-sm" id="addRatio">+ 添加比率</button>
         </div>
       </section>
 
-      <section class="sidebar-module is-collapsed" id="panelPreSample" data-workflow-step="2" hidden>
-        <h2 class="sidebar-module-title sidebar-module-title--toggle rv-heading-with-hint" id="panelPreSampleToggle" role="button" tabindex="0" aria-expanded="false" title="点击展开/收起贷前样本（默认折叠以减滚动）">
+      <section class="sidebar-module is-collapsed" id="panelPreSample" data-workflow-step="2" hidden="">
+        <h2 class="sidebar-module-title sidebar-module-title--toggle rv-heading-with-hint" id="panelPreSampleToggle" role="button" tabindex="0" aria-expanded="false" title="点击展开/收起贷前样本（默认折叠以减滚动）" data-rv-fold-bound="1">
           贷前样本定义
           <span class="rv-hint rv-tip-anchor" data-rv-tip="默认折叠；供 Swap/贷前分析" tabindex="0" role="img" aria-label="说明">ⓘ</span>
           <span class="sidebar-module-chevron" aria-hidden="true">▸</span>
@@ -193,32 +225,53 @@
           <h3 class="sidebar-section-title">样本筛选</h3>
           <div class="sidebar-sub-block sample-sub-filter">
             <h5>筛选字段</h5>
-            <div id="prePrimaryFilterSelected" class="sample-filter-selected-tags"></div>
-            <div id="prePrimaryFilterEditor" class="sample-filter-editor-panel" hidden>
+            <div id="prePrimaryFilterSelected" class="sample-filter-selected-tags"><span class="sample-filter-tag sample-filter-tag-primary" title="决策组（不选=全部）" data-prefix="pre" data-sample-primary="1"><span class="sample-filter-tag-text">决策组 · 全部</span></span></div>
+            <div id="prePrimaryFilterEditor" class="sample-filter-editor-panel" hidden="">
               <div class="sample-filter-editor-head">
                 <span>编辑主筛选</span>
                 <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="pre" data-sample-primary="1">完成</button>
               </div>
               <label>字段</label>
-              <select id="prePrimaryFilterCol"></select>
+              <select id="prePrimaryFilterCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option></select>
               <div id="prePrimaryFilterEditorBody" class="primary-filter-ui"></div>
             </div>
-            <div id="prePrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden aria-hidden="true"></div>
+            <div id="prePrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden="" aria-hidden="true"><div class="filter-rule primary-filter-rule" data-mode="enum">
+    <div class="filter-rule-time-wrap" style="display:none">
+      <div class="filter-time-row">
+        <label class="filter-time-label rv-heading-with-hint">起<span class="rv-hint rv-tip-anchor" data-rv-tip="时间区间含两端；不选=全部" tabindex="0" role="img" aria-label="说明：时间区间含两端；不选=全部">ⓘ</span><select class="filter-time-min"></select></label>
+        <span class="filter-time-sep">至</span>
+        <label class="filter-time-label">止<select class="filter-time-max"></select></label>
+      </div>
+      <div class="filter-time-actions">
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="3">最近 3 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="6">最近 6 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-mode-enum-from-time-btn">枚举点选</button>
+      </div>
+    </div>
+    <div class="filter-rule-enum-wrap" style="display: block;">
+      <div class="filter-rule-tags"></div>
+      <div class="filter-value-combo">
+        <input type="search" class="chk-filter-input filter-rule-values-search" placeholder="搜索并添加取值…" autocomplete="off">
+        <div class="filter-value-dropdown" style="display:none"></div>
+      </div>
+      <div class="filter-rule-values filter-rule-values-hidden" aria-hidden="true"></div>
+      <button type="button" class="btn btn-secondary btn-sm filter-mode-time-btn" style="display:none">时间区间</button>
+    </div></div></div>
             <p id="prePrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
           </div>
           <div class="sidebar-sub-block sample-sub-filter">
             <h5>额外筛选（且）</h5>
-            <div id="preFilterSelected" class="sample-filter-selected-tags"></div>
-            <div id="preFilterEditor" class="sample-filter-editor-panel" hidden>
+            <div id="preFilterSelected" class="sample-filter-selected-tags"><p class="sample-filter-selected-empty">无额外筛选 · 点击「+ 筛选」添加</p></div>
+            <div id="preFilterEditor" class="sample-filter-editor-panel" hidden="">
               <div class="sample-filter-editor-head">
                 <span id="preFilterEditorTitle">编辑筛选</span>
                 <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="pre">完成</button>
               </div>
               <div id="preFilterEditorBody"></div>
             </div>
-            <div id="preFilterRules" class="sample-filter-rules-pool" hidden aria-hidden="true"></div>
+            <div id="preFilterRules" class="sample-filter-rules-pool" hidden="" aria-hidden="true" data-rv-da-invalidate-bound="1"></div>
             <div class="filter-add-row">
-              <input type="search" id="preFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" />
+              <input type="search" id="preFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off">
               <button type="button" class="btn btn-secondary btn-sm" id="addPreFilter">+ 筛选</button>
             </div>
             <div class="batch-actions-inline">
@@ -230,9 +283,9 @@
         </div>
       </section>
 
-      <section class="sidebar-module" id="panelRules" data-workflow-step="2" hidden>
+      <section class="sidebar-module" id="panelRules" data-workflow-step="2" hidden="">
         <h2 class="sidebar-module-title rv-heading-with-hint">当前规则配置 <span class="config-muted" style="font-weight:400;font-size:.75rem">Baseline · 线上策略</span><span class="rv-hint rv-tip-anchor" data-rv-tip="0-1可选硬/软；数值固定软；空值不命中" tabindex="0" role="img" aria-label="说明：0-1可选硬/软；数值固定软；空值不命中">ⓘ</span></h2>
-        <div id="ruleConfigRows"></div>
+        <div id="ruleConfigRows" data-rv-da-invalidate-bound="1"></div>
         <div class="rule-actions-primary">
           <div class="rule-actions-primary-row">
             <button type="button" class="btn btn-primary btn-sm" id="btnRuleCreatePrimary">+ 新建规则</button>
@@ -244,7 +297,7 @@
           </div>
         </div>
         <button type="button" class="btn btn-secondary btn-sm rule-bulk-toggle" id="btnRuleBulkToggle" aria-expanded="false">批量操作 ▾</button>
-        <div class="rule-config-actions rule-bulk-panel" id="ruleBulkPanel" hidden>
+        <div class="rule-config-actions rule-bulk-panel" id="ruleBulkPanel" hidden="">
           <button type="button" class="btn btn-secondary btn-sm" id="btnRulesAllSoft">全部设为软规则</button>
           <button type="button" class="btn btn-secondary btn-sm" id="btnRulesAllHard">全部设为硬规则</button>
           <button type="button" class="btn btn-secondary btn-sm rule-btn-danger" id="btnRulesClearAll">清空全部规则</button>
@@ -254,183 +307,1335 @@
           <div class="rule-config-actions rules-pack-toolbar">
             <button type="button" class="btn btn-secondary btn-sm" id="btnImportStrategyRules">导入策略规则包</button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnExportStrategyRules">导出 strategy-rules.json</button>
-            <input type="file" id="strategyRulesFile" accept=".json,application/json" hidden />
+            
           </div>
         </div>
         <p id="strategyRulesImportStatus" class="status"></p>
       </section>
 
-      <section class="sidebar-actions" data-workflow-step="3" hidden>
-        <p id="analyzeStatus" class="status"></p>
-        <button type="button" class="btn btn-primary" id="btnAnalyze" disabled>生成分析报告</button>
-        <button type="button" class="btn btn-secondary" id="btnDownload" disabled>下载报告 HTML</button>
+      <section class="sidebar-actions" data-workflow-step="3">
+        <p id="analyzeStatus" class="status ok">分析完成</p>
+        
+        
       </section>
     </aside>
 
     <main class="content">
-      <div class="tabs tabs--grouped" id="reportTabs">
+      <div class="tabs tabs--grouped" id="reportTabs" style="display: flex;">
         <div class="tab-group" data-tab-group="status">
           <span class="tab-group-label">现状分析</span>
           <div class="tab-group-btns">
-            <button type="button" class="tab-btn active" data-tab="post" data-requires-csv="1">贷后风险</button>
-            <button type="button" class="tab-btn" data-tab="pre" data-requires-csv="1">贷前策略</button>
-            <button type="button" class="tab-btn" data-tab="attribution" data-requires-csv="1">异动归因</button>
+            <button type="button" class="tab-btn active" data-tab="post" data-requires-csv="1" aria-disabled="false">贷后风险</button>
+            <button type="button" class="tab-btn" data-tab="pre" data-requires-csv="1" aria-disabled="false">贷前策略</button>
+            <button type="button" class="tab-btn" data-tab="attribution" data-requires-csv="1" aria-disabled="false">异动归因</button>
           </div>
         </div>
         <div class="tab-group" data-tab-group="mining">
           <span class="tab-group-label">策略挖掘</span>
           <div class="tab-group-btns">
-            <button type="button" class="tab-btn" data-tab="analysis" data-requires-csv="1">数据分析</button>
+            <button type="button" class="tab-btn" data-tab="analysis" data-requires-csv="1" aria-disabled="false">数据分析</button>
           </div>
         </div>
         <div class="tab-group" data-tab-group="eval">
           <span class="tab-group-label">策略评估</span>
           <div class="tab-group-btns">
-            <button type="button" class="tab-btn" data-tab="validity" data-requires-csv="1">规则有效性检查</button>
+            <button type="button" class="tab-btn" data-tab="validity" data-requires-csv="1" aria-disabled="false">规则有效性检查</button>
           </div>
         </div>
         <div class="tab-group" data-tab-group="other">
           <span class="tab-group-label">其他</span>
           <div class="tab-group-btns">
-            <button type="button" class="tab-btn" data-tab="profitability">盈利性测算</button>
-            <button type="button" class="tab-btn" data-tab="riskTarget">风险目标测算</button>
-            <button type="button" class="tab-btn" data-tab="elAllocator">资产包 EL 调配</button>
+            <button type="button" class="tab-btn" data-tab="profitability" aria-disabled="false">盈利性测算</button>
+            <button type="button" class="tab-btn" data-tab="riskTarget" aria-disabled="false">风险目标测算</button>
+            <button type="button" class="tab-btn" data-tab="elAllocator" aria-disabled="false">资产包 EL 调配</button>
           </div>
         </div>
-        <label class="tabs-view-toggle"><input type="checkbox" id="toggleSummaryMode" /> 摘要模式（隐藏明细表）</label>
+        <label class="tabs-view-toggle"><input type="checkbox" id="toggleSummaryMode"> 摘要模式（隐藏明细表）</label>
       </div>
-      <div id="report-output">
-        <div id="csvNextStepBanner" class="csv-next-step-banner" hidden>
-          CSV 已加载。下一步：在左侧「样本与规则」配置贷后/贷前与规则，然后点 <b>生成分析报告</b>。也可继续使用「盈利性测算 / 风险目标测算 / 资产包 EL 调配」（无需报告）。
+      <div id="report-output" data-rv-interaction-bound="1" data-rv-collapsed-picker-bound="1"><div class="report-document"><section id="tab-post" data-config-panel-toggle-bound="1" class="section-visible"><h2>贷后风险</h2>
+    <div id="postStaleBanner" class="rv-stale-banner" role="status">
+      <span>侧栏样本/规则/比率已变，贷后结果可能过期。</span>
+      <button type="button" class="btn btn-secondary btn-sm" id="postStaleRerunBtn" data-rv-bound="1">重新生成分析报告</button>
+    </div>
+    <div class="da-config-panel rv-wb-config-accordion is-collapsed" id="postConfigAccordion">
+      <div class="da-panel-header" data-config-panel-toggle="postConfigAccordion" role="button" tabindex="0">
+        <span class="da-panel-title-text">配置</span>
+        <span class="da-panel-summary" id="postConfigAccordionSummary">样本 1,530</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <div class="rv-wb-meta" id="postSampleInfoMount"><span class="rv-wb-meta-primary">贷后样本 <b>1,530</b>
+      <span class="rv-wb-meta-sub">/ 全量 1,530</span></span>
+    <span class="rv-chip" title="决策组：全部">决策组：全部</span></div>
+      </div>
+    </div>
+    <div class="da-config-panel rv-wb-config-accordion is-collapsed" id="postGroupAccordion">
+      <div class="da-panel-header" data-config-panel-toggle="postGroupAccordion" role="button" tabindex="0">
+        <span class="da-panel-title-text rv-heading-with-hint">分组变量<span class="rv-hint rv-tip-anchor" data-rv-tip="改分组即时刷新趋势与复盘，无需重跑报告" tabindex="0" role="img" aria-label="分组变量：改分组即时刷新趋势与复盘，无需重跑报告">ⓘ</span></span>
+        <span class="da-panel-summary" id="postGroupAccordionSummary">未选</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <div id="postGroupConfig" class="group-config-block is-empty" data-group-prefix="post">
+    
+    <div class="group-selected-main">
+      <ul id="postGroupOrder" class="group-order-list group-order-list--primary" hidden="" style="display: none;" data-bound_post="1" data-dnd-bound="1"></ul>
+      <p id="postGroupOrderHint" class="config-muted group-order-empty-hint">未选则看整体 · 点下方添加维度</p>
+    </div>
+    <div class="group-config-toolbar">
+      
+      <div class="group-config-picker"><div id="postGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="postGroup" hidden="" aria-hidden="true"><p class="config-muted rv-collapsed-picker-empty">未选择分组维度</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="postGroupPickerToggle" data-picker-id="postGroup" aria-expanded="false" aria-haspopup="listbox">添加维度 ▾</button></div><div id="postGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="postGroup" role="listbox" hidden=""><p id="postGroupMeta" class="chk-filter-meta">共 18 个维度 · 推荐 11 · 已选 0</p><div class="chk-toolbar"><input type="search" id="postGroupSearch" class="chk-filter-input" placeholder="搜索分组列名…" autocomplete="off" data-picker-id="postGroup"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="postGroupRecommendedOnly" data-picker-id="postGroup"> 仅看推荐</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="postGroupSelectedOnly" data-picker-id="postGroup"> 仅看已选</label></div><div id="postGroupCols" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="postGroup" data-bound_post="1"></div></div></div>
+    </div>
+    <p id="postGroupHighCardWarn" class="group-highcard-warn" hidden=""></p>
+  </div>
+      </div>
+    </div>
+    <div class="rv-wb-zone rv-wb-results">
+      <div class="rv-wb-zone-label">结果</div>
+      <div class="rv-result-card" id="postOverallRiskMount"><h3>整体风险比率</h3><div class="metric-cards"><div class="metric-card"><div class="val">23.72%</div><div class="sub">9,594 / 40,441</div><div class="lbl">fpd1_cnt%</div></div><div class="metric-card"><div class="val">N/A</div><div class="sub">0 / 0</div><div class="lbl">fpd7_cnt%</div></div><div class="metric-card"><div class="val">N/A</div><div class="sub">0 / 0</div><div class="lbl">dpd_cnt%</div></div></div></div>
+      <div class="rv-result-card">
+        <div id="postTrendFiltersMount"></div>
+        <div id="postTrendTableMount"><h3 class="rv-heading-with-hint">趋势表（分组）<span class="rv-hint rv-tip-anchor" data-rv-tip="同列青低黄高；行按维度升序" tabindex="0" role="img" aria-label="说明：同列青低黄高；行按维度升序">ⓘ</span></h3><p id="postTrendFilterMeta" class="config-muted" style="font-size:.78rem;margin:0 0 .35rem">显示 1 / 1 行</p><table id="postTrendTable" class="data-table trend-table"><thead><tr><th rowspan="2">分组</th><th colspan="3">fpd1_cnt%</th><th colspan="3">fpd7_cnt%</th><th colspan="3">dpd_cnt%</th></tr><tr><th>分子Σ</th><th>分母Σ</th><th>比率</th><th>分子Σ</th><th>分母Σ</th><th>比率</th><th>分子Σ</th><th>分母Σ</th><th>比率</th></tr></thead><tbody id="postTrendTableBody"><tr><td>全部</td><td class="num">9,594</td><td class="num">40,441</td><td class="num rate-heat" style="background:hsl(111.0 79.5% 44.6%);color:hsl(111.0 58.0% 18.5%)">23.72%</td><td class="num">0</td><td class="num">0</td><td class="num rate-heat">N/A</td><td class="num">0</td><td class="num">0</td><td class="num rate-heat">N/A</td></tr></tbody></table></div>
+      </div>
+      <div class="rv-result-card post-module post-rule-review-module">
+        <h3 class="rv-heading-with-hint">贷后规则复盘<span class="rv-hint rv-tip-anchor" data-rv-tip="按规则统计命中/未命中及风险" tabindex="0" role="img" aria-label="说明：按规则统计命中/未命中及风险">ⓘ</span></h3>
+        <div id="postRuleReviewOverallMount"><h4 class="rv-heading-with-hint">整体汇总<span class="rv-hint rv-tip-anchor" data-rv-tip="样本量=风险分母Σ；☰ 拖拽调瀑布序，同步贷前（fpd1_cnt%）" tabindex="0" role="img" aria-label="说明：样本量=风险分母Σ；☰ 拖拽调瀑布序，同步贷前（fpd1_cnt%）">ⓘ</span></h4>
+    <table class="data-table pre-strategy-table post-rule-review-overall-table"><thead><tr>
+      <th style="width:2rem"></th><th>序</th>
+      <th>规则</th><th>类型</th>
+      <th>贷后命中样本</th><th>贷后未命中组样本</th>
+      <th>贷后命中组风险</th><th>贷后未命中组风险</th>
+      <th>瀑布命中风险</th><th>瀑布命中样本</th>
+      <th>仅命中风险</th><th>仅命中样本</th>
+    </tr></thead><tbody id="postRuleReviewOverallBody" data-sort-bound="1"></tbody><tfoot id="postRuleReviewOverallFoot"><tr class="segment-row" data-segment-id="segment_miss_all_rules">
+      <td></td>
+      <td class="num">—</td>
+      <td>未命中任意规则</td>
+      <td>分段</td>
+      <td class="num">0</td>
+      <td class="num">40,441</td>
+      <td class="num">—</td>
+      <td class="num">23.72%</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+    </tr></tfoot></table></div>
+        <div id="postRuleReviewTrendFiltersMount"></div>
+        <div id="postRuleReviewTrendTableMount"><p class="config-muted">请勾选上方分组变量以生成规则×维度趋势表</p></div>
+      </div>
+    </div>
+  </section><section id="tab-pre" data-config-panel-toggle-bound="1" class=""><h2>贷前策略分析</h2>
+    <div id="preStaleBanner" class="rv-stale-banner" role="status">
+      <span>侧栏样本/规则/比率已变，贷前结果可能过期。</span>
+      <button type="button" class="btn btn-secondary btn-sm" id="preStaleRerunBtn" data-rv-bound="1">重新生成分析报告</button>
+    </div>
+    <div class="da-config-panel rv-wb-config-accordion is-collapsed" id="preConfigAccordion">
+      <div class="da-panel-header" data-config-panel-toggle="preConfigAccordion" role="button" tabindex="0">
+        <span class="da-panel-title-text">配置</span>
+        <span class="da-panel-summary" id="preConfigAccordionSummary">样本 1,530</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <div class="rv-wb-meta" id="preSampleInfoMount"><span class="rv-wb-meta-primary">贷前样本 <b>1,530</b>
+      <span class="rv-wb-meta-sub">/ 全量 1,530</span></span>
+    <span class="rv-chip" title="决策组：全部">决策组：全部</span></div>
+      </div>
+    </div>
+    <div class="da-config-panel rv-wb-config-accordion is-collapsed" id="preGroupAccordion">
+      <div class="da-panel-header" data-config-panel-toggle="preGroupAccordion" role="button" tabindex="0">
+        <span class="da-panel-title-text rv-heading-with-hint">分组变量<span class="rv-hint rv-tip-anchor" data-rv-tip="改分组即时刷新汇总与瀑布，无需重跑" tabindex="0" role="img" aria-label="分组变量：改分组即时刷新汇总与瀑布，无需重跑">ⓘ</span></span>
+        <span class="da-panel-summary" id="preGroupAccordionSummary">未选</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <div id="preGroupConfig" class="group-config-block is-empty" data-group-prefix="pre">
+    
+    <div class="group-selected-main">
+      <ul id="preGroupOrder" class="group-order-list group-order-list--primary" hidden="" style="display: none;" data-bound_pre="1" data-dnd-bound="1"></ul>
+      <p id="preGroupOrderHint" class="config-muted group-order-empty-hint">未选则看整体 · 点下方添加维度</p>
+    </div>
+    <div class="group-config-toolbar">
+      
+      <div class="group-config-picker"><div id="preGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="preGroup" hidden="" aria-hidden="true"><p class="config-muted rv-collapsed-picker-empty">未选择分组维度</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="preGroupPickerToggle" data-picker-id="preGroup" aria-expanded="false" aria-haspopup="listbox">添加维度 ▾</button></div><div id="preGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="preGroup" role="listbox" hidden=""><p id="preGroupMeta" class="chk-filter-meta">共 18 个维度 · 推荐 11 · 已选 0</p><div class="chk-toolbar"><input type="search" id="preGroupSearch" class="chk-filter-input" placeholder="搜索分组列名…" autocomplete="off" data-picker-id="preGroup"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="preGroupRecommendedOnly" data-picker-id="preGroup"> 仅看推荐</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="preGroupSelectedOnly" data-picker-id="preGroup"> 仅看已选</label></div><div id="preGroupCols" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="preGroup" data-bound_pre="1"></div></div></div>
+    </div>
+    <p id="preGroupHighCardWarn" class="group-highcard-warn" hidden=""></p>
+  </div>
+      </div>
+    </div>
+    <div class="rv-wb-zone rv-wb-results">
+      <div class="rv-wb-zone-label">结果</div>
+      <div class="rv-result-card" id="preMetricCardsMount"><div class="metric-cards"><div class="metric-card"><div class="val">97,803</div><div class="lbl">进件量 Σ</div></div><div class="metric-card"><div class="val">66,516</div><div class="lbl">通过量 Σ</div></div><div class="metric-card"><div class="val">68.01%</div><div class="lbl">通过率</div></div></div></div>
+      <div class="rv-result-card">
+        <div id="preStrategyGroupFiltersMount"></div>
+        <div id="preGroupTableMount"><p class="config-muted">请勾选分组变量后查看分组汇总</p></div>
+      </div>
+      <div class="rv-result-card" id="preWaterfallSectionMount"><h3 class="rv-heading-with-hint">规则瀑布<span class="rv-hint rv-tip-anchor" data-rv-tip="☰ 拖拽调序；分母=当前筛选进件" tabindex="0" role="img" aria-label="说明：☰ 拖拽调序；分母=当前筛选进件">ⓘ</span></h3><p id="preHardUnionLine" style="font-size:.88rem;margin:.5rem 0">筛选样本进件量：<b>97,803</b>；
+    硬规则并集命中：<b>0</b>（0.00%）</p><div id="preWaterfallTableMount"><table class="data-table pre-strategy-table"><thead><tr>
+    <th style="width:2rem"></th>
+    <th>序</th><th>类型</th><th>规则</th>
+    <th>命中进件量</th><th>命中率</th><th>仅命中率</th>
+    <th>瀑布本步进件量</th><th>瀑布本步命中率</th><th>累计命中进件量</th>
+  </tr></thead><tbody id="preStrategyTableBody" data-sort-bound="1"><tr><td colspan="10" class="config-muted">未配置规则，请在左侧配置规则后重新分析</td></tr></tbody></table></div><div id="waterfallChart">无规则步骤</div><p id="waterfallFooter" style="font-size:.88rem;margin-top:.5rem">累计拒绝进件量：<b>0</b>（0.00%）；
+    剩余：<b>97,803</b></p></div>
+    </div>
+  </section><section id="tab-attribution" class="report-tab-section" data-config-panel-toggle-bound="1">
+<div class="container">
+  <header>
+    <h1>风险异动归因分析</h1>
+    <p>基期 / 比较期比率拆解 · 贡献度 · 画像对比 · 模型指标</p>
+  </header>
+  <div id="attrStaleBanner" class="rv-stale-banner" role="status">
+    <span>归因配置已变，结果可能过期。</span>
+    <button type="button" class="btn btn-secondary btn-sm" id="attrStaleRerunBtn" data-rv-bound="1">重跑归因分析</button>
+  </div>
+  <div class="da-panel-stack">
+    <div class="rv-wb-zone-label" style="margin-bottom:-.35rem">配置</div>
+    <div class="da-config-panel" id="attrPanelFilter">
+      <div class="da-panel-header" data-config-panel-toggle="attrPanelFilter" role="button" tabindex="0">
+        <span class="da-panel-num">1</span>
+        <span class="da-panel-title-text">数据筛选<span class="rv-hint rv-tip-anchor" data-rv-tip="默认跟贷后；改后独立；条件为且" tabindex="0" role="img" aria-label="说明：默认跟贷后；改后独立；条件为且">ⓘ</span></span>
+        <span class="da-panel-summary" id="attrPanelFilterSummary">决策组 · 全部</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <button type="button" class="btn btn-secondary btn-sm" id="attrSyncPostSample" style="margin-bottom:.35rem">从左侧贷后复制</button>
+        <div class="sample-sub-block sample-sub-filter" style="margin-bottom:.45rem">
+          <h5 style="margin:0 0 .35rem;font-size:.78rem;color:var(--text-muted);font-weight:600">筛选字段</h5>
+          <div id="attrPrimaryFilterSelected" class="sample-filter-selected-tags"><span class="sample-filter-tag sample-filter-tag-primary" title="决策组（不选=全部）" data-prefix="attr" data-sample-primary="1"><span class="sample-filter-tag-text">决策组 · 全部</span></span></div>
+          <div id="attrPrimaryFilterEditor" class="sample-filter-editor-panel" hidden="">
+            <div class="sample-filter-editor-head">
+              <span>编辑主筛选</span>
+              <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="attr" data-sample-primary="1">完成</button>
+            </div>
+            <label>字段</label>
+            <select id="attrPrimaryFilterCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option></select>
+            <div id="attrPrimaryFilterEditorBody" class="primary-filter-ui"></div>
+          </div>
+          <div id="attrPrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden="" aria-hidden="true"><div class="filter-rule primary-filter-rule" data-mode="enum">
+    <div class="filter-rule-time-wrap" style="display:none">
+      <div class="filter-time-row">
+        <label class="filter-time-label rv-heading-with-hint">起<span class="rv-hint rv-tip-anchor" data-rv-tip="时间区间含两端；不选=全部" tabindex="0" role="img" aria-label="说明：时间区间含两端；不选=全部">ⓘ</span><select class="filter-time-min"></select></label>
+        <span class="filter-time-sep">至</span>
+        <label class="filter-time-label">止<select class="filter-time-max"></select></label>
+      </div>
+      <div class="filter-time-actions">
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="3">最近 3 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="6">最近 6 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-mode-enum-from-time-btn">枚举点选</button>
+      </div>
+    </div>
+    <div class="filter-rule-enum-wrap" style="display: block;">
+      <div class="filter-rule-tags"></div>
+      <div class="filter-value-combo">
+        <input type="search" class="chk-filter-input filter-rule-values-search" placeholder="搜索并添加取值…" autocomplete="off">
+        <div class="filter-value-dropdown" style="display:none"></div>
+      </div>
+      <div class="filter-rule-values filter-rule-values-hidden" aria-hidden="true"></div>
+      <button type="button" class="btn btn-secondary btn-sm filter-mode-time-btn" style="display:none">时间区间</button>
+    </div></div></div>
+          <p id="attrPrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
         </div>
-        <p class="placeholder">上传 CSV 后配置左侧样本与规则并生成报告；也可直接使用「盈利性测算」「风险目标测算」「资产包 EL 调配」Tab（无需 CSV）</p>
+        <div class="sample-sub-block sample-sub-filter">
+          <h5 style="margin:0 0 .35rem;font-size:.78rem;color:var(--text-muted);font-weight:600">额外筛选（且）</h5>
+          <div id="attrFilterSelected" class="sample-filter-selected-tags"><p class="sample-filter-selected-empty">无额外筛选 · 点击「+ 筛选」添加</p></div>
+          <div id="attrFilterEditor" class="sample-filter-editor-panel" hidden="">
+            <div class="sample-filter-editor-head">
+              <span id="attrFilterEditorTitle">编辑筛选</span>
+              <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="attr">完成</button>
+            </div>
+            <div id="attrFilterEditorBody"></div>
+          </div>
+          <div id="attrFilterRules" class="sample-filter-rules-pool" hidden="" aria-hidden="true"></div>
+          <div class="filter-add-row">
+            <input type="search" id="attrFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off">
+            <button type="button" class="btn btn-secondary btn-sm" id="attrAddFilter">+ 筛选</button>
+          </div>
+          <p id="attrFilterMeta" class="chk-filter-meta sample-filter-meta">无额外筛选</p><p id="attrFilterMetaMissingDetail" class="chk-filter-meta" style="display: none; margin-top: 0.2rem;"></p>
+        </div>
       </div>
+    </div>
+
+    <div class="da-config-panel" id="attrPanelPeriod">
+      <div class="da-panel-header" data-config-panel-toggle="attrPanelPeriod" role="button" tabindex="0">
+        <span class="da-panel-num">2</span>
+        <span class="da-panel-title-text">基期 / 比较期</span>
+        <span class="da-panel-summary" id="attrPanelPeriodSummary">决策组 · 基期 a组 · 比较期 b组</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <label for="attrPeriodCol">期别字段</label>
+        <select id="attrPeriodCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option></select>
+        <label style="margin-top:.65rem">基期取值（多选）</label>
+        <p id="attrBasePeriodMeta" class="chk-filter-meta">共 2 个取值 · 推荐 2 · 已选 1</p><div id="attrBasePeriodSelected" class="rv-collapsed-picker-selected" data-picker-id="attrBasePeriod"><span class="filter-tag rv-collapsed-picker-tag" data-value="a组" data-picker-id="attrBasePeriod" title="a组"><span class="filter-tag-text">a组</span><button type="button" class="filter-tag-remove rv-collapsed-picker-tag-remove" aria-label="移除">×</button></span></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="attrBasePeriodPickerToggle" data-picker-id="attrBasePeriod" aria-expanded="false" aria-haspopup="listbox">添加取值 ▾</button></div><div id="attrBasePeriodPicker" class="rv-collapsed-picker-panel" data-picker-id="attrBasePeriod" hidden=""><div class="chk-toolbar"><input type="search" id="attrBasePeriodSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="attrBasePeriod"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="attrBasePeriodSelectedOnly" data-picker-id="attrBasePeriod"> 仅看已选</label></div><div id="attrBaseValues" class="chk-grid rv-collapsed-picker-grid" data-picker-id="attrBasePeriod"></div></div>
+        <label style="margin-top:.65rem">比较期取值（多选）</label>
+        <p id="attrCmpPeriodMeta" class="chk-filter-meta">共 2 个取值 · 推荐 2 · 已选 1</p><div id="attrCmpPeriodSelected" class="rv-collapsed-picker-selected" data-picker-id="attrCmpPeriod"><span class="filter-tag rv-collapsed-picker-tag" data-value="b组" data-picker-id="attrCmpPeriod" title="b组"><span class="filter-tag-text">b组</span><button type="button" class="filter-tag-remove rv-collapsed-picker-tag-remove" aria-label="移除">×</button></span></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="attrCmpPeriodPickerToggle" data-picker-id="attrCmpPeriod" aria-expanded="false" aria-haspopup="listbox">添加取值 ▾</button></div><div id="attrCmpPeriodPicker" class="rv-collapsed-picker-panel" data-picker-id="attrCmpPeriod" hidden=""><div class="chk-toolbar"><input type="search" id="attrCmpPeriodSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="attrCmpPeriod"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="attrCmpPeriodSelectedOnly" data-picker-id="attrCmpPeriod"> 仅看已选</label></div><div id="attrCmpValues" class="chk-grid rv-collapsed-picker-grid" data-picker-id="attrCmpPeriod"></div></div>
+      </div>
+    </div>
+
+    <div class="da-config-panel" id="attrPanelRatio">
+      <div class="da-panel-header" data-config-panel-toggle="attrPanelRatio" role="button" tabindex="0">
+        <span class="da-panel-num">3</span>
+        <span class="da-panel-title-text">比率指标<span class="rv-hint rv-tip-anchor" data-rv-tip="固定拆订单风险/金额风险/授信件均" tabindex="0" role="img" aria-label="说明：固定拆订单风险/金额风险/授信件均">ⓘ</span></span>
+        <span class="da-panel-summary" id="attrPanelRatioSummary">订单风险、金额风险</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <p class="config-muted" style="margin:0 0 .35rem">只拆这三条；列缺失的指标会跳过。可改分子/分母列。</p>
+        <div id="attrRatioRows"><div class="ratio-row attr-fixed-ratio-row" data-metric-id="risk">
+        <div><label>名称</label><input type="text" class="ratio-name" value="订单风险" readonly=""></div>
+        <div><label>分子列</label><select class="ratio-num"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div>
+        <div><label>分母列</label><select class="ratio-den"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div></div><div class="ratio-row attr-fixed-ratio-row" data-metric-id="amt_risk">
+        <div><label>名称</label><input type="text" class="ratio-name" value="金额风险" readonly=""></div>
+        <div><label>分子列</label><select class="ratio-num"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div>
+        <div><label>分母列</label><select class="ratio-den"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div></div><div class="ratio-row attr-fixed-ratio-row is-missing" data-metric-id="curr_ticket">
+        <div><label>名称</label><input type="text" class="ratio-name" value="授信件均" readonly=""></div>
+        <div><label>分子列</label><select class="ratio-num"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div>
+        <div><label>分母列</label><select class="ratio-den"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select></div></div></div>
+      </div>
+    </div>
+
+    <div class="da-config-panel" id="attrPanelDim">
+      <div class="da-panel-header" data-config-panel-toggle="attrPanelDim" role="button" tabindex="0">
+        <span class="da-panel-num">4</span>
+        <span class="da-panel-title-text">贡献度维度<span class="rv-hint rv-tip-anchor" data-rv-tip="第一维全样本拆；第二维在各段内再拆" tabindex="0" role="img" aria-label="说明：第一维全样本拆；第二维在各段内再拆">ⓘ</span></span>
+        <span class="da-panel-summary" id="attrPanelDimSummary">决策组、客群</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+        <div id="attrDimSpecList" class="attr-dim-spec-list"><div class="attr-dim-spec-row" data-slot="0" data-col="决策组"><span class="attr-dim-spec-slot">第一维</span><select class="attr-dim-spec-col"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select><select class="attr-dim-spec-mode"><option value="enum">枚举</option><option value="bin">等频分箱</option></select><label class="attr-dim-spec-nbins-wrap"><span class="attr-dim-spec-nbins-label">箱数</span><input type="number" class="attr-dim-spec-nbins" min="2" max="20" step="1" disabled=""></label></div><div class="attr-dim-spec-row" data-slot="1" data-col="客群"><span class="attr-dim-spec-slot">第二维</span><select class="attr-dim-spec-col"><option value="">（缺列，跳过）</option><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select><select class="attr-dim-spec-mode"><option value="enum">枚举</option><option value="bin">等频分箱</option></select><label class="attr-dim-spec-nbins-wrap"><span class="attr-dim-spec-nbins-label">箱数</span><input type="number" class="attr-dim-spec-nbins" min="2" max="20" step="1" disabled=""></label></div></div>
+        <p id="attrDimSpecMeta" class="chk-filter-meta sample-filter-meta">第一维 决策组 → 第二维 客群 段内再拆</p>
+        <p id="attrDimSegmentHint" class="status ok">第一维约 2 段（决策组）；各段内再按「客群」拆，最多展示 |合计贡献| 最大 8 段</p>
+        <p id="attrDimBinHint" class="status"></p>
+      </div>
+    </div>
+
+    <div class="da-config-panel" id="attrPanelProfile">
+      <div class="da-panel-header" data-config-panel-toggle="attrPanelProfile" role="button" tabindex="0">
+        <span class="da-panel-num">5</span>
+        <span class="da-panel-title-text">画像 / 模型<span class="rv-hint rv-tip-anchor" data-rv-tip="画像做KDE；模型分比基期/比较期" tabindex="0" role="img" aria-label="说明：画像做KDE；模型分比基期/比较期">ⓘ</span></span>
+        <span class="da-panel-summary" id="attrPanelProfileSummary">画像 0 · 模型 0</span>
+        <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+      </div>
+      <div class="da-panel-body">
+      <label>画像变量</label>
+      <p id="attrProfileChecksMeta" class="chk-filter-meta">共 18 个变量 · 推荐 18 · 已选 0</p><div id="attrProfileSelected" class="rv-collapsed-picker-selected" data-picker-id="attrProfile"><p class="config-muted rv-collapsed-picker-empty">未选择画像变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="attrProfilePickerToggle" data-picker-id="attrProfile" aria-expanded="false" aria-haspopup="listbox">添加变量 ▾</button></div><div id="attrProfilePicker" class="rv-collapsed-picker-panel" data-picker-id="attrProfile" hidden=""><div class="chk-toolbar"><input type="search" id="attrProfileChecksSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="attrProfile"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="attrProfileSelectedOnly" data-picker-id="attrProfile"> 仅看已选</label></div><div id="attrProfileChecks" class="chk-grid rv-collapsed-picker-grid" data-picker-id="attrProfile"></div></div>
+      <label style="margin-top:.65rem">模型分列</label>
+      <p id="attrModelChecksMeta" class="chk-filter-meta">共 18 个模型 · 推荐 18 · 已选 0</p><div id="attrModelSelected" class="rv-collapsed-picker-selected" data-picker-id="attrModel"><p class="config-muted rv-collapsed-picker-empty">未选择模型分列</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="attrModelPickerToggle" data-picker-id="attrModel" aria-expanded="false" aria-haspopup="listbox">添加模型 ▾</button></div><div id="attrModelPicker" class="rv-collapsed-picker-panel" data-picker-id="attrModel" hidden=""><div class="chk-toolbar"><input type="search" id="attrModelChecksSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="attrModel"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="attrModelSelectedOnly" data-picker-id="attrModel"> 仅看已选</label></div><div id="attrModelChecks" class="chk-grid rv-collapsed-picker-grid" data-picker-id="attrModel"></div></div>
+      <label style="margin-top:.65rem">坏样本标签 <span style="font-weight:400;color:var(--text-muted)">（仅 AUC / KS / IV）</span></label>
+      <select id="attrBadMode">
+        <option value="numerator" selected="">第 1 个比率指标的分子列 &gt; 0</option>
+        <option value="column">指定列 &gt; 阈值</option>
+      </select>
+      <p id="attrBadNumeratorHint" class="status ok" style="margin:.35rem 0 .5rem;font-size:.8rem">默认：第 1 个比率指标分子列「fpd1_cnt_fz」&gt; 0 记为坏样本</p>
+      <div id="attrBadColumnPickers" style="display:none">
+        <label>标签列</label>
+        <select id="attrBadCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select>
+        <label>阈值（数值 &gt; 阈值为坏）</label>
+        <input type="number" id="attrBadThreshold" value="0" step="any">
+      </div>
+      <label style="margin-top:.5rem">IV 分箱数（模型分，默认 5 箱并合并稀疏尾箱）</label>
+      <input type="number" id="attrIvBins" value="5" min="3" max="20">
+      <label style="margin-top:.5rem;display:flex;align-items:flex-start;gap:.35rem;color:var(--text-dim);font-size:.8rem">
+        <input type="checkbox" id="attrHigherScoreIsWorse" checked="" style="width:auto;margin-top:2px">
+        <span>评分类模型分优先<span class="rv-hint rv-tip-anchor" data-rv-tip="自动取 AUC 更高分向；高分=低风险先试−分" tabindex="0" role="img" aria-label="说明：自动取 AUC 更高分向；高分=低风险先试−分">ⓘ</span></span>
+      </label>
+      </div>
+    </div>
+
+    <div class="da-config-panel" id="attrPanelRun">
+      <div class="da-panel-header"><span class="da-panel-num">6</span>运行</div>
+      <button type="button" class="btn btn-primary" id="btnRunAttribution">运行归因分析</button>
+      <p id="attrAnalysisStatus" class="status" style="min-height:1.25rem"></p>
+    </div>
+  </div>
+  <div class="rv-wb-zone rv-wb-results">
+    <div class="rv-wb-zone-label">结果</div>
+    <div id="attrResultsMount"><p class="da-results-placeholder">配置期别与比率后点击「运行归因分析」</p></div>
+  </div>
+</div>
+</section><section id="tab-analysis" data-config-panel-toggle-bound="1" class=""><h2 class="rv-heading-with-hint">数据分析<span class="rv-hint rv-tip-anchor" data-rv-tip="贷后样本+风险比率；路径 EDA → 分箱 → 挖规，可分轨重跑" tabindex="0" role="img" aria-label="说明：贷后样本+风险比率；路径 EDA → 分箱 → 挖规，可分轨重跑">ⓘ</span></h2>
+    <p class="rv-wb-path-hint config-muted">三区：① EDA（分布/IV）→ ② 分箱（单变量/交叉）→ ③ 挖规（切点扫描）；公共配置共用贷后样本</p>
+    <div id="daStaleBanner" class="rv-stale-banner" role="status" data-rv-bound="1">
+      <span>配置已变，结果可能过期。</span>
+      <button type="button" class="btn btn-secondary btn-sm" data-da-rerun="eda">重跑 EDA</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-da-rerun="bin">重跑分箱</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-da-rerun="mine">重扫切点</button>
+    </div>
+    <div class="rv-wb-zone rv-wb-config">
+      <div class="rv-wb-zone-label">配置与运行</div>
+    <div class="da-panel-stack">
+      <div class="da-config-panel da-shared-panel is-collapsed" id="daSharedPanel">
+        <div class="da-panel-header" data-config-panel-toggle="daSharedPanel" role="button" tabindex="0">
+          <span class="da-panel-title-text">公共配置<span class="rv-hint rv-tip-anchor" data-rv-tip="共用贷后样本与风险比率口径" tabindex="0" role="img" aria-label="说明：共用贷后样本与风险比率口径">ⓘ</span></span>
+          <span class="da-panel-summary" id="daSharedPanelSummary">全量贷后 · Y=分子&gt;0</span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+          <div class="config-grid">
+            <div>
+              <label>Y 标签（坏样本）</label>
+              <select id="daBadMode">
+                <option value="numerator">第 1 个风险比率分子列 &gt; 0</option>
+                <option value="manual">手动指定列 + 阈值</option>
+              </select>
+              <p id="daBadNumeratorHint" class="config-muted" style="font-size:.75rem;margin:.25rem 0">默认：第 1 个风险比率分子列「fpd1_cnt_fz」&gt; 0 记为坏样本</p>
+              <div id="daBadColumnPickers" style="display:none">
+                <label>坏样本列</label>
+                <select id="daBadCol"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="hard_rule_demo" title="hard_rule_demo">hard_rule_demo</option><option value="soft_rule_demo" title="soft_rule_demo">soft_rule_demo</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select>
+                <label>阈值（坏样本 = 列值 &gt; 阈值）</label>
+                <input type="number" id="daBadThreshold" value="0" step="any">
+              </div>
+            </div>
+            <div>
+              <label>样本范围<span class="rv-hint rv-tip-anchor" data-rv-tip="残差剔硬规则+候选命中；切换需重跑" tabindex="0" role="img" aria-label="样本范围：残差剔硬规则+候选命中；切换需重跑">ⓘ</span></label>
+              <select id="daSampleScope" data-bound="1">
+                <option value="full">全量贷后样本</option>
+                <option value="residual_new_pass">残差：未命中硬规则∪有效性候选</option>
+              </select>
+            </div>
+          </div>
+          <p id="daSharedSummary" class="da-shared-summary config-muted" hidden=""></p>
+        </div>
+      </div>
+
+      <div class="da-config-panel da-eda-panel" id="daEdaPanel">
+        <div class="da-panel-header" data-config-panel-toggle="daEdaPanel" role="button" tabindex="0">
+          <span class="da-panel-num">1</span>
+          <span class="da-panel-title-text">① EDA · 数值变量<span class="rv-hint rv-tip-anchor" data-rv-tip="默认 p3_/reb_ 列；改配置后点「运行 EDA 分析」" tabindex="0" role="img" aria-label="说明：默认 p3_/reb_ 列；改配置后点「运行 EDA 分析」">ⓘ</span></span>
+          <span class="da-panel-summary" id="daEdaPanelSummary">未选变量</span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+          <div class="da-eda-config-toolbar">
+            <div class="da-eda-config-field da-eda-config-field--vars">
+              <span class="da-eda-config-label">分析变量<span class="rv-hint rv-tip-anchor" data-rv-tip="默认 p3_/reb_；改后点运行" tabindex="0" role="img" aria-label="分析变量：默认 p3_/reb_；改后点运行">ⓘ</span></span>
+              <div id="daEdaVarSelected" class="rv-collapsed-picker-selected" data-picker-id="daEdaVar"><p class="config-muted rv-collapsed-picker-empty">未选择分析变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daEdaVarPickerToggle" data-picker-id="daEdaVar" aria-expanded="false" aria-haspopup="listbox">添加变量 ▾</button></div><div id="daEdaVarPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daEdaVar" role="listbox" hidden=""><p id="daEdaVarMeta" class="chk-filter-meta">共 10 个变量 · 推荐 10 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daEdaVarSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daEdaVar"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daEdaVar">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daEdaVar">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daEdaVarShowAll" data-picker-id="daEdaVar" data-show-all-columns="1"> 显示全部列</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daEdaVarSelectedOnly" data-picker-id="daEdaVar"> 仅看已选</label></div><div id="daEdaVarChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daEdaVar"></div></div>
+            </div>
+            <div class="da-eda-config-field da-eda-config-field--group">
+              <span class="da-eda-config-label">分组标签<span class="rv-hint rv-tip-anchor" data-rv-tip="不选不分组；最多 3 个；改后点运行" tabindex="0" role="img" aria-label="分组标签：不选不分组；最多 3 个；改后点运行">ⓘ</span></span>
+              <div id="daEdaGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="daEdaGroup"><p class="config-muted rv-collapsed-picker-empty">未选择分组标签</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daEdaGroupPickerToggle" data-picker-id="daEdaGroup" aria-expanded="false" aria-haspopup="listbox">添加标签 ▾</button></div><div id="daEdaGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daEdaGroup" role="listbox" hidden=""><p id="daGroupColMeta" class="chk-filter-meta">共 18 个标签 · 推荐 18 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daGroupColSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daEdaGroup"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daEdaGroup">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daEdaGroup">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daEdaGroupSelectedOnly" data-picker-id="daEdaGroup"> 仅看已选</label></div><div id="daGroupColChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daEdaGroup"></div></div>
+            </div>
+            <div class="da-eda-config-field da-eda-config-field--iv">
+              <span class="da-eda-config-label">IV箱<span class="rv-hint rv-tip-anchor" data-rv-tip="3～20；改后点运行" tabindex="0" role="img" aria-label="IV箱：3～20；改后点运行">ⓘ</span></span>
+              <div class="da-iv-stepper" role="group" aria-label="IV 分箱数">
+                <button type="button" class="btn btn-secondary btn-sm" id="daIvBinsDec" aria-label="减少">−</button>
+                <input type="number" id="daIvBins" value="5" min="3" max="20">
+                <button type="button" class="btn btn-secondary btn-sm" id="daIvBinsInc" aria-label="增加">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="btnRunEdaAnalysis">运行 EDA 分析</button>
+        <p id="daEdaStatus" class="status" style="min-height:1.25rem"></p>
+        <div id="daEdaResults"><p class="da-results-placeholder">配置变量后点击「运行 EDA 分析」</p></div>
+      </div>
+
+      <div class="da-config-panel da-bin-panel" id="daBinPanel">
+        <div class="da-panel-header" data-config-panel-toggle="daBinPanel" role="button" tabindex="0">
+          <span class="da-panel-num">2</span>
+          <span class="da-panel-title-text">② 分箱分析<span class="rv-hint rv-tip-anchor" data-rv-tip="查单调性与 Lift；可切二维交叉子 Tab" tabindex="0" role="img" aria-label="说明：查单调性与 Lift；可切二维交叉子 Tab">ⓘ</span></span>
+          <span class="da-panel-summary" id="daBinPanelSummary">1 变量 · 等频</span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+          <div class="da-track-tabs">
+            <button type="button" class="da-track-tab active" data-track="uni" aria-selected="true" data-bound="1">单变量分箱 <span class="da-track-chip da-track-chip-uni">主流程</span></button>
+            <button type="button" class="da-track-tab" data-track="cross" aria-selected="false" data-bound="1">二维交叉分箱 <span class="da-track-chip da-track-chip-cross">高级可选</span></button>
+          </div>
+          <input type="hidden" id="daBinTrackMode" value="uni">
+
+          <div id="daBinUniTrack" class="da-track-panel da-track-uni">
+            <div class="da-bin-config-toolbar">
+              <div class="da-bin-config-field da-bin-config-field--vars">
+                <span class="da-bin-config-label">分箱变量<span class="rv-hint rv-tip-anchor" data-rv-tip="默认 p3_/reb_/xgb_；独立于 EDA" tabindex="0" role="img" aria-label="分箱变量：默认 p3_/reb_/xgb_；独立于 EDA">ⓘ</span></span>
+                <div id="daBinVarSelected" class="rv-collapsed-picker-selected" data-picker-id="daBinVar"><span class="filter-tag rv-collapsed-picker-tag" data-value="p3_demo_score" data-picker-id="daBinVar" title="p3_demo_score"><span class="filter-tag-text">p3_demo_score</span><button type="button" class="filter-tag-remove rv-collapsed-picker-tag-remove" aria-label="移除">×</button></span></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daBinVarPickerToggle" data-picker-id="daBinVar" aria-expanded="false" aria-haspopup="listbox">添加变量 ▾</button></div><div id="daBinVarPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daBinVar" role="listbox" hidden=""><p id="daBinVarMeta" class="chk-filter-meta">共 10 个变量 · 推荐 10 · 已选 1</p><div class="chk-toolbar"><input type="search" id="daBinVarSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daBinVar"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daBinVar">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daBinVar">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daBinVarShowAll" data-picker-id="daBinVar" data-show-all-columns="1"> 显示全部列</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daBinVarSelectedOnly" data-picker-id="daBinVar"> 仅看已选</label></div><div id="daBinVarChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daBinVar" data-manual-bound="1"></div></div>
+              </div>
+              <div class="da-bin-config-field da-bin-config-field--strat">
+                <span class="da-bin-config-label">分层变量<span class="rv-hint rv-tip-anchor" data-rv-tip="可选；最多 3 个；切点仍按全量贷后" tabindex="0" role="img" aria-label="分层变量：可选；最多 3 个；切点仍按全量贷后">ⓘ</span></span>
+                <div id="daBinStratSelected" class="rv-collapsed-picker-selected" data-picker-id="daBinStrat"><p class="config-muted rv-collapsed-picker-empty">未选择分层变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daBinStratPickerToggle" data-picker-id="daBinStrat" aria-expanded="false" aria-haspopup="listbox">添加分层 ▾</button></div><div id="daBinStratPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daBinStrat" role="listbox" hidden=""><p id="daBinStratColMeta" class="chk-filter-meta">共 18 个分层 · 推荐 18 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daBinStratColSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daBinStrat"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daBinStrat">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daBinStrat">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daBinStratSelectedOnly" data-picker-id="daBinStrat"> 仅看已选</label></div><div id="daBinStratColChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daBinStrat"></div></div>
+              </div>
+              <div class="da-bin-config-field da-bin-config-field--mode">
+                <span class="da-bin-config-label">分箱方式</span>
+                <select id="daBinMode" data-bound="1">
+                  <option value="equal_freq">分母加权等频</option>
+                  <option value="custom_share">自定义占比</option>
+                  <option value="manual_thresholds">手动阈值</option>
+                </select>
+              </div>
+              <div class="da-bin-config-field da-bin-config-field--count" id="daBinCountField">
+                <span class="da-bin-config-label">分箱数<span class="rv-hint rv-tip-anchor" data-rv-tip="2～20" tabindex="0" role="img" aria-label="分箱数：2～20">ⓘ</span></span>
+                <div class="da-iv-stepper da-bin-stepper" role="group" aria-label="分箱数">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daBinCountDec" aria-label="减少">−</button>
+                  <input type="number" id="daBinCount" value="5" min="2" max="20">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daBinCountInc" aria-label="增加">+</button>
+                </div>
+              </div>
+            </div>
+            <div id="daBinSharePanel" class="config-full da-bin-mode-subpanel" style="margin-top:.75rem;display:none">
+              <label>各箱贷后分母占比（%，合计须为 100；每箱 &gt; 0）</label>
+              <div id="daBinSharesWrap"></div>
+              <p id="daBinShareMeta" class="config-muted" style="font-size:.78rem;margin:.25rem 0 0"></p>
+            </div>
+            <div id="daBinManualPanel" class="config-full da-bin-mode-subpanel" style="margin-top:.75rem;display:none">
+              <label>手动分箱阈值（每行：变量名: 切点1,切点2,...；若仅选 1 个分箱变量，可直接填写切点）</label>
+              <div class="da-bin-manual-actions">
+                <button type="button" class="btn btn-secondary btn-sm" id="btnBinManualAutofill">从当前等频回填切点</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnBinManualTemplate">按已选变量生成模板</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnBinManualFormat">按变量格式化</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnBinManualPreview">刷新切点预览</button>
+              </div>
+              <div class="da-bin-manual-editor">
+                <textarea id="daBinManualThresholds" class="da-bin-manual-textarea" rows="7" placeholder="例如：
+p3_score:
+  0.15, 0.32, 0.57
+reb_score:
+  120, 240, 360"></textarea>
+                <div id="daBinManualVarHint" class="da-bin-manual-side"></div>
+              </div>
+              <p id="daBinManualMeta" class="config-muted" style="font-size:.78rem;margin:.25rem 0 0"></p>
+              <div id="daBinManualPreviewMount"></div>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnRunBinAnalysis" style="margin-top:.65rem" title="仅跑单变量分箱">运行单变量分箱</button>
+            <span id="daBinRunModeHint" class="rv-hint rv-tip-anchor" data-rv-tip="仅跑单变量分箱" tabindex="0" role="img" aria-label="说明：仅跑单变量分箱">ⓘ</span>
+          </div>
+
+          <div id="daBinCrossTrack" class="da-track-panel da-track-cross" style="display:none">
+            <div class="da-cross-config-toolbar">
+              <div class="da-cross-config-field da-cross-config-field--xvar">
+                <span class="da-cross-config-label">X 变量<span class="rv-hint rv-tip-anchor" data-rv-tip="数值列；与 Y 不同" tabindex="0" role="img" aria-label="X 变量：数值列；与 Y 不同">ⓘ</span></span>
+                <select id="daCrossXVar"><option value="" title=""></option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select>
+              </div>
+              <div class="da-cross-config-field da-cross-config-field--xbins">
+                <span class="da-cross-config-label">X 分箱数<span class="rv-hint rv-tip-anchor" data-rv-tip="2～20" tabindex="0" role="img" aria-label="X 分箱数：2～20">ⓘ</span></span>
+                <div class="da-iv-stepper" role="group" aria-label="X 分箱数">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daCrossXBinsDec" aria-label="减少">−</button>
+                  <input type="number" id="daCrossXBinCount" value="5" min="2" max="20">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daCrossXBinsInc" aria-label="增加">+</button>
+                </div>
+              </div>
+              <div class="da-cross-config-field da-cross-config-field--yvar">
+                <span class="da-cross-config-label">Y 变量<span class="rv-hint rv-tip-anchor" data-rv-tip="数值列；与 X 不同" tabindex="0" role="img" aria-label="Y 变量：数值列；与 X 不同">ⓘ</span></span>
+                <select id="daCrossYVar"><option value="" title=""></option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select>
+              </div>
+              <div class="da-cross-config-field da-cross-config-field--ybins">
+                <span class="da-cross-config-label">Y 分箱数<span class="rv-hint rv-tip-anchor" data-rv-tip="2～20" tabindex="0" role="img" aria-label="Y 分箱数：2～20">ⓘ</span></span>
+                <div class="da-iv-stepper" role="group" aria-label="Y 分箱数">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daCrossYBinsDec" aria-label="减少">−</button>
+                  <input type="number" id="daCrossYBinCount" value="5" min="2" max="20">
+                  <button type="button" class="btn btn-secondary btn-sm" id="daCrossYBinsInc" aria-label="增加">+</button>
+                </div>
+              </div>
+              <div class="da-cross-config-field da-cross-config-field--group">
+                <span class="da-cross-config-label">分组变量<span class="rv-hint rv-tip-anchor" data-rv-tip="可选；最多 3 个；切片交叉热区" tabindex="0" role="img" aria-label="分组变量：可选；最多 3 个；切片交叉热区">ⓘ</span></span>
+                <div id="daCrossGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="daCrossGroup"><p class="config-muted rv-collapsed-picker-empty">未选择分组变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daCrossGroupPickerToggle" data-picker-id="daCrossGroup" aria-expanded="false" aria-haspopup="listbox">添加分组 ▾</button></div><div id="daCrossGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daCrossGroup" role="listbox" hidden=""><p id="daCrossGroupColMeta" class="chk-filter-meta">共 18 个分组 · 推荐 18 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daCrossGroupColSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daCrossGroup"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daCrossGroup">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daCrossGroup">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daCrossGroupSelectedOnly" data-picker-id="daCrossGroup"> 仅看已选</label></div><div id="daCrossGroupColChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daCrossGroup"></div></div>
+              </div>
+            </div>
+            <div class="da-cross-actions">
+              <button type="button" class="btn btn-primary" id="btnRunCrossBinAnalysis" disabled="" title="仅跑二维交叉分箱">运行二维交叉分箱</button>
+              <span id="daCrossBinRunModeHint" class="rv-hint rv-tip-anchor" data-rv-tip="仅跑二维交叉分箱" tabindex="0" role="img" aria-label="说明：仅跑二维交叉分箱">ⓘ</span>
+            </div>
+          </div>
+        </div>
+        <p id="daBinStatus" class="status" style="min-height:1.25rem"></p>
+        <div id="daBinResults"><p class="da-results-placeholder">分别配置并运行单变量 / 二维交叉分箱</p></div>
+      </div>
+
+      <div class="da-config-panel da-mine-panel" id="daMinePanel">
+        <div class="da-panel-header" data-config-panel-toggle="daMinePanel" role="button" tabindex="0">
+          <span class="da-panel-num">3</span>
+          <span class="da-panel-title-text">③ 挖规 · 规则候选推荐<span class="rv-hint rv-tip-anchor" data-rv-tip="扫切点比 Lift；可复用分箱边界" tabindex="0" role="img" aria-label="说明：扫切点比 Lift；可复用分箱边界">ⓘ</span></span>
+          <span class="da-panel-summary" id="daMinePanelSummary">未扫描</span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+          <div class="da-mine-config-vars">
+            <div class="da-mine-config-field da-mine-config-field--vars">
+              <span class="da-mine-config-label">扫描变量<span class="rv-hint rv-tip-anchor" data-rv-tip="默认 p3_/reb_；可用建议或 EDA 已选快速填入" tabindex="0" role="img" aria-label="扫描变量：默认 p3_/reb_；可用建议或 EDA 已选快速填入">ⓘ</span></span>
+              <div class="da-mine-quick-fill">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineUseSuggested">用建议挖规变量</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineUseEdaSelected">用 EDA 已选</button>
+              </div>
+              <div id="daMineVarSelected" class="rv-collapsed-picker-selected" data-picker-id="daMineVar"><p class="config-muted rv-collapsed-picker-empty">未选择扫描变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daMineVarPickerToggle" data-picker-id="daMineVar" aria-expanded="false" aria-haspopup="listbox">添加变量 ▾</button></div><div id="daMineVarPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daMineVar" role="listbox" hidden=""><p id="daMineVarMeta" class="chk-filter-meta">共 10 个变量 · 推荐 10 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daMineVarSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daMineVar"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daMineVar">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daMineVar">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daMineVarShowAll" data-picker-id="daMineVar" data-show-all-columns="1"> 显示全部列</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daMineVarSelectedOnly" data-picker-id="daMineVar"> 仅看已选</label></div><div id="daMineVarChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daMineVar"></div></div>
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--group">
+              <span class="da-mine-config-label">分组变量<span class="rv-hint rv-tip-anchor" data-rv-tip="可选；最多 3 个；用于候选分组趋势" tabindex="0" role="img" aria-label="分组变量：可选；最多 3 个；用于候选分组趋势">ⓘ</span></span>
+              <div id="daMineGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="daMineGroup"><p class="config-muted rv-collapsed-picker-empty">未选择分组变量</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="daMineGroupPickerToggle" data-picker-id="daMineGroup" aria-expanded="false" aria-haspopup="listbox">添加分组 ▾</button></div><div id="daMineGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="daMineGroup" role="listbox" hidden=""><p id="daMineGroupColMeta" class="chk-filter-meta">共 18 个分组 · 推荐 18 · 已选 0</p><div class="chk-toolbar"><input type="search" id="daMineGroupColSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" data-picker-id="daMineGroup"></div><div class="rv-collapsed-picker-actions"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-select-all" data-picker-id="daMineGroup">全选</button><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-clear-all" data-picker-id="daMineGroup">清空</button><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="daMineGroupSelectedOnly" data-picker-id="daMineGroup"> 仅看已选</label></div><div id="daMineGroupColChecks" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="daMineGroup"></div></div>
+            </div>
+          </div>
+          <div class="da-mine-config-params">
+            <div class="da-mine-config-field da-mine-config-field--target">
+              <span class="da-mine-config-label rv-heading-with-hint">目标模式<span id="daMineTargetHint" class="rv-hint rv-tip-anchor" data-rv-tip="找坏人：高 Lift 切片作拒人候选" tabindex="0" role="img" aria-label="说明：找坏人：高 Lift 切片作拒人候选">ⓘ</span></span>
+              <div class="da-mine-target-seg" role="group" aria-label="目标模式">
+                <label class="da-mine-target-opt">
+                  <input type="radio" name="daMineTarget" id="daMineTargetRisk" value="risk" checked="" data-bound="1">
+                  <span>找坏人（高 Lift）</span>
+                </label>
+                <label class="da-mine-target-opt">
+                  <input type="radio" name="daMineTarget" id="daMineTargetQuality" value="quality" data-bound="1">
+                  <span>找好人（低 Lift）</span>
+                </label>
+              </div>
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--lift">
+              <span class="da-mine-config-label" id="daMineLiftThresholdLabel">最小 Lift（严格大于）</span>
+              <div class="da-iv-stepper" role="group" aria-label="Lift 阈值">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineLiftDec" aria-label="减少">−</button>
+                <input type="number" id="daMineLiftThreshold" value="1.1" min="0" step="0.05" data-bound="1">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineLiftInc" aria-label="增加">+</button>
+              </div>
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--topk">
+              <span class="da-mine-config-label">每特征 Top K<span class="rv-hint rv-tip-anchor" data-rv-tip="1～20" tabindex="0" role="img" aria-label="每特征 Top K：1～20">ⓘ</span></span>
+              <div class="da-iv-stepper" role="group" aria-label="每特征 Top K">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineTopKDec" aria-label="减少">−</button>
+                <input type="number" id="daMineTopK" value="3" min="1" max="20" step="1" data-bound="1">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineTopKInc" aria-label="增加">+</button>
+              </div>
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--param">
+              <span class="da-mine-config-label">最小命中率<span class="rv-hint rv-tip-anchor" data-rv-tip="0～1" tabindex="0" role="img" aria-label="最小命中率：0～1">ⓘ</span></span>
+              <input type="number" id="daMineMinHitRate" value="0.01" min="0" max="1" step="0.01" data-bound="1">
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--param">
+              <span class="da-mine-config-label">最小命中样本数<span class="rv-hint rv-tip-anchor" data-rv-tip="≥5" tabindex="0" role="img" aria-label="最小命中样本数：≥5">ⓘ</span></span>
+              <div class="da-iv-stepper" role="group" aria-label="最小命中样本数">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineMinSamplesDec" aria-label="减少">−</button>
+                <input type="number" id="daMineMinSamples" value="30" min="5" step="1" data-bound="1">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineMinSamplesInc" aria-label="增加">+</button>
+              </div>
+            </div>
+            <div class="da-mine-config-field da-mine-config-field--param">
+              <span class="da-mine-config-label">最大切点数<span class="rv-hint rv-tip-anchor" data-rv-tip="4～50" tabindex="0" role="img" aria-label="最大切点数：4～50">ⓘ</span></span>
+              <div class="da-iv-stepper" role="group" aria-label="最大切点数">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineMaxCutsDec" aria-label="减少">−</button>
+                <input type="number" id="daMineMaxCuts" value="20" min="4" max="50" step="1" data-bound="1">
+                <button type="button" class="btn btn-secondary btn-sm" id="daMineMaxCutsInc" aria-label="增加">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="da-mine-actions">
+            <button type="button" class="btn btn-primary" id="btnRunRuleMine">扫描切点</button>
+            <button type="button" class="btn btn-secondary" id="btnCancelRuleMine" disabled="">取消扫描</button>
+            <button type="button" class="btn btn-secondary" id="btnScoreBinEdges" title="需先运行单变量分箱；读取已跑区间边界，在当前工作样本上计 Lift（非重新分箱、非扫描切点）">用已跑分箱边界评分</button>
+          </div>
+        </div>
+        <p id="daMineStatus" class="status" style="min-height:1.25rem"></p>
+        <div id="daMineResults"><p class="da-results-placeholder">选择变量后点击「扫描切点」；或先跑单变量分箱再「用已跑分箱边界评分」</p></div>
+        <div id="daMineTrendMount" style="margin-top:.75rem"></div>
+      </div>
+    </div>
+    </div>
+  </section><section id="tab-validity" data-config-panel-toggle-bound="1" data-rv-config-expand-bound="1" class=""><h2 class="rv-heading-with-hint">规则有效性检查<span class="rv-hint rv-tip-anchor" data-rv-tip="贷后四象限+贷前 Swap；跑完可收拢配置" tabindex="0" role="img" aria-label="说明：贷后四象限+贷前 Swap；跑完可收拢配置">ⓘ</span></h2>
+    <div id="rvStaleBanner" class="rv-stale-banner" role="status">
+      <span>侧栏样本/规则/比率已变，有效性结果可能过期。</span>
+      <button type="button" class="btn btn-secondary btn-sm" id="rvStaleRerunBtn" data-rv-bound="1">重跑有效性检查</button>
+    </div>
+    <div class="rv-wb-zone rv-wb-config">
+      <div class="rv-wb-zone-label">配置</div>
+    <div class="da-panel-stack">
+      <div class="da-config-panel rv-validity-rules-panel" id="rvPanelBaseline">
+        <div class="da-panel-header" data-config-panel-toggle="rvPanelBaseline" role="button" tabindex="0">
+          <span class="da-panel-num">1</span>
+          <span class="da-panel-title-text">Baseline（线上策略）<span class="rv-hint rv-tip-anchor" data-rv-tip="镜像左侧规则；挖规写入 Candidates" tabindex="0" role="img" aria-label="说明：镜像左侧规则；挖规写入 Candidates">ⓘ</span></span>
+          <span class="da-panel-summary" id="rvPanelBaselineSummary"></span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+        <p id="rvBaselineModeHint" class="config-muted rv-baseline-mode-hint follow" style="font-size:.78rem;margin:0 0 .35rem">跟随侧栏 Baseline（本 Panel 只读镜像；导入/编辑后脱离为已独立）</p>
+        <div class="rule-config-actions rules-pack-toolbar" style="margin-bottom:.5rem">
+          <button type="button" class="btn btn-secondary btn-sm" id="rvExportBaselineRules">导出 validity-baseline-rules.json</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="rvImportBaselineRules">导入 baseline 规则包</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="rvBaselineRefollowSidebar" style="display:none">重新跟随左侧</button>
+          
+        </div>
+        <p id="validityBaselineRulesImportStatus" class="status" style="min-height:1rem;margin:0 0 .35rem;font-size:.78rem"></p>
+        <div class="rule-rows-toolbar batch-actions-inline" style="margin:.35rem 0">
+      <select id="rvBaselineTypeSelect" disabled="">
+        <option value="binary">0-1 列</option>
+        <option value="numeric">数值</option>
+        <option value="composite">复合</option>
+      </select>
+      <button type="button" class="btn btn-secondary btn-sm" id="rvBaselineAddBtn" data-bound="1" disabled="">+ 新建规则</button>
+    </div>
+        <div id="rvBaselineRuleRows" class="rule-config-rows rule-rows-readonly" data-rule-role="baseline"></div>
+        </div>
+      </div>
+      <div class="da-config-panel" id="rvPanelGroup">
+        <div class="da-panel-header" data-config-panel-toggle="rvPanelGroup" role="button" tabindex="0">
+          <span class="da-panel-num">2</span>
+          <span class="da-panel-title-text rv-heading-with-hint">分组变量<span class="rv-hint rv-tip-anchor" data-rv-tip="默认从贷后复制；改后需重跑有效性" tabindex="0" role="img" aria-label="分组变量：默认从贷后复制；改后需重跑有效性">ⓘ</span></span>
+          <span class="da-panel-summary" id="rvPanelGroupSummary"></span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+        <div id="rvGroupConfig" class="group-config-block is-empty" data-group-prefix="rv">
+    
+    <div class="group-selected-main">
+      <ul id="rvGroupOrder" class="group-order-list group-order-list--primary" hidden="" style="display: none;" data-bound_rv="1" data-dnd-bound="1"></ul>
+      <p id="rvGroupOrderHint" class="config-muted group-order-empty-hint">未选则看整体 · 点下方添加维度</p>
+    </div>
+    <div class="group-config-toolbar">
+      <div class="group-config-actions"><button type="button" class="btn btn-secondary btn-sm" id="rvCopyPostGroupBtn" data-rv-bound="1">从贷后复制分组</button></div>
+      <div class="group-config-picker"><div id="rvGroupSelected" class="rv-collapsed-picker-selected" data-picker-id="rvGroup" hidden="" aria-hidden="true"><p class="config-muted rv-collapsed-picker-empty">未选择分组维度</p></div><div class="rv-collapsed-picker-toolbar"><button type="button" class="btn btn-secondary btn-sm rv-collapsed-picker-toggle" id="rvGroupPickerToggle" data-picker-id="rvGroup" aria-expanded="false" aria-haspopup="listbox">添加维度 ▾</button></div><div id="rvGroupPicker" class="rv-collapsed-picker-panel rv-collapsed-picker-panel--popover" data-picker-id="rvGroup" role="listbox" hidden=""><p id="rvGroupMeta" class="chk-filter-meta">共 18 个维度 · 推荐 11 · 已选 0</p><div class="chk-toolbar"><input type="search" id="rvGroupSearch" class="chk-filter-input" placeholder="搜索分组列名…" autocomplete="off" data-picker-id="rvGroup"></div><div class="rv-collapsed-picker-actions"><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="rvGroupRecommendedOnly" data-picker-id="rvGroup"> 仅看推荐</label><label class="rv-collapsed-picker-selected-only"><input type="checkbox" id="rvGroupSelectedOnly" data-picker-id="rvGroup"> 仅看已选</label></div><div id="rvGroupCols" class="chk-grid rv-collapsed-picker-grid rv-collapsed-picker-grid--list" data-picker-id="rvGroup" data-bound_rv="1"></div></div></div>
+    </div>
+    <p id="rvGroupHighCardWarn" class="group-highcard-warn" hidden=""></p>
+  </div>
+        </div>
+      </div>
+      <div class="da-config-panel rv-custom-rules-panel" id="rvPanelCandidate">
+        <div class="da-panel-header" data-config-panel-toggle="rvPanelCandidate" role="button" tabindex="0">
+          <span class="da-panel-num">3</span>
+          <span class="da-panel-title-text">Candidates（候选拒人）<span class="rv-hint rv-tip-anchor" data-rv-tip="四象限纵轴拒人候选；找好人写入拒补集" tabindex="0" role="img" aria-label="说明：四象限纵轴拒人候选；找好人写入拒补集">ⓘ</span></span>
+          <span class="da-panel-summary" id="rvPanelCandidateSummary"></span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+        <div class="rule-config-actions rules-pack-toolbar" style="margin-bottom:.35rem">
+          <button type="button" class="btn btn-secondary btn-sm" id="rvExportCandidateRules">导出 validity-candidate-rules.json</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="rvImportCandidateRules">导入 candidate 规则包</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="rvSyncCandidatesToSidebar" title="将 Panel3 候选写入左侧规则配置（软/复合）" data-rv-bound="1">同步候选到左侧规则</button>
+          
+        </div>
+        <p id="validityCandidateRulesImportStatus" class="status" style="min-height:1rem;margin:0 0 .35rem;font-size:.78rem"></p>
+        <div class="rule-rows-toolbar batch-actions-inline" style="margin:.35rem 0">
+      <select id="rvCandidateTypeSelect">
+        <option value="binary">0-1 列</option>
+        <option value="numeric">数值</option>
+        <option value="composite">复合</option>
+      </select>
+      <button type="button" class="btn btn-secondary btn-sm" id="rvCandidateAddBtn" data-bound="1">+ 添加候选</button>
+    </div>
+        <div id="rvCandidateRuleRows" class="rule-config-rows" data-rule-role="candidate"></div>
+        <div id="rvCustomRules" hidden="" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="da-config-panel" id="rvPanelRiskEst">
+        <div class="da-panel-header" data-config-panel-toggle="rvPanelRiskEst" role="button" tabindex="0">
+          <span class="da-panel-num">4</span>
+          <span class="da-panel-title-text">风险预估<span class="rv-hint rv-tip-anchor" data-rv-tip="仅本区表；不影响 Swap/四象限；可「从左侧复制」" tabindex="0" role="img" aria-label="说明：仅本区表；不影响 Swap/四象限；可「从左侧复制」">ⓘ</span></span>
+          <span class="rv-scope-badge independent" id="rvRiskEstScopeBadge" title="仅影响风险预估表，不影响 Swap/四象限">已独立</span>
+          <span class="da-panel-summary" id="rvPanelRiskEstSummary"></span>
+          <span class="da-panel-collapse-hint" aria-hidden="true"></span>
+        </div>
+        <div class="da-panel-body">
+        <div class="da-risk-est-sample">
+          <div class="da-risk-est-sample-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="rvRiskSyncPostSample" data-rv-direct-bound="1">从左侧复制贷后样本</button>
+            <p id="rvRiskSyncPostSampleHint" class="config-muted da-risk-est-sample-hint"></p>
+          </div>
+          <div class="sample-sub-block sample-sub-filter da-risk-est-filter">
+            <h5 class="da-risk-est-filter-label">筛选字段</h5>
+            <div id="rvRiskPostPrimaryFilterSelected" class="sample-filter-selected-tags"><span class="sample-filter-tag sample-filter-tag-primary" title="决策组（不选=全部）" data-prefix="rvRiskPost" data-sample-primary="1"><span class="sample-filter-tag-text">决策组 · 全部</span></span></div>
+            <div id="rvRiskPostPrimaryFilterEditor" class="sample-filter-editor-panel" hidden="">
+              <div class="sample-filter-editor-head">
+                <span>编辑主筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="rvRiskPost" data-sample-primary="1">完成</button>
+              </div>
+              <label>字段</label>
+              <select id="rvRiskPostPrimaryFilterCol" data-rv-risk-est-bound="1"><option value="决策组" title="决策组">决策组</option><option value="提交日期" title="提交日期">提交日期</option><option value="submit_date" title="submit_date">submit_date</option><option value="submit_month" title="submit_month">submit_month</option><option value="客群" title="客群">客群</option><option value="渠道" title="渠道">渠道</option></select>
+              <div id="rvRiskPostPrimaryFilterEditorBody" class="primary-filter-ui" data-rv-risk-est-bound="1"></div>
+            </div>
+            <div id="rvRiskPostPrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden="" aria-hidden="true" data-rv-risk-est-bound="1"><div class="filter-rule primary-filter-rule" data-mode="enum">
+    <div class="filter-rule-time-wrap" style="display:none">
+      <div class="filter-time-row">
+        <label class="filter-time-label rv-heading-with-hint">起<span class="rv-hint rv-tip-anchor" data-rv-tip="时间区间含两端；不选=全部" tabindex="0" role="img" aria-label="说明：时间区间含两端；不选=全部">ⓘ</span><select class="filter-time-min"></select></label>
+        <span class="filter-time-sep">至</span>
+        <label class="filter-time-label">止<select class="filter-time-max"></select></label>
+      </div>
+      <div class="filter-time-actions">
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="3">最近 3 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-time-recent" data-n="6">最近 6 个</button>
+        <button type="button" class="btn btn-secondary btn-sm filter-mode-enum-from-time-btn">枚举点选</button>
+      </div>
+    </div>
+    <div class="filter-rule-enum-wrap" style="display: block;">
+      <div class="filter-rule-tags"></div>
+      <div class="filter-value-combo">
+        <input type="search" class="chk-filter-input filter-rule-values-search" placeholder="搜索并添加取值…" autocomplete="off">
+        <div class="filter-value-dropdown" style="display:none"></div>
+      </div>
+      <div class="filter-rule-values filter-rule-values-hidden" aria-hidden="true"></div>
+      <button type="button" class="btn btn-secondary btn-sm filter-mode-time-btn" style="display:none">时间区间</button>
+    </div></div></div>
+            <p id="rvRiskPostPrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
+          </div>
+          <div class="sample-sub-block sample-sub-filter da-risk-est-filter">
+            <h5 class="da-risk-est-filter-label">额外筛选（且）</h5>
+            <div id="rvRiskPostFilterSelected" class="sample-filter-selected-tags"><p class="sample-filter-selected-empty">无额外筛选 · 点击「+ 筛选」添加</p></div>
+            <div id="rvRiskPostFilterEditor" class="sample-filter-editor-panel" hidden="">
+              <div class="sample-filter-editor-head">
+                <span id="rvRiskPostFilterEditorTitle">编辑筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="rvRiskPost">完成</button>
+              </div>
+              <div id="rvRiskPostFilterEditorBody" data-rv-risk-est-bound="1"></div>
+            </div>
+            <div id="rvRiskPostFilterRules" class="sample-filter-rules-pool" hidden="" aria-hidden="true" data-rv-risk-est-bound="1"></div>
+            <div class="filter-add-row">
+              <input type="search" id="rvRiskPostFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off">
+              <button type="button" class="btn btn-secondary btn-sm" id="rvRiskAddPostFilter">+ 筛选</button>
+            </div>
+            <p id="rvRiskPostFilterMeta" class="chk-filter-meta sample-filter-meta"></p>
+          </div>
+        </div>
+        <div class="da-risk-est-config-toolbar">
+          <div class="da-risk-est-config-field da-risk-est-config-field--var">
+            <span class="da-risk-est-config-label">数值变量<span class="rv-hint rv-tip-anchor" data-rv-tip="等频分箱；变更即时重算" tabindex="0" role="img" aria-label="数值变量：等频分箱；变更即时重算">ⓘ</span></span>
+            <select id="rvRiskEstVar" data-rv-risk-est-bound="1"><option value="">— 选择数值变量 —</option><option value="进件量" title="进件量">进件量</option><option value="通过量" title="通过量">通过量</option><option value="放款订单数" title="放款订单数">放款订单数</option><option value="放款金额" title="放款金额">放款金额</option><option value="fpd1_cnt_fz" title="fpd1_cnt_fz">fpd1_cnt_fz</option><option value="fpd1_cnt_fm" title="fpd1_cnt_fm">fpd1_cnt_fm</option><option value="fpd1_amt_fz" title="fpd1_amt_fz">fpd1_amt_fz</option><option value="fpd1_amt_fm" title="fpd1_amt_fm">fpd1_amt_fm</option><option value="p3_demo_score" title="p3_demo_score">p3_demo_score</option><option value="模型分" title="模型分">模型分</option></select>
+          </div>
+          <div class="da-risk-est-config-field da-risk-est-config-field--bins">
+            <span class="da-risk-est-config-label">分箱数<span class="rv-hint rv-tip-anchor" data-rv-tip="2～20" tabindex="0" role="img" aria-label="分箱数：2～20">ⓘ</span></span>
+            <div class="da-iv-stepper" role="group" aria-label="分箱数">
+              <button type="button" class="btn btn-secondary btn-sm" id="rvRiskEstBinsDec" aria-label="减少">−</button>
+              <input type="number" id="rvRiskEstBins" min="2" max="20" step="1" value="5" data-rv-risk-est-bound="1">
+              <button type="button" class="btn btn-secondary btn-sm" id="rvRiskEstBinsInc" aria-label="增加">+</button>
+            </div>
+          </div>
+          <div class="da-risk-est-config-field da-risk-est-config-field--mult">
+            <span class="da-risk-est-config-label">推断倍数<span class="rv-hint rv-tip-anchor" data-rv-tip="推断风险=通过贷后风险×倍数" tabindex="0" role="img" aria-label="推断倍数：推断风险=通过贷后风险×倍数">ⓘ</span></span>
+            <div class="da-iv-stepper" role="group" aria-label="推断倍数">
+              <button type="button" class="btn btn-secondary btn-sm" id="rvRiskEstMultDec" aria-label="减少">−</button>
+              <input type="number" id="rvRiskEstMultiplier" min="0" step="0.01" value="1" data-rv-risk-est-bound="1">
+              <button type="button" class="btn btn-secondary btn-sm" id="rvRiskEstMultInc" aria-label="增加">+</button>
+            </div>
+          </div>
+          <span class="da-risk-est-live-hint config-muted">变更即时重算</span>
+        </div>
+        </div>
+      </div>
+      <div class="da-config-panel" id="rvPanelRun">
+        <div class="da-panel-header"><span class="da-panel-num">5</span>运行</div>
+        <button type="button" class="btn btn-primary" id="btnRunValidityCheck">运行有效性检查</button>
+        <p id="rvValidityStatus" class="status" style="min-height:1.25rem"></p>
+      </div>
+    </div>
+    </div>
+    <div class="rv-wb-zone rv-wb-results">
+      <div class="rv-wb-zone-label">结果</div>
+      <div id="rvValidityResults"><p class="da-results-placeholder">配置规则后点击「运行有效性检查」</p></div>
+    </div>
+  </section><section id="tab-profitability" class="report-tab-section">
+<div class="container">
+  <header class="pf-header">
+    <h1 class="rv-heading-with-hint">盈利性测算<span class="rv-hint rv-tip-anchor" data-rv-tip="先看结论，再调参数" tabindex="0" role="img" aria-label="说明：先看结论，再调参数">ⓘ</span></h1>
+  </header>
+
+  <div class="pf-decision good" id="pfDecisionCard">
+    <span class="pf-decision-badge" id="pfDecisionBadge">可投放</span>
+    <div class="pf-decision-text" id="pfDecisionText">当前净利润 304.00 元/户，净利率 3.04%。</div>
+    <ul class="pf-diagnosis-list" id="pfDiagnosisList"><li>净利润充足，当前客群有正向空间</li><li>盈亏平衡逾期率 40.5%，当前逾期率需留安全边际</li><li>成本合计 944.00 元/户（资金+获客+催收）</li></ul>
+  </div>
+
+  <div class="pf-kpi-grid">
+    <article class="pf-kpi-card">
+      <span class="kpi-label">净利润（元/户）</span>
+      <strong class="kpi-value positive" id="pfKpiNetProfit">304.00</strong>
+    </article>
+    <article class="pf-kpi-card">
+      <span class="kpi-label">净利率</span>
+      <strong class="kpi-value" id="pfKpiNetMargin">3.04%</strong>
+    </article>
+    <article class="pf-kpi-card">
+      <span class="kpi-label">本金回报率</span>
+      <strong class="kpi-value" id="pfKpiRoi">12.48%</strong>
+    </article>
+    <article class="pf-kpi-card">
+      <span class="kpi-label">盈亏平衡逾期率</span>
+      <strong class="kpi-value" id="pfKpiBreakEven">40.54%</strong>
+    </article>
+  </div>
+
+  <div class="main-grid">
+    <div class="card">
+      <h2 class="rv-heading-with-hint">参数配置<span class="rv-hint rv-tip-anchor" data-rv-tip="分组录入，改参即重算" tabindex="0" role="img" aria-label="说明：分组录入，改参即重算">ⓘ</span></h2>
+      <div id="pfErrorBanner" class="error-banner"></div>
+
+      <h3>收入参数</h3>
+      <div class="field"><label for="pfPrincipal">平均给额（本金 P）</label><div class="input-wrap"><input type="number" id="pfPrincipal" value="10000" min="0" step="100"><span class="suffix">元</span></div></div>
+      <div class="field"><label for="pfTotalRepayRate">平均总应还率</label><div class="input-wrap"><input type="number" id="pfTotalRepayRate" value="148" min="0" step="0.1"><span class="suffix">%</span></div></div>
+
+      <h3>风险参数</h3>
+      <div class="field"><label for="pfOverdueRate">客群逾期率</label><div class="input-wrap"><input type="number" id="pfOverdueRate" value="30" min="0" max="100" step="0.1"><span class="suffix">%</span></div></div>
+      <div class="field"><label for="pfRecoveryRate">逾期回收率</label><div class="input-wrap"><input type="number" id="pfRecoveryRate" value="20" min="0" max="100" step="0.1"><span class="suffix">%</span></div></div>
+
+      <h3>成本参数</h3>
+      <div class="field"><label for="pfFundCostRate">年化资金成本率</label><div class="input-wrap"><input type="number" id="pfFundCostRate" value="12" min="0" max="100" step="0.1"><span class="suffix">%</span></div></div>
+      <div class="field"><label for="pfTermMonths">贷款期限</label><div class="input-wrap"><input type="number" id="pfTermMonths" value="3" min="0" step="1"><span class="suffix">月</span></div></div>
+      <div class="field"><label for="pfCac">单客获客成本（CAC）</label><div class="input-wrap"><input type="number" id="pfCac" value="200" min="0" step="10"><span class="suffix">元</span></div></div>
+      <div class="field"><label for="pfCollectionCostRate">催收成本率</label><div class="input-wrap"><input type="number" id="pfCollectionCostRate" value="10" min="0" max="100" step="0.1"><span class="suffix">%</span></div></div>
+    </div>
+
+    <div class="card">
+      <h2 class="rv-heading-with-hint">利润拆解<span class="rv-hint rv-tip-anchor" data-rv-tip="回款→毛利→净利润" tabindex="0" role="img" aria-label="说明：回款→毛利→净利润">ⓘ</span></h2>
+
+      <div class="result-group">
+        <div class="result-row"><span class="label">平均总应还（R）</span><span class="value" id="pfOutTotalRepay">14,800.00</span></div>
+        <div class="result-row"><span class="label">息费收入（R − P）</span><span class="value" id="pfOutInterestFee">4,800.00</span></div>
+        <div class="result-row"><span class="label">逾期金额（O）</span><span class="value" id="pfOutOverdueAmount">4,440.00</span></div>
+        <div class="result-row"><span class="label">逾期部分回收</span><span class="value" id="pfOutOverdueRecovery">888.00</span></div>
+        <div class="result-row"><span class="label">逾期部分损失</span><span class="value" id="pfOutOverdueLoss">3,552.00</span></div>
+        <div class="result-row highlight"><span class="label">预期回款</span><span class="value" id="pfOutExpectedCollection">11,248.00</span></div>
+      </div>
+
+      <div class="result-group">
+        <div class="result-row"><span class="label">产品毛利</span><span class="value" id="pfOutGrossProfit">1,248.00</span></div>
+        <div class="result-row"><span class="label">产品毛利率</span><span class="value" id="pfOutGrossMargin">26.00%</span></div>
+        <div class="result-row"><span class="label">资金成本</span><span class="value" id="pfOutFundCost">300.00</span></div>
+        <div class="result-row"><span class="label">获客成本</span><span class="value" id="pfOutCac">200.00</span></div>
+        <div class="result-row"><span class="label">催收成本</span><span class="value" id="pfOutCollectionCost">444.00</span></div>
+        <div class="result-row"><span class="label">总成本</span><span class="value" id="pfOutTotalCost">944.00</span></div>
+        <div class="result-row net-profit positive-bg" id="pfNetProfitRow"><span class="label">产品净利润</span><span class="value positive" id="pfOutNetProfit">304.00</span></div>
+      </div>
+
+      <div class="result-group compact">
+        <div class="result-row"><span class="label">未逾期应还</span><span class="value" id="pfOutNormalRepay">10,360.00</span></div>
+        <div class="result-row"><span class="label">本金回报率</span><span class="value" id="pfOutRoi">12.48%</span></div>
+        <div class="result-row"><span class="label">产品净利率</span><span class="value" id="pfOutNetMargin">3.04%</span></div>
+        <div class="result-row"><span class="label">有效损失率</span><span class="value" id="pfOutEffectiveLoss">24.00%</span></div>
+        <div class="result-row"><span class="label">盈亏平衡逾期率</span><span class="value" id="pfOutBreakEven">40.54%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-section">
+    <div class="card">
+      <h2 class="rv-heading-with-hint">方案 A/B 对比<span class="rv-hint rv-tip-anchor" data-rv-tip="存 A/B 两套参数，看 Δ 差值" tabindex="0" role="img" aria-label="说明：存 A/B 两套参数，看 Δ 差值">ⓘ</span></h2>
+      <div class="snapshot-actions">
+        <button type="button" class="btn btn-scenario-a" id="pfSaveScenarioA">保存当前为方案 A</button>
+        <button type="button" class="btn btn-scenario-b" id="pfSaveScenarioB">保存当前为方案 B</button>
+        <button type="button" class="btn btn-ghost" id="pfClearScenarios">清除全部快照</button>
+      </div>
+      <div class="snapshot-cards">
+        <div class="snapshot-card scenario-a" id="pfSnapshotCardA">
+          <h4>方案 A</h4>
+          <div class="meta" id="pfSnapshotMetaA">尚未保存</div>
+          <div class="params" id="pfSnapshotParamsA">—</div>
+          <button type="button" class="btn btn-ghost load-btn hidden" id="pfLoadScenarioA">载入到输入区</button>
+        </div>
+        <div class="snapshot-card scenario-b" id="pfSnapshotCardB">
+          <h4>方案 B</h4>
+          <div class="meta" id="pfSnapshotMetaB">尚未保存</div>
+          <div class="params" id="pfSnapshotParamsB">—</div>
+          <button type="button" class="btn btn-ghost load-btn hidden" id="pfLoadScenarioB">载入到输入区</button>
+        </div>
+      </div>
+      <div class="compare-table-wrap hidden" id="pfCompareTableWrap">
+        <table class="compare-table">
+          <thead><tr><th>指标</th><th class="col-a">方案 A</th><th class="col-b">方案 B</th><th>Δ (B − A)</th></tr></thead>
+          <tbody id="pfCompareTableBody"></tbody>
+        </table>
+      </div>
+      <p class="compare-empty" id="pfCompareEmpty">保存方案 A 与方案 B 后，将在此显示对比结果</p>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div class="card">
+      <div class="card-header"><h2>敏感性分析（逾期率 × 毛利率）</h2></div>
+      <div class="chart-desc" id="pfChartAnchorDesc"><div class="chart-desc-grid">
+        <span>本金 P：10,000.00</span>
+        <span>总应还率：148.0%</span>
+        <span>逾期回收率：20.0%</span>
+        <span>资金成本率：12.0%</span>
+        <span>贷款期限：3 月</span>
+        <span>CAC：200.00</span>
+        <span>催收成本率：10.0%</span>
+      </div></div>
+      <div class="chart-body" id="pfChartBody">
+        <div class="chart-axis-y-title"><span>产品毛利率 (%)</span></div>
+        <div class="chart-wrap" id="pfChartWrap">
+          <canvas id="pfSensitivityChart" width="607" height="340"></canvas>
+          <div class="chart-tooltip" id="pfChartTooltip"></div>
+        </div>
+        <div></div>
+        <div class="chart-axis-x-title">客群逾期率 (%)</div>
+      </div>
+      <p class="chart-empty" id="pfChartEmpty">请先填写有效的输入参数以生成曲线</p>
+      <div class="chart-annotations" id="pfChartAnnotations"><span class="chart-tag current"><span class="dot"></span>当前点：逾期率 30.0%，毛利率 26.00%</span><span class="chart-tag break-even"><span class="dot"></span>盈亏平衡：逾期率 40.54%（毛利率 0%）</span></div>
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="legend-line primary"></span>产品毛利率曲线</span>
+        <span class="chart-legend-item"><span class="legend-line current"></span>当前逾期率</span>
+        <span class="chart-legend-item"><span class="legend-line break-even"></span>盈亏平衡逾期率</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="pfToast"></div>
+</section><section id="tab-risk-target" class="report-tab-section">
+<div class="container">
+  <header class="rt-header">
+    <h1 class="rv-heading-with-hint">风险目标测算<span class="rv-hint rv-tip-anchor" data-rv-tip="swapin 替 swapout，按场景反算" tabindex="0" role="img" aria-label="说明：swapin 替 swapout，按场景反算">ⓘ</span></h1>
+  </header>
+
+  <div class="rt-decision good" id="rtDecisionCard">
+    <span class="rt-decision-badge" id="rtDecisionBadge">可达标</span>
+    <div class="rt-decision-text" id="rtDecisionText">达标后风险 4.50%（目标 4.50%）；需换出/换入 1,666.67 笔</div>
+  </div>
+
+  <div class="rt-main-grid">
+    <div class="rt-card">
+      <h2 class="rv-heading-with-hint">参数配置<span class="rv-hint rv-tip-anchor" data-rv-tip="订单数可与风险%/逾期联动" tabindex="0" role="img" aria-label="说明：订单数可与风险%/逾期联动">ⓘ</span></h2>
+      <div id="rtErrorBanner" class="rt-error-banner" hidden=""></div>
+
+      <h3 class="rv-heading-with-hint">测算场景<span class="rv-hint rv-tip-anchor" data-rv-tip="设 swap 倍数 m/k，或填 swapout 风险" tabindex="0" role="img" aria-label="说明：设 swap 倍数 m/k，或填 swapout 风险">ⓘ</span></h3>
+      <div class="rt-scenario-row" role="radiogroup" aria-label="测算场景">
+        <label class="rt-scenario-option">
+          <input type="radio" name="rtScenario" id="rtScenarioMultiples" value="multiples" checked="">
+          <span>倍数约束</span>
+        </label>
+        <label class="rt-scenario-option">
+          <input type="radio" name="rtScenario" id="rtScenarioKnownSwapout" value="knownSwapout">
+          <span>已知 swapout 风险</span>
+        </label>
+      </div>
+
+      <h3>现状总量</h3>
+      <div class="rt-field">
+        <label for="rtOrders">订单数</label>
+        <div class="rt-input-wrap"><input type="number" id="rtOrders" min="1" step="1"><span class="rt-suffix">笔</span></div>
+      </div>
+      <div class="rt-field">
+        <label for="rtRiskPct">风险</label>
+        <div class="rt-input-wrap"><input type="number" id="rtRiskPct" min="0" max="100" step="0.01"><span class="rt-suffix">%</span></div>
+      </div>
+      <div class="rt-field">
+        <label for="rtOverdue">逾期订单数</label>
+        <div class="rt-input-wrap"><input type="number" id="rtOverdue" min="0" step="0.01"><span class="rt-suffix">笔</span></div>
+      </div>
+
+      <h3>目标与约束</h3>
+      <div class="rt-field">
+        <label for="rtTargetRiskPct">目标风险</label>
+        <div class="rt-input-wrap"><input type="number" id="rtTargetRiskPct" min="0" max="100" step="0.01"><span class="rt-suffix">%</span></div>
+      </div>
+      <div class="rt-field" id="rtFieldSwapoutMultiple">
+        <label for="rtSwapoutMultiple">swapout / inin 风险倍数 <span class="rt-hint">m</span></label>
+        <div class="rt-input-wrap"><input type="number" id="rtSwapoutMultiple" min="0.01" step="0.01"><span class="rt-suffix">×</span></div>
+      </div>
+      <div class="rt-field" id="rtFieldSwapoutRisk" hidden="">
+        <label for="rtSwapoutRiskPct">swapout 风险</label>
+        <div class="rt-input-wrap"><input type="number" id="rtSwapoutRiskPct" min="0" max="100" step="0.01"><span class="rt-suffix">%</span></div>
+      </div>
+      <div class="rt-field">
+        <label for="rtSwapinMultiple">swapin / inin 风险倍数 <span class="rt-hint">k</span></label>
+        <div class="rt-input-wrap"><input type="number" id="rtSwapinMultiple" min="0.01" step="0.01"><span class="rt-suffix">×</span></div>
+      </div>
+
+      <p class="rt-constraint-note" id="rtConstraintNote">约束：等量替换；swapout 风险 = 2 × inin 风险；swapin 风险 = 1.3 × inin 风险</p>
+    </div>
+
+    <div class="rt-card">
+      <h2 class="rv-heading-with-hint">测算结果<span class="rv-hint rv-tip-anchor" data-rv-tip="达标后 swapout→swapin 等量替换" tabindex="0" role="img" aria-label="说明：达标后 swapout→swapin 等量替换">ⓘ</span></h2>
+      <div class="rt-table-wrap">
+        <table class="rt-result-table" id="rtResultTable">
+          <thead>
+            <tr>
+              <th>客群</th>
+              <th>订单数</th>
+              <th>逾期订单数</th>
+              <th>风险</th>
+            </tr>
+          </thead>
+          <tbody id="rtResultBody"><tr>
+      <td>inin（保留）</td>
+      <td>8,333.33</td>
+      <td>357.14</td>
+      <td>4.2857%</td>
+    </tr><tr>
+      <td>swapout（换出）</td>
+      <td>1,666.67</td>
+      <td>142.86</td>
+      <td>8.5714%</td>
+    </tr><tr>
+      <td>swapin（换入）</td>
+      <td>1,666.67</td>
+      <td>92.86</td>
+      <td>5.5714%</td>
+    </tr><tr class="rt-row-muted">
+      <td>现状合计</td>
+      <td>10,000.00</td>
+      <td>500.00</td>
+      <td>5.00%</td>
+    </tr><tr class="rt-row-highlight">
+      <td>达标后合计</td>
+      <td>10,000.00</td>
+      <td>450.00</td>
+      <td>4.50%</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section><section id="tab-el-allocator" class="report-tab-section">
+<div class="container">
+  <header class="ea-header">
+    <h1 class="rv-heading-with-hint">资产包 EL 调配<span class="rv-hint rv-tip-anchor" data-rv-tip="固定人数/用信，调通过率·件均·风险" tabindex="0" role="img" aria-label="说明：固定人数/用信，调通过率·件均·风险">ⓘ</span></h1>
+    <p>组合 EL = 金额占比加权风险；金额占比由 人数占比 × 通过率 × 用信率 × 放款件均 归一化得到。无需 CSV。</p>
+  </header>
+
+  <div class="ea-decision warn" id="eaDecisionCard">
+    <span class="ea-decision-badge" id="eaDecisionBadge">近优</span>
+    <div class="ea-decision-text" id="eaDecisionText">建议组合 EL 24.50%（目标 24.00%，缺口 +50.1 bp）</div>
+  </div>
+
+  <div class="ea-kpi-grid">
+    <article class="ea-kpi-card">
+      <span class="kpi-label">当前组合 EL</span>
+      <strong class="kpi-value" id="eaKpiCurrent">25.99%</strong>
+      <div class="kpi-sub" id="eaKpiCurrentSub">由输入表推算</div>
+    </article>
+    <article class="ea-kpi-card">
+      <span class="kpi-label">建议后组合 EL</span>
+      <strong class="kpi-value" id="eaKpiBest">24.50%</strong>
+      <div class="kpi-sub" id="eaKpiBestSub"><span class="ea-delta-down">-5.74%</span> 相对当前</div>
+    </article>
+    <article class="ea-kpi-card">
+      <span class="kpi-label">相对目标</span>
+      <strong class="kpi-value" id="eaKpiGap">+50.1 bp</strong>
+      <div class="kpi-sub" id="eaKpiGapSub">目标不可达（约束内最优）</div>
+    </article>
+    <article class="ea-kpi-card">
+      <span class="kpi-label">算法 / 耗时</span>
+      <strong class="kpi-value" id="eaKpiAlgo" style="font-size:1rem">网格穷举</strong>
+      <div class="kpi-sub" id="eaKpiAlgoSub">285 ms · 评估 390,625 次</div>
+    </article>
+  </div>
+
+  <div class="ea-main-grid">
+    <div class="ea-card">
+      <h2 class="rv-heading-with-hint">目标与约束<span class="rv-hint rv-tip-anchor" data-rv-tip="相对变动与同向约束" tabindex="0" role="img" aria-label="说明：相对变动与同向约束">ⓘ</span></h2>
+      <div id="eaErrorBanner" class="ea-error-banner" hidden=""></div>
+
+      <div class="ea-field">
+        <label for="eaTargetEl">目标组合 EL</label>
+        <div class="ea-input-wrap"><input type="number" id="eaTargetEl" min="0" max="100" step="0.01"><span class="ea-suffix">%</span></div>
+      </div>
+      <div class="ea-field">
+        <label for="eaRelMax">相对变动上限</label>
+        <div class="ea-input-wrap"><input type="number" id="eaRelMax" min="0.1" max="50" step="0.1"><span class="ea-suffix">%</span></div>
+      </div>
+      <div class="ea-field">
+        <label for="eaGridN">搜索精度</label>
+        <div class="ea-input-wrap">
+          <select id="eaGridN">
+            <option value="3">3（快）</option>
+            <option value="5" selected="">5（推荐）</option>
+            <option value="7">7（更细）</option>
+            <option value="9">9（最细）</option>
+          </select>
+        </div>
+      </div>
+      <div class="ea-field">
+        <label for="eaObjective">优化目标</label>
+        <div class="ea-input-wrap">
+          <select id="eaObjective">
+            <option value="min" selected="">尽量压低组合 EL</option>
+            <option value="target">贴近目标 EL</option>
+          </select>
+        </div>
+      </div>
+      <div class="ea-field">
+        <label for="eaAlgo">求解算法</label>
+        <div class="ea-input-wrap">
+          <select id="eaAlgo">
+            <option value="auto" selected="">自动</option>
+            <option value="descent">多起点坐标下降</option>
+            <option value="grid">网格穷举</option>
+          </select>
+        </div>
+      </div>
+      <div class="ea-field">
+        <label for="eaRestarts">随机重启次数</label>
+        <div class="ea-input-wrap"><input type="number" id="eaRestarts" min="4" max="200" step="1" value="24"></div>
+      </div>
+
+      <div class="ea-checks">
+        <label><input type="checkbox" id="eaCouplePR" checked=""> 通过率 ↔ 风险同向</label>
+        <label><input type="checkbox" id="eaCoupleAR" checked=""> 件均 ↔ 风险同向</label>
+        <label><input type="checkbox" id="eaRiskOnlyDown"> 风险只许下降</label>
+      </div>
+
+      <div class="ea-actions">
+        <button type="button" class="ea-btn ea-btn-primary" id="eaBtnRun">计算建议</button>
+        <button type="button" class="ea-btn" id="eaBtnReset">恢复示例</button>
+        <button type="button" class="ea-btn" id="eaBtnAdd">增加一行</button>
+        <button type="button" class="ea-btn" id="eaBtnCopy">复制表格</button>
+      </div>
+      <p class="ea-hint" id="eaShareHint">人数占比之和 = 100.00%</p>
+      <div class="ea-formula">
+        <div><code>Vᵢ = 人数占比ᵢ × 通过率ᵢ × 用信率ᵢ × 放款件均ᵢ</code></div>
+        <div><code>wᵢ = Vᵢ / ΣV　·　EL = Σ wᵢ × 风险ᵢ</code></div>
+        <div>同向：上调通过率/件均 ⇒ 该包风险不能下降；要降风险 ⇒ 通过率与件均不能上调。</div>
+      </div>
+    </div>
+
+    <div class="ea-card">
+      <h2 class="rv-heading-with-hint">资产包输入表<span class="rv-hint rv-tip-anchor" data-rv-tip="可点格编辑，支持 Excel 粘贴" tabindex="0" role="img" aria-label="说明：可点格编辑，支持 Excel 粘贴">ⓘ</span></h2>
+      <p class="ea-hint" style="margin-top:0.35rem">点中格子后粘贴（⌘/Ctrl+V）可批量填入；含表头则整表替换。</p>
+      <div class="ea-table-wrap">
+        <table class="ea-sheet" id="eaInputTable">
+          <thead>
+            <tr>
+              <th>资产包</th><th>风险%</th><th>人数占比%</th><th>通过率%</th><th>放款件均</th><th>用信率%</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="eaInputBody"><tr><td class="ea-cell" contenteditable="true" data-k="name" data-i="0" data-c="0">资产包1</td><td class="ea-cell" contenteditable="true" data-k="risk" data-i="0" data-c="1">32.42</td><td class="ea-cell" contenteditable="true" data-k="share" data-i="0" data-c="2">34.86</td><td class="ea-cell" contenteditable="true" data-k="pass" data-i="0" data-c="3">69.65</td><td class="ea-cell" contenteditable="true" data-k="ticket" data-i="0" data-c="4">11530</td><td class="ea-cell" contenteditable="true" data-k="util" data-i="0" data-c="5">65.2</td><td><button type="button" class="ea-btn" data-del="0">删</button></td></tr><tr><td class="ea-cell" contenteditable="true" data-k="name" data-i="1" data-c="0">资产包2</td><td class="ea-cell" contenteditable="true" data-k="risk" data-i="1" data-c="1">37.5</td><td class="ea-cell" contenteditable="true" data-k="share" data-i="1" data-c="2">12.38</td><td class="ea-cell" contenteditable="true" data-k="pass" data-i="1" data-c="3">8.7</td><td class="ea-cell" contenteditable="true" data-k="ticket" data-i="1" data-c="4">9139</td><td class="ea-cell" contenteditable="true" data-k="util" data-i="1" data-c="5">71.32</td><td><button type="button" class="ea-btn" data-del="1">删</button></td></tr><tr><td class="ea-cell" contenteditable="true" data-k="name" data-i="2" data-c="0">资产包3</td><td class="ea-cell" contenteditable="true" data-k="risk" data-i="2" data-c="1">23.1</td><td class="ea-cell" contenteditable="true" data-k="share" data-i="2" data-c="2">45.08</td><td class="ea-cell" contenteditable="true" data-k="pass" data-i="2" data-c="3">89.06</td><td class="ea-cell" contenteditable="true" data-k="ticket" data-i="2" data-c="4">16166</td><td class="ea-cell" contenteditable="true" data-k="util" data-i="2" data-c="5">67.04</td><td><button type="button" class="ea-btn" data-del="2">删</button></td></tr><tr><td class="ea-cell" contenteditable="true" data-k="name" data-i="3" data-c="0">资产包4</td><td class="ea-cell" contenteditable="true" data-k="risk" data-i="3" data-c="1">27.27</td><td class="ea-cell" contenteditable="true" data-k="share" data-i="3" data-c="2">7.68</td><td class="ea-cell" contenteditable="true" data-k="pass" data-i="3" data-c="3">6.6</td><td class="ea-cell" contenteditable="true" data-k="ticket" data-i="3" data-c="4">10966</td><td class="ea-cell" contenteditable="true" data-k="util" data-i="3" data-c="5">60.94</td><td><button type="button" class="ea-btn" data-del="3">删</button></td></tr></tbody>
+        </table>
+      </div>
+
+      <h2 class="rv-heading-with-hint" style="margin-top:1.1rem">调配建议<span class="rv-hint rv-tip-anchor" data-rv-tip="建议通过率 / 件均 / 风险" tabindex="0" role="img" aria-label="说明：建议通过率 / 件均 / 风险">ⓘ</span></h2>
+      <div class="ea-table-wrap">
+        <table class="ea-result-table" id="eaResultTable">
+          <thead>
+            <tr>
+              <th>资产包</th>
+              <th>建议通过率</th>
+              <th>Δ通过率</th>
+              <th>建议件均</th>
+              <th>Δ件均</th>
+              <th>建议风险</th>
+              <th>Δ风险</th>
+              <th>当前占比</th>
+              <th>建议占比</th>
+            </tr>
+          </thead>
+          <tbody id="eaResultBody">
+      <tr>
+        <td>资产包1</td>
+        <td>66.17%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>10954</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>30.80%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>29.06%</td>
+        <td>27.04%</td>
+      </tr>
+    
+      <tr>
+        <td>资产包2</td>
+        <td>8.26%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>8682</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>35.62%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>1.12%</td>
+        <td>1.04%</td>
+      </tr>
+    
+      <tr>
+        <td>资产包3</td>
+        <td>89.06%</td>
+        <td><span class="ea-delta-flat">0.00%</span></td>
+        <td>16166</td>
+        <td><span class="ea-delta-flat">0.00%</span></td>
+        <td>21.95%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>69.28%</td>
+        <td>71.42%</td>
+      </tr>
+    
+      <tr>
+        <td>资产包4</td>
+        <td>6.27%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>10418</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>25.91%</td>
+        <td><span class="ea-delta-down">-5.00%</span></td>
+        <td>0.54%</td>
+        <td>0.50%</td>
+      </tr>
+    </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section></div></div>
     </main>
   </div>
   <div id="appFeedback" class="global-feedback" aria-live="polite"></div>
   <footer class="rv-workbench-footer">作者 王含章scott</footer>
   </div><!-- /#rvWorkbench -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
-(function () {
-  var landing = document.getElementById("rvLanding");
-  var workbench = document.getElementById("rvWorkbench");
-  var KEY = "rv.workbenchEntered";
-
-  /**
-   * 导航契约（第一性原理：一页一意图）
-   * - 默认 / ?home=1 → 营销首页（介绍）
-   * - #workbench / ?enter=1 → 分析工作台
-   * - sessionStorage 仅记住「本会话已进过工作台」，?home=1 可强制回首页
-   */
-  function showWorkbench(persist) {
-    if (!landing || !workbench) return;
-    landing.hidden = true;
-    workbench.hidden = false;
-    document.body.classList.remove("rv-landing-active");
-    document.body.classList.add("rv-workbench-active");
-    if (persist !== false) {
-      try { sessionStorage.setItem(KEY, "1"); } catch (e) { /* ignore */ }
-      if (location.hash !== "#workbench") {
-        try { history.replaceState(null, "", "#workbench"); } catch (e2) { /* ignore */ }
-      }
-    }
-    try { window.scrollTo(0, 0); } catch (e3) { /* ignore */ }
-  }
-
-  function showLanding(persistClear) {
-    if (!landing || !workbench) return;
-    workbench.hidden = true;
-    landing.hidden = false;
-    document.body.classList.add("rv-landing-active");
-    document.body.classList.remove("rv-workbench-active");
-    if (persistClear !== false) {
-      try { sessionStorage.removeItem(KEY); } catch (e) { /* ignore */ }
-    }
-    try {
-      var q = location.search.replace(/[?&]enter=1\b/, "").replace(/[?&]home=1\b/, "");
-      q = q.replace(/^\?&/, "?").replace(/[?&]$/, "");
-      if (q === "?") q = "";
-      history.replaceState(null, "", location.pathname + q);
-    } catch (e2) { /* ignore */ }
-    try { window.scrollTo(0, 0); } catch (e3) { /* ignore */ }
-  }
-
-  function resolveSurface() {
-    showWorkbench(true);
-  }
-
-  var enterBtn = document.getElementById("rvEnterWorkbench");
-  if (enterBtn) enterBtn.addEventListener("click", function () { showWorkbench(true); });
-  var enterFooter = document.getElementById("rvEnterWorkbenchFooter");
-  if (enterFooter) enterFooter.addEventListener("click", function () { showWorkbench(true); });
-  var backBtn = document.getElementById("rvBackToLanding");
-  if (backBtn) backBtn.addEventListener("click", function () { showLanding(true); });
-
-  window.addEventListener("hashchange", function () {
-    showWorkbench(true);
-  });
-
-  resolveSurface();
-})();
-</script>
-
-<script src="src/rv/bootstrap.js"></script>
-<script src="src/rv/app/state.js"></script>
-<script src="src/rv/infra.js?v=20260715-heatAB"></script>
-<script src="src/rv/data.js"></script>
-<script src="src/rv/sample.js"></script>
-<script src="src/rv/ui/charts.js?v=20260713-minmax"></script>
-<script src="src/rv/ui/rule-expr.js?v=20260706-expr-binary"></script>
-<script src="src/rv/domain/rules.js?v=20260713-opt"></script>
-<script src="src/rv/domain/rules-pack.js?v=20260706-expr-binary"></script>
-<script src="src/rv/ui/rule-rows.js?v=20260713-adv2"></script>
-<script src="src/rv/ui/sidebar.js?v=20260714-reviewFix"></script>
-<script src="src/rv/domain/metrics.js?v=20260713-eda1"></script>
-<script src="src/rv/domain/post-risk.js"></script>
-<script src="src/rv/domain/pre-strategy.js"></script>
-<script src="src/rv/domain/summary.js?v=20260713-opt"></script>
-  <script src="src/rv/domain/eda.js?v=20260713-eda1"></script>
-  <script src="src/rv/domain/binning.js?v=20260710-bin-summary-fix"></script>
-  <script src="src/rv/domain/rule-mining.js?v=20260713-adv2"></script>
-<script src="src/rv/domain/validity.js?v=20260713-eda1"></script>
-<script src="src/rv/domain/profitability.js"></script>
-<script src="src/rv/domain/risk-target.js?v=20260713-rt2"></script>
-<script src="src/rv/domain/el-allocator.js?v=20260724-ea1"></script>
-<script src="src/rv/domain/attribution.js?v=20260827-attrOrd"></script>
-<script src="src/rv/domain/daily-review.js?v=20261010-drSegOne"></script>
-<script src="src/rv/ui/collapsed-picker.js?v=20260714-binBar"></script>
-<script src="src/rv/ui/config-panel.js?v=20260713-collapse"></script>
-<script src="src/rv/ui/waterfall-dnd.js?v=20260713-opt"></script>
-<script src="src/rv/ui/report-post.js?v=20260724-ea1"></script>
-<script src="src/rv/ui/report-pre.js?v=20260714-binBar"></script>
-<script src="src/rv/ui/report-analysis.js?v=20260714-reviewFix"></script>
-<script src="src/rv/ui/report-post-rule-review.js?v=20260714-binBar"></script>
-<script src="src/rv/ui/report-validity.js?v=20260714-reviewFix"></script>
-<script src="src/rv/ui/report-profitability.js"></script>
-<script src="src/rv/ui/report-risk-target.js?v=20260714-binBar"></script>
-<script src="src/rv/ui/report-el-allocator.js?v=20260724-ea1"></script>
-<script src="src/rv/ui/report-attribution.js?v=20260827-attrOrd"></script>
-<script src="src/rv/ui/report-daily-review.js?v=20261010-drSegOne"></script>
-<script src="src/rv/app/config.js?v=20260714-crossToolbar"></script>
-<script src="src/rv/app/rules-io.js?v=20260713-adv2"></script>
-<script src="src/rv/app/orchestrator.js?v=20260724-ea1"></script>
-<script src="src/rv/export.js?v=20260826-drNoMonth"></script>
-<script src="src/rv/events.js?v=20260724-drRestore1"></script>
-<script src="src/rv/app/main.js"></script>
-<script src="../assets/site-nav.js"></script>
-<script src="../assets/demo-sample.js"></script>
-<script>
-  document.getElementById("btnLoadSample").addEventListener("click", function () {
-    StrategyDemo.loadCsvInto("csvFile").catch(function (err) {
-      var el = document.getElementById("loadStatus");
-      if (el) el.textContent = err.message || String(err);
-    });
-  });
-  StrategyDemo.loadCsvInto("csvFile").catch(function (err) {
-    var el = document.getElementById("loadStatus");
-    if (el) el.textContent = err.message || String(err);
-  });
-</script>
-</body>
-</html>
+      (function () {
+        var map = {
+          post: "tab-post",
+          pre: "tab-pre",
+          analysis: "tab-analysis",
+          validity: "tab-validity",
+          profitability: "tab-profitability",
+          riskTarget: "tab-risk-target",
+          elAllocator: "tab-el-allocator",
+          attribution: "tab-attribution"
+        };
+        document.querySelectorAll("#reportTabs .tab-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            document.querySelectorAll("#reportTabs .tab-btn").forEach(function (b) {
+              b.classList.toggle("active", b === btn);
+            });
+            var id = map[btn.dataset.tab];
+            document.querySelectorAll("#report-output section").forEach(function (s) {
+              s.classList.remove("section-visible");
+            });
+            var el = id && document.getElementById(id);
+            if (el) el.classList.add("section-visible");
+          });
+        });
+      })();
+    </script></body></html>
