@@ -1,0 +1,262 @@
+/* Risk-target tab only */
+#tab-risk-target,
+#tab-risk-target *,
+#tab-risk-target *::before,
+#tab-risk-target *::after {
+  box-sizing: border-box;
+}
+
+#tab-risk-target {
+  --rt-bg: var(--bg);
+  --rt-card: var(--card);
+  --rt-border: var(--border);
+  --rt-text: var(--text);
+  --rt-muted: var(--text-muted);
+  --rt-primary: var(--accent);
+  --rt-success: var(--success);
+  --rt-danger: var(--danger);
+  --rt-radius: var(--radius-lg);
+  --rt-shadow: var(--shadow-surface);
+  background: var(--rt-bg);
+  color: var(--rt-text);
+}
+
+#tab-risk-target .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+
+#tab-risk-target .rt-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+#tab-risk-target .rt-header p {
+  margin: 0.35rem 0 0;
+  color: var(--rt-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+#tab-risk-target .rt-decision {
+  margin-top: 1rem;
+  background: var(--rt-card);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+  box-shadow: var(--rt-shadow);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  align-items: center;
+}
+
+#tab-risk-target .rt-decision-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  background: var(--border);
+  color: var(--text-dim);
+}
+
+#tab-risk-target .rt-decision.good .rt-decision-badge {
+  background: var(--bg-soft-green);
+  color: var(--success);
+}
+
+#tab-risk-target .rt-decision.bad .rt-decision-badge {
+  background: var(--bg-danger-soft);
+  color: var(--text-danger-dark);
+}
+
+#tab-risk-target .rt-decision-text {
+  flex: 1;
+  min-width: 12rem;
+  font-size: 0.9rem;
+  color: var(--rt-text);
+}
+
+#tab-risk-target .rt-main-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
+  gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  #tab-risk-target .rt-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#tab-risk-target .rt-card {
+  background: var(--wb-block);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+  box-shadow: none;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+#tab-risk-target .rt-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+#tab-risk-target .rt-card h3 {
+  margin: 1rem 0 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--rt-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+#tab-risk-target .rt-section-desc {
+  margin: 0.3rem 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--rt-muted);
+  line-height: 1.4;
+}
+
+#tab-risk-target .rt-error-banner {
+  margin-bottom: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: var(--bg-danger-soft);
+  border: 1px solid var(--border-danger-chip);
+  color: var(--text-danger-dark);
+  font-size: 0.82rem;
+}
+
+#tab-risk-target .rt-scenario-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+}
+
+#tab-risk-target .rt-scenario-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--rt-text);
+  cursor: pointer;
+}
+
+#tab-risk-target .rt-scenario-option input {
+  margin-top: 0.15rem;
+}
+
+#tab-risk-target .rt-field {
+  margin-bottom: 0.65rem;
+}
+
+#tab-risk-target .rt-field[hidden] {
+  display: none !important;
+}
+
+#tab-risk-target .rt-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+#tab-risk-target .rt-hint {
+  font-weight: 500;
+  color: var(--rt-muted);
+}
+
+#tab-risk-target .rt-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+#tab-risk-target .rt-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--rt-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.9rem;
+  background: var(--card);
+  color: var(--rt-text);
+}
+
+#tab-risk-target .rt-input-wrap input:focus {
+  outline: 2px solid color-mix(in srgb, var(--rt-primary) 35%, transparent);
+  border-color: var(--rt-primary);
+}
+
+#tab-risk-target .rt-suffix {
+  font-size: 0.8rem;
+  color: var(--rt-muted);
+  min-width: 1.4rem;
+}
+
+#tab-risk-target .rt-constraint-note {
+  margin: 0.85rem 0 0;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px dashed var(--rt-border);
+  font-size: 0.78rem;
+  color: var(--rt-muted);
+  line-height: 1.4;
+}
+
+#tab-risk-target .rt-table-wrap {
+  overflow-x: auto;
+}
+
+#tab-risk-target .rt-result-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+#tab-risk-target .rt-result-table th,
+#tab-risk-target .rt-result-table td {
+  border-bottom: 1px solid var(--rt-border);
+  padding: 0.55rem 0.45rem;
+  text-align: right;
+}
+
+#tab-risk-target .rt-result-table th:first-child,
+#tab-risk-target .rt-result-table td:first-child {
+  text-align: left;
+}
+
+#tab-risk-target .rt-result-table th {
+  font-size: 0.75rem;
+  color: var(--rt-muted);
+  font-weight: 600;
+}
+
+#tab-risk-target .rt-result-table .rt-empty {
+  text-align: center;
+  color: var(--rt-muted);
+  padding: 1.2rem 0.5rem;
+}
+
+#tab-risk-target .rt-result-table .rt-row-muted td {
+  color: var(--rt-muted);
+}
+
+#tab-risk-target .rt-result-table .rt-row-highlight td {
+  font-weight: 700;
+  background: var(--bg-info-soft);
+  border-bottom: none;
+}

@@ -1,0 +1,108 @@
+/**
+ * Default dark theme — HeroUI-inspired (native CSS, no React/build).
+ * Strong radius (near-pill). Marketing can override --header-bg darker.
+ */
+:root {
+  --hu-snow: oklch(0.9911 0 0);
+  --hu-eclipse: oklch(0.12 0.005 286);
+  --hu-accent: oklch(0.6204 0.195 253.83);
+  /* Strong radius ≈ HeroUI showcase */
+  --hu-radius: 1rem;
+
+  --bg: oklch(0.12 0.006 286);
+  --card: oklch(0.18 0.008 286);
+  --surface: oklch(0.22 0.009 286);
+  --surface-raised: oklch(0.26 0.01 286);
+  /* Dashboard: outer canvas vs workbench sheet */
+  --wb-canvas: oklch(0.10 0.005 286);
+  --wb-sheet: oklch(0.17 0.008 286);
+  --wb-block: oklch(0.205 0.009 286);
+  --table-header: oklch(0.72 0.015 286);
+  --table-row-hover: color-mix(in oklab, var(--accent) 10%, transparent);
+  --table-divider: oklch(0.28 0.01 286);
+  --accent: var(--hu-accent);
+  --accent-hover: color-mix(in oklab, var(--hu-accent) 82%, var(--hu-snow) 18%);
+  --accent-soft: color-mix(in oklab, var(--hu-accent) 22%, transparent);
+  --border: oklch(0.30 0.01 286);
+  --text: oklch(0.96 0.005 286);
+  --text-muted: oklch(0.72 0.015 286);
+  --text-strong: oklch(0.98 0.002 286);
+  --text-dim: oklch(0.78 0.012 286);
+  --text-subtle: oklch(0.58 0.012 286);
+
+  --success: oklch(0.78 0.17 155);
+  --warn: oklch(0.82 0.14 76);
+  --danger: oklch(0.68 0.19 25);
+  --hard: oklch(0.70 0.19 25);
+  --soft: oklch(0.72 0.16 155);
+
+  --table-even: color-mix(in oklab, var(--wb-block) 92%, var(--text) 8%);
+  --card-soft: oklch(0.23 0.009 286);
+  --tag-bg: color-mix(in oklab, var(--accent) 22%, transparent);
+  --tag-border: color-mix(in oklab, var(--accent) 40%, transparent);
+  --tag-primary-bg: color-mix(in oklab, var(--accent) 25%, transparent);
+  --tag-primary-border: color-mix(in oklab, var(--accent) 45%, transparent);
+
+  --border-strong: oklch(0.38 0.012 286);
+  --border-soft: color-mix(in oklab, var(--accent) 35%, transparent);
+  --border-success: color-mix(in oklab, var(--success) 40%, transparent);
+  --bg-soft-blue: color-mix(in oklab, var(--accent) 14%, var(--card));
+  --bg-soft-green: color-mix(in oklab, var(--success) 12%, var(--card));
+
+  --on-dark: var(--hu-snow);
+  --on-accent: var(--hu-snow);
+  /* Workbench header: deep but not pure black */
+  --header-bg: oklch(0.16 0.02 264);
+  /* Marketing hero: blacker */
+  --hero-bg: oklch(0.08 0.01 286);
+  --link-soft: color-mix(in oklab, var(--accent) 55%, var(--hu-snow));
+
+  --bg-warn-soft: color-mix(in oklab, var(--warn) 16%, var(--card));
+  --bg-warn-chip: color-mix(in oklab, var(--warn) 26%, var(--card));
+  --bg-danger-soft: color-mix(in oklab, var(--danger) 14%, var(--card));
+  --bg-danger-chip: color-mix(in oklab, var(--danger) 22%, var(--card));
+  --bg-info-chip: color-mix(in oklab, var(--accent) 18%, var(--card));
+  --bg-info-soft: color-mix(in oklab, var(--accent) 12%, var(--card));
+  --bg-purple-chip: color-mix(in oklab, var(--accent) 24%, var(--card));
+  --border-danger-chip: color-mix(in oklab, var(--danger) 40%, transparent);
+  --border-warn-chip: color-mix(in oklab, var(--warn) 42%, transparent);
+  --border-purple-chip: color-mix(in oklab, var(--accent) 42%, transparent);
+  --border-success-soft: color-mix(in oklab, var(--success) 42%, transparent);
+  --border-warn-soft: color-mix(in oklab, var(--warn) 45%, transparent);
+  --text-warn-dark: color-mix(in oklab, var(--warn) 70%, var(--hu-snow));
+  --text-danger-dark: color-mix(in oklab, var(--danger) 65%, var(--hu-snow));
+  --text-warn-chip: color-mix(in oklab, var(--warn) 75%, var(--hu-snow));
+  --text-soft: var(--text-dim);
+
+  --row-selected: color-mix(in oklab, var(--accent) 18%, var(--card));
+  --placeholder-border: color-mix(in oklab, var(--accent) 45%, transparent);
+  --placeholder-bg: color-mix(in oklab, var(--accent) 10%, transparent);
+
+  --field-bg: oklch(0.18 0.008 286);
+  --field-border: oklch(0.34 0.012 286);
+  --field-placeholder: var(--text-subtle);
+
+  --radius-sm: calc(var(--hu-radius) * 0.65);
+  --radius-md: var(--hu-radius);
+  --radius-lg: calc(var(--hu-radius) * 1.35);
+  --radius-pill: 999px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+
+  --shadow-surface: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 16px 40px rgba(0, 0, 0, 0.45);
+  --focus-ring: 0 0 0 2px var(--card), 0 0 0 4px var(--accent);
+
+  --tooltip-bg: oklch(0.28 0.012 286);
+  --tooltip-fg: var(--text);
+
+  --chart-bg: oklch(0.17 0.008 286);
+  --chart-grid: oklch(0.32 0.01 286);
+  --chart-axis: oklch(0.62 0.015 286);
+  --chart-label: oklch(0.75 0.012 286);
+  --track-cross: oklch(0.72 0.16 305);
+
+  color-scheme: dark;
+}

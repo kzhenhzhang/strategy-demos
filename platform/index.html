@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全平台检视</title>
+  <link rel="stylesheet" href="../assets/theme.css" />
+  <link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body class="sd-platform">
+  <main class="sd-wrap">
+    <h1>全平台检视</h1>
+    <p class="sd-lead" id="note">按进件月看通过率。通过率 = 通过量 / 进件量。筛选会重算当前范围内的合计。</p>
+    <div class="sd-filters">
+      <label>平台
+        <select id="platform"></select>
+      </label>
+      <label>系统
+        <select id="os"></select>
+      </label>
+    </div>
+    <div class="sd-kpis" id="kpis"></div>
+    <div class="sd-table-wrap">
+      <table class="sd-table" id="grid"></table>
+    </div>
+    <p class="sd-foot" id="foot"></p>
+  </main>
+  <script src="../assets/site-nav.js"></script>
+  <script>
+    (function () {
+      var data = null;
+
+      function pct(pass, apply) {
+        if (!apply) return null;
+        return pass / apply;
+      }
+
+      function fmtPct(v) {
+        if (v == null) return "—";
+        return (v * 100).toFixed(1) + "%";
+      }
+
+      function fmtInt(n) {
+        return Number(n || 0).toLocaleString("zh-CN");
+      }
+
+      function options(sel, values, allLabel) {
+        sel.innerHTML = "";
+        var all = document.createElement("option");
+        all.value = "";
+        all.textContent = allLabel;
+        sel.appendChild(all);
+        values.forEach(function (v) {
+          var o = document.createElement("option");
+          o.value = v;
+          o.textContent = v;
+          sel.appendChild(o);
+        });
+      }
+
+      function filtered() {
+        var p = document.getElementById("platform").value;
+        var os = document.getElementById("os").value;
+        return data.rows.filter(function (r) {
+          if (p && r.platform !== p) return false;
+          if (os && r.os !== os) return false;
+          return true;
+        });
+      }
+
+      function sum(rows) {
+        return rows.reduce(function (acc, r) {
+          acc.apply += r.apply;
+          acc.pass += r.pass;
+          return acc;
+        }, { apply: 0, pass: 0 });
+      }
+
+      function rowKeys(rows) {
+        var p = document.getElementById("platform").value;
+        var os = document.getElementById("os").value;
+        var seen = [];
+        var has = {};
+        rows.forEach(function (r) {
+          var key = p && !os ? r.os : (!p && os ? r.platform : (p || os ? r.platform + " · " + r.os : r.platform));
+          if (p && os) key = r.platform + " · " + r.os;
+          if (!has[key]) {
+            has[key] = true;
+            seen.push(key);
+          }
+        });
+        return seen;
+      }
+
+      function matchKey(r, key) {
+        var p = document.getElementById("platform").value;
+        var os = document.getElementById("os").value;
+        if (p && os) return r.platform + " · " + r.os === key;
+        if (p) return r.os === key;
+        if (os) return r.platform === key;
+        return r.platform === key;
+      }
+
+      function paint() {
+        var rows = filtered();
+        var total = sum(rows);
+        var mid = pct(total.pass, total.apply);
+        var latest = data.months[data.months.length - 1];
+        var prev = data.months[data.months.length - 2];
+        var latestSum = sum(rows.filter(function (r) { return r.month === latest; }));
+        var prevSum = sum(rows.filter(function (r) { return r.month === prev; }));
+        var latestRate = pct(latestSum.pass, latestSum.apply);
+        var prevRate = pct(prevSum.pass, prevSum.apply);
+        var delta = latestRate != null && prevRate != null ? latestRate - prevRate : null;
+        document.getElementById("kpis").innerHTML =
+          "<article><div class='k'>当前通过率</div><div class='v'>" + fmtPct(mid) + "</div></article>" +
+          "<article><div class='k'>进件量</div><div class='v'>" + fmtInt(total.apply) + "</div></article>" +
+          "<article><div class='k'>" + latest + " 相对 " + prev + "</div><div class='v'>" +
+            (delta == null ? "—" : (delta >= 0 ? "+" : "") + (delta * 100).toFixed(1) + " pct") +
+          "</div></article>";
+
+        var keys = rowKeys(rows);
+        var html = "<thead><tr><th>范围</th>" + data.months.map(function (m) {
+          return "<th>" + m + "</th>";
+        }).join("") + "</tr></thead><tbody>";
+        keys.forEach(function (key) {
+          html += "<tr><td>" + key + "</td>";
+          data.months.forEach(function (m) {
+            var cell = sum(rows.filter(function (r) { return r.month === m && matchKey(r, key); }));
+            var rate = pct(cell.pass, cell.apply);
+            var cls = "";
+            if (rate != null && mid != null) {
+              if (rate < mid - 0.005) cls = "sd-low";
+              else if (rate > mid + 0.005) cls = "sd-high";
+            }
+            html += "<td class='" + cls + "'>" + fmtPct(rate) +
+              "<span class='sub'>" + fmtInt(cell.apply) + "</span></td>";
+          });
+          html += "</tr>";
+        });
+        html += "<tr><td>合计</td>";
+        data.months.forEach(function (m) {
+          var cell = sum(rows.filter(function (r) { return r.month === m; }));
+          html += "<td>" + fmtPct(pct(cell.pass, cell.apply)) +
+            "<span class='sub'>" + fmtInt(cell.apply) + "</span></td>";
+        });
+        html += "</tr></tbody>";
+        document.getElementById("grid").innerHTML = html;
+      }
+
+      fetch(new URL("../samples/platform.json", location.href))
+        .then(function (res) { if (!res.ok) throw new Error("示例加载失败"); return res.json(); })
+        .then(function (json) {
+          data = json;
+          document.getElementById("foot").textContent = json.note + " 百分比下面是进件量。低于当前合计通过率的格子偏绿，高于的偏红。";
+          var platforms = [];
+          var systems = [];
+          json.rows.forEach(function (r) {
+            if (platforms.indexOf(r.platform) < 0) platforms.push(r.platform);
+            if (systems.indexOf(r.os) < 0) systems.push(r.os);
+          });
+          options(document.getElementById("platform"), platforms, "全部平台");
+          options(document.getElementById("os"), systems, "全部系统");
+          document.getElementById("platform").addEventListener("change", paint);
+          document.getElementById("os").addEventListener("change", paint);
+          paint();
+        })
+        .catch(function (err) {
+          document.getElementById("note").textContent = err.message || String(err);
+        });
+    })();
+  </script>
+</body>
+</html>

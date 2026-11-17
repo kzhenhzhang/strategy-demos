@@ -1,0 +1,222 @@
+{
+  "note": "合成数据，只用于演示筛选。不代表任何真实平台。",
+  "months": [
+    "2026-06",
+    "2026-07",
+    "2026-08",
+    "2026-09",
+    "2026-10"
+  ],
+  "rows": [
+    {
+      "platform": "P-01",
+      "os": "Android",
+      "month": "2026-06",
+      "apply": 1814,
+      "pass": 1288
+    },
+    {
+      "platform": "P-01",
+      "os": "Android",
+      "month": "2026-07",
+      "apply": 1851,
+      "pass": 1299
+    },
+    {
+      "platform": "P-01",
+      "os": "Android",
+      "month": "2026-08",
+      "apply": 1958,
+      "pass": 1359
+    },
+    {
+      "platform": "P-01",
+      "os": "Android",
+      "month": "2026-09",
+      "apply": 2018,
+      "pass": 1384
+    },
+    {
+      "platform": "P-01",
+      "os": "Android",
+      "month": "2026-10",
+      "apply": 2110,
+      "pass": 1357
+    },
+    {
+      "platform": "P-01",
+      "os": "iOS",
+      "month": "2026-06",
+      "apply": 874,
+      "pass": 621
+    },
+    {
+      "platform": "P-01",
+      "os": "iOS",
+      "month": "2026-07",
+      "apply": 948,
+      "pass": 665
+    },
+    {
+      "platform": "P-01",
+      "os": "iOS",
+      "month": "2026-08",
+      "apply": 932,
+      "pass": 647
+    },
+    {
+      "platform": "P-01",
+      "os": "iOS",
+      "month": "2026-09",
+      "apply": 1019,
+      "pass": 699
+    },
+    {
+      "platform": "P-01",
+      "os": "iOS",
+      "month": "2026-10",
+      "apply": 1075,
+      "pass": 691
+    },
+    {
+      "platform": "P-02",
+      "os": "Android",
+      "month": "2026-06",
+      "apply": 1827,
+      "pass": 1315
+    },
+    {
+      "platform": "P-02",
+      "os": "Android",
+      "month": "2026-07",
+      "apply": 1881,
+      "pass": 1339
+    },
+    {
+      "platform": "P-02",
+      "os": "Android",
+      "month": "2026-08",
+      "apply": 1957,
+      "pass": 1378
+    },
+    {
+      "platform": "P-02",
+      "os": "Android",
+      "month": "2026-09",
+      "apply": 2002,
+      "pass": 1393
+    },
+    {
+      "platform": "P-02",
+      "os": "Android",
+      "month": "2026-10",
+      "apply": 2082,
+      "pass": 1457
+    },
+    {
+      "platform": "P-02",
+      "os": "iOS",
+      "month": "2026-06",
+      "apply": 905,
+      "pass": 652
+    },
+    {
+      "platform": "P-02",
+      "os": "iOS",
+      "month": "2026-07",
+      "apply": 937,
+      "pass": 667
+    },
+    {
+      "platform": "P-02",
+      "os": "iOS",
+      "month": "2026-08",
+      "apply": 952,
+      "pass": 670
+    },
+    {
+      "platform": "P-02",
+      "os": "iOS",
+      "month": "2026-09",
+      "apply": 995,
+      "pass": 693
+    },
+    {
+      "platform": "P-02",
+      "os": "iOS",
+      "month": "2026-10",
+      "apply": 1057,
+      "pass": 690
+    },
+    {
+      "platform": "P-03",
+      "os": "iOS",
+      "month": "2026-06",
+      "apply": 920,
+      "pass": 635
+    },
+    {
+      "platform": "P-03",
+      "os": "iOS",
+      "month": "2026-07",
+      "apply": 915,
+      "pass": 624
+    },
+    {
+      "platform": "P-03",
+      "os": "iOS",
+      "month": "2026-08",
+      "apply": 948,
+      "pass": 639
+    },
+    {
+      "platform": "P-03",
+      "os": "iOS",
+      "month": "2026-09",
+      "apply": 978,
+      "pass": 651
+    },
+    {
+      "platform": "P-03",
+      "os": "iOS",
+      "month": "2026-10",
+      "apply": 1058,
+      "pass": 659
+    },
+    {
+      "platform": "P-04",
+      "os": "Android",
+      "month": "2026-06",
+      "apply": 1795,
+      "pass": 1248
+    },
+    {
+      "platform": "P-04",
+      "os": "Android",
+      "month": "2026-07",
+      "apply": 1841,
+      "pass": 1265
+    },
+    {
+      "platform": "P-04",
+      "os": "Android",
+      "month": "2026-08",
+      "apply": 1974,
+      "pass": 1340
+    },
+    {
+      "platform": "P-04",
+      "os": "Android",
+      "month": "2026-09",
+      "apply": 2020,
+      "pass": 1355
+    },
+    {
+      "platform": "P-04",
+      "os": "Android",
+      "month": "2026-10",
+      "apply": 2109,
+      "pass": 1324
+    }
+  ]
+}

@@ -1,0 +1,607 @@
+/* Profitability tab only */
+#tab-profitability,
+#tab-profitability *,
+#tab-profitability *::before,
+#tab-profitability *::after {
+  box-sizing: border-box;
+}
+
+#tab-profitability {
+  --pf-bg: var(--bg);
+  --pf-card: var(--card);
+  --pf-border: var(--border);
+  --pf-text: var(--text);
+  --pf-muted: var(--text-muted);
+  --pf-primary: var(--accent);
+  --pf-primary-soft: var(--accent-soft);
+  --pf-success: var(--success);
+  --pf-danger: var(--danger);
+  --pf-warn: var(--warn);
+  --pf-radius: var(--radius-lg);
+  --pf-shadow: var(--shadow-surface);
+  background: var(--pf-bg);
+  color: var(--pf-text);
+}
+
+#tab-profitability .container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+
+#tab-profitability .pf-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+#tab-profitability .pf-header p {
+  margin: 0.35rem 0 0;
+  color: var(--pf-muted);
+  font-size: 0.9rem;
+}
+
+#tab-profitability .pf-decision {
+  margin-top: 1rem;
+  background: var(--pf-card);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius);
+  box-shadow: var(--pf-shadow);
+  padding: 0.9rem 1rem;
+}
+
+#tab-profitability .pf-decision-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  background: var(--border);
+  color: var(--text-dim);
+}
+
+#tab-profitability .pf-decision.good .pf-decision-badge {
+  background: var(--bg-soft-green);
+  color: var(--success);
+}
+
+#tab-profitability .pf-decision.warn .pf-decision-badge {
+  background: var(--bg-warn-soft);
+  color: var(--text-warn-dark);
+}
+
+#tab-profitability .pf-decision.bad .pf-decision-badge {
+  background: var(--bg-danger-soft);
+  color: var(--text-danger-dark);
+}
+
+#tab-profitability .pf-decision-text {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+#tab-profitability .pf-diagnosis-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  color: var(--pf-muted);
+  font-size: 0.84rem;
+}
+
+#tab-profitability .pf-kpi-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+#tab-profitability .pf-kpi-card {
+  background: var(--pf-card);
+  border: 1px solid var(--pf-border);
+  border-radius: 10px;
+  box-shadow: var(--pf-shadow);
+  padding: 0.7rem 0.8rem;
+}
+
+#tab-profitability .kpi-label {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--pf-muted);
+}
+
+#tab-profitability .kpi-value {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+#tab-profitability .main-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.2fr);
+  gap: 0.9rem;
+}
+
+#tab-profitability .card {
+  background: var(--wb-block);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius);
+  box-shadow: none;
+  padding: 1rem 1.1rem;
+}
+
+#tab-profitability .card h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+#tab-profitability .section-desc {
+  margin: 0.35rem 0 0.8rem;
+  color: var(--pf-muted);
+  font-size: 0.82rem;
+}
+
+#tab-profitability .card h3 {
+  margin: 0.95rem 0 0.45rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--pf-muted);
+  text-transform: uppercase;
+}
+
+#tab-profitability .field {
+  margin-bottom: 0.55rem;
+}
+
+#tab-profitability .field label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+#tab-profitability .input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+#tab-profitability .input-wrap input {
+  width: 100%;
+  border: 1px solid var(--pf-border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 0.38rem 0.55rem;
+  font-size: 0.88rem;
+}
+
+#tab-profitability .input-wrap input:focus {
+  outline: none;
+  border-color: var(--pf-primary);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 28%, transparent);
+  background: var(--card);
+}
+
+#tab-profitability .suffix {
+  color: var(--pf-muted);
+  font-size: 0.8rem;
+  min-width: 1.8rem;
+}
+
+#tab-profitability .result-group {
+  border-top: 1px dashed var(--border);
+  margin-top: 0.65rem;
+}
+
+#tab-profitability .result-group.compact {
+  margin-top: 0.85rem;
+}
+
+#tab-profitability .result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+#tab-profitability .result-row .label {
+  color: var(--pf-muted);
+  font-size: 0.82rem;
+}
+
+#tab-profitability .result-row .value {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#tab-profitability .result-row.highlight {
+  background: var(--pf-primary-soft);
+  border-radius: 8px;
+  border-bottom: none;
+  margin-top: 0.3rem;
+  padding: 0.6rem 0.55rem;
+}
+
+#tab-profitability .result-row.highlight .label,
+#tab-profitability .result-row.highlight .value {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+#tab-profitability .result-row.net-profit {
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.55rem;
+  border-radius: 8px;
+  border-bottom: none;
+}
+
+#tab-profitability .result-row.net-profit.positive-bg {
+  background: var(--bg-soft-green);
+}
+
+#tab-profitability .result-row.net-profit.negative-bg {
+  background: var(--bg-danger-soft);
+}
+
+#tab-profitability .value.positive {
+  color: var(--pf-success);
+}
+
+#tab-profitability .value.negative {
+  color: var(--pf-danger);
+}
+
+#tab-profitability .error-banner {
+  display: none;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-danger-chip);
+  background: var(--bg-danger-soft);
+  color: var(--text-danger-dark);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.55rem;
+}
+
+#tab-profitability .error-banner.visible {
+  display: block;
+}
+
+#tab-profitability .compare-section,
+#tab-profitability .chart-section {
+  margin-top: 1rem;
+}
+
+#tab-profitability .snapshot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+#tab-profitability .btn {
+  border: 1px solid var(--pf-border);
+  border-radius: 8px;
+  background: var(--card);
+  font-size: 0.82rem;
+  padding: 0.38rem 0.55rem;
+  cursor: pointer;
+}
+
+#tab-profitability .btn:hover {
+  background: var(--surface);
+}
+
+#tab-profitability .btn-scenario-a {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+#tab-profitability .btn-scenario-b {
+  border-color: var(--border-warn-chip);
+  color: var(--text-warn-chip);
+}
+
+#tab-profitability .btn-ghost {
+  color: var(--pf-muted);
+}
+
+#tab-profitability .snapshot-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+#tab-profitability .snapshot-card {
+  border: 1px solid var(--pf-border);
+  border-radius: 8px;
+  padding: 0.55rem;
+}
+
+#tab-profitability .snapshot-card h4 {
+  margin: 0;
+  font-size: 0.83rem;
+}
+
+#tab-profitability .snapshot-card .meta {
+  margin-top: 0.3rem;
+  color: var(--pf-muted);
+  font-size: 0.74rem;
+}
+
+#tab-profitability .snapshot-card .params {
+  margin-top: 0.3rem;
+  color: var(--pf-muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+#tab-profitability .snapshot-card .load-btn {
+  margin-top: 0.45rem;
+}
+
+#tab-profitability .compare-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.75rem;
+}
+
+#tab-profitability .compare-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+#tab-profitability .compare-table th,
+#tab-profitability .compare-table td {
+  padding: 0.65rem 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--table-divider);
+  text-align: right;
+}
+
+#tab-profitability .compare-table th:first-child,
+#tab-profitability .compare-table td:first-child {
+  text-align: left;
+}
+
+#tab-profitability .compare-table thead th {
+  background: transparent;
+  color: var(--table-header);
+  font-weight: 600;
+  font-size: 0.72rem;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+#tab-profitability .compare-table .delta.positive {
+  color: var(--pf-success);
+}
+
+#tab-profitability .compare-table .delta.negative {
+  color: var(--pf-danger);
+}
+
+#tab-profitability .compare-empty {
+  margin-top: 0.7rem;
+  color: var(--pf-muted);
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+#tab-profitability .chart-desc {
+  margin-top: 0.35rem;
+  color: var(--pf-muted);
+  font-size: 0.8rem;
+}
+
+#tab-profitability .chart-desc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.25rem 0.8rem;
+}
+
+#tab-profitability .chart-body {
+  margin-top: 0.6rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 0.2rem 0.4rem;
+}
+
+#tab-profitability .chart-axis-y-title {
+  width: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#tab-profitability .chart-axis-y-title span {
+  transform: rotate(-90deg);
+  font-size: 0.72rem;
+  color: var(--pf-muted);
+  white-space: nowrap;
+}
+
+#tab-profitability .chart-axis-x-title {
+  grid-column: 2;
+  text-align: center;
+  color: var(--pf-muted);
+  font-size: 0.72rem;
+}
+
+#tab-profitability .chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  min-height: 300px;
+}
+
+#tab-profitability .chart-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#tab-profitability .chart-tooltip {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-fg);
+  padding: 0.35rem 0.45rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  box-shadow: var(--shadow-overlay);
+}
+
+#tab-profitability .chart-tooltip.visible {
+  display: block;
+}
+
+#tab-profitability .chart-empty {
+  display: none;
+  text-align: center;
+  color: var(--pf-muted);
+  padding: 1rem 0;
+}
+
+#tab-profitability .chart-empty.visible {
+  display: block;
+}
+
+#tab-profitability .chart-body.hidden,
+#tab-profitability .hidden {
+  display: none !important;
+}
+
+#tab-profitability .chart-annotations {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+#tab-profitability .chart-tag {
+  padding: 0.22rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+#tab-profitability .chart-tag.current {
+  border-color: var(--border-danger-chip);
+  background: var(--bg-danger-soft);
+}
+
+#tab-profitability .chart-tag.break-even {
+  border-color: var(--border-warn-chip);
+  background: var(--card)7ed;
+}
+
+#tab-profitability .chart-tag .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+#tab-profitability .chart-tag.current .dot {
+  background: var(--pf-danger);
+}
+
+#tab-profitability .chart-tag.break-even .dot {
+  background: var(--pf-warn);
+}
+
+#tab-profitability .chart-legend {
+  margin-top: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  color: var(--pf-muted);
+  font-size: 0.76rem;
+}
+
+#tab-profitability .chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+#tab-profitability .legend-line {
+  width: 18px;
+  height: 2px;
+  background: var(--text-subtle);
+}
+
+#tab-profitability .legend-line.primary {
+  background: var(--pf-primary);
+}
+
+#tab-profitability .legend-line.current {
+  width: 2px;
+  height: 12px;
+  background: var(--pf-danger);
+}
+
+#tab-profitability .legend-line.break-even {
+  width: 2px;
+  height: 12px;
+  border-left: 2px dashed var(--pf-warn);
+  background: transparent;
+}
+
+#tab-profitability .toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%) translateY(60px);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  background: var(--text-strong);
+  color: var(--card);
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+  pointer-events: none;
+  z-index: 30;
+}
+
+#tab-profitability .toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 960px) {
+  #tab-profitability .pf-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #tab-profitability .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  #tab-profitability .container {
+    padding: 1rem 0.7rem 1.6rem;
+  }
+
+  #tab-profitability .snapshot-cards {
+    grid-template-columns: 1fr;
+  }
+
+  #tab-profitability .pf-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>迭代准入策略 · 离线工具</title>
+  <link rel="stylesheet" href="../assets/theme.css" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <div id="landing" class="ai-landing ai-hidden">
+    <div class="ai-landing-inner">
+      <h1>迭代准入策略</h1>
+      <p class="lead">
+        上传进件 CSV，配置风险/放行率目标与 Baseline 规则，在本机完成挖规、双方案组装与 Swap 估算，并下载独立报告。
+        全程离线，数据不离开浏览器。
+      </p>
+      <div class="ai-landing-actions">
+        <button type="button" class="ai-btn ai-btn-primary" id="btnEnter">进入工作台</button>
+        <a class="ai-btn" href="../index.html">返回门户</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="ai-wrap">
+    <header class="ai-header">
+      <div>
+        <h1>迭代准入 · 工作台</h1>
+        <p>数据 → 目标与窗 → Baseline → 计算 → 报告</p>
+      </div>
+      <button type="button" class="ai-btn" id="btnBackLanding">返回</button>
+    </header>
+
+    <nav class="ai-steps" id="stepNav" aria-label="步骤"></nav>
+
+    <div id="decisionBar" class="ai-decision"></div>
+    <div id="kpiBar" class="ai-kpi ai-hidden"></div>
+
+    <section id="stepPanels"></section>
+
+    <div id="progressBox" class="ai-progress ai-hidden">
+      <div id="progressLabel">准备中…</div>
+      <div class="ai-progress-bar"><i id="progressFill"></i></div>
+      <pre class="ai-progress-log" id="progressLog"></pre>
+    </div>
+
+    <div id="errorBox" class="ai-error ai-hidden"></div>
+    <div id="resultBox" class="ai-hidden"></div>
+  </div>
+
+  <!-- RV runtime (synced from main repo) -->
+  <script src="vendor/rv/bootstrap.js"></script>
+  <script src="vendor/rv/app/state.js"></script>
+  <script src="vendor/rv/infra.js"></script>
+  <script src="vendor/rv/data.js"></script>
+  <script src="vendor/rv/domain/metrics.js"></script>
+  <script src="vendor/rv/domain/rules.js"></script>
+  <script src="vendor/rv/domain/rules-pack.js"></script>
+  <script src="vendor/rv/domain/eda.js"></script>
+  <script src="vendor/rv/domain/binning.js"></script>
+  <script src="vendor/rv/domain/rule-mining.js"></script>
+  <script src="vendor/rv/domain/pre-strategy.js"></script>
+  <script src="vendor/rv/domain/summary.js"></script>
+  <script src="vendor/rv/domain/validity.js"></script>
+  <script src="vendor/rv/domain/post-risk.js"></script>
+
+  <!-- Shared with skill CLI: report HTML + EDA enrich + theme embed -->
+  <script src="vendor/admission/theme-css.js"></script>
+  <script src="vendor/admission/render-report-html.js"></script>
+  <script src="vendor/admission/enrich-report-eda.js"></script>
+
+  <script src="src/engine.js"></script>
+  <script src="src/pipeline.js"></script>
+  <script src="src/report.js"></script>
+  <script src="../assets/site-nav.js"></script>
+  <script src="../assets/demo-sample.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

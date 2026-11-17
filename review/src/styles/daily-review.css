@@ -1,0 +1,1192 @@
+#tab-daily-review .dr-brief-block {
+  margin-bottom: 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--bg) 92%, var(--accent, #60a5fa) 8%);
+  overflow: visible;
+}
+
+#tab-daily-review .dr-brief-grain-bar {
+  position: relative;
+  margin: 0 0 0.55rem;
+  z-index: 5;
+}
+
+#tab-daily-review .dr-brief-grain-hint {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+#tab-daily-review .dr-short-week-banner {
+  margin: 0.35rem 0 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--warning, #c9852a);
+}
+
+/* Period tip: host is grain-bar (full line width); trigger is ⓘ only */
+#tab-daily-review .dr-brief-grain-bar[data-rv-tip]::after {
+  content: attr(data-rv-tip);
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  bottom: auto;
+  transform: none;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-fg);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.55;
+  white-space: pre;
+  width: max-content;
+  max-width: none;
+  text-align: left;
+  box-shadow: var(--shadow-overlay);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+  transition: opacity 0.12s ease;
+}
+#tab-daily-review .dr-brief-grain-bar[data-rv-tip]:has(.dr-period-tip-trigger:hover)::after,
+#tab-daily-review .dr-brief-grain-bar[data-rv-tip]:has(.dr-period-tip-trigger:focus-visible)::after {
+  opacity: 1;
+}
+#tab-daily-review .dr-period-tip-trigger {
+  border-bottom: none;
+}
+#tab-daily-review .dr-period-tip-trigger::after,
+#tab-daily-review .dr-period-tip-trigger::before {
+  content: none !important;
+  display: none !important;
+}
+
+#tab-daily-review .dr-brief-section {
+  margin-bottom: 0.65rem;
+}
+
+#tab-daily-review .dr-brief-section:last-child {
+  margin-bottom: 0;
+}
+
+#tab-daily-review .dr-brief-sec-title {
+  margin: 0 0 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-brief-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+#tab-daily-review .dr-brief-list li {
+  margin-bottom: 0.25rem;
+}
+
+#tab-daily-review .dr-brief-empty {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-brief-trend-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+#tab-daily-review .dr-brief-group-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--surface, var(--bg));
+  padding: 0.45rem 0.55rem 0.5rem;
+}
+
+#tab-daily-review .dr-brief-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+#tab-daily-review .dr-brief-group-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-strong, var(--text));
+}
+
+#tab-daily-review .dr-brief-group-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-brief-group-head.dr-brief-has-bad .dr-brief-group-meta {
+  color: var(--danger, #f87171);
+}
+
+#tab-daily-review .dr-brief-metric-rows,
+#tab-daily-review .dr-brief-flat-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#tab-daily-review .dr-brief-metric-row {
+  display: grid;
+  grid-template-columns: minmax(4.5rem, 7.5rem) minmax(4rem, 5.5rem) minmax(4.5rem, 6rem) minmax(7rem, 1fr) auto;
+  gap: 0.35rem 0.55rem;
+  align-items: baseline;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  padding: 0.12rem 0;
+  border-top: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+}
+
+#tab-daily-review .dr-brief-metric-row:first-child {
+  border-top: none;
+}
+
+#tab-daily-review .dr-brief-m-name {
+  color: var(--text-dim, var(--text-muted));
+  font-weight: 500;
+}
+
+#tab-daily-review .dr-brief-m-delta {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-brief-m-rel,
+#tab-daily-review .dr-brief-m-rates {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+#tab-daily-review .dr-brief-m-sent {
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-brief-sent-bad { color: var(--danger, #f87171); }
+#tab-daily-review .dr-brief-sent-good { color: var(--ok, #34d399); }
+#tab-daily-review .dr-brief-sent-flat { color: var(--text-muted); }
+
+#tab-daily-review .dr-brief-metric-row.is-flat {
+  opacity: 0.72;
+}
+
+#tab-daily-review .dr-brief-toggle-flat {
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 720px) {
+  #tab-daily-review .dr-brief-metric-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.15rem 0.4rem;
+  }
+  #tab-daily-review .dr-brief-m-name { grid-column: 1 / -1; }
+  #tab-daily-review .dr-brief-m-rates { grid-column: 1 / -1; }
+}
+
+#tab-daily-review .dr-filter-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0.35rem 0 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+#tab-daily-review .dr-grain-global-label {
+  font-size: 0.72rem;
+  margin-right: 0.15rem;
+}
+
+#tab-daily-review .dr-grain-follow-hint,
+#tab-daily-review .dr-filter-hint {
+  font-size: 0.72rem;
+}
+
+#tab-daily-review .dr-panel1-seg-select {
+  min-width: 10rem;
+  max-width: 18rem;
+}
+
+#tab-daily-review .dr-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+}
+
+#tab-daily-review .dr-filter-label {
+  flex: 0 0 auto;
+  min-width: 2.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+#tab-daily-review .dr-detail-metric-chips {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+#tab-daily-review .dr-chip {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dim);
+  border-radius: 999px;
+  padding: 0.18rem 0.65rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  line-height: 1.35;
+}
+
+#tab-daily-review .dr-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+#tab-daily-review .dr-chip.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-chip.is-empty:not(.active) {
+  opacity: 0.55;
+}
+
+#tab-daily-review .dr-filter-toolbar .dr-grain-toggle {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+#tab-daily-review .dr-filter-toolbar .dr-view-grain-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+#tab-daily-review .dr-card-period-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  margin: 0.35rem 0 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+
+#tab-daily-review .dr-card-period-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-card-period-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-card-period-filter select {
+  width: auto;
+  min-width: 8.5rem;
+  margin: 0;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.8rem;
+}
+
+#tab-daily-review .dr-card-period-filter select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#tab-daily-review .dr-card-period-hint {
+  font-size: 0.72rem;
+}
+
+#tab-daily-review .dr-panel1-metric-cards {
+  margin-bottom: 0.25rem;
+}
+
+#tab-daily-review .dr-chart-time-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  margin: 0.65rem 0 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+
+#tab-daily-review .dr-chart-time-hint {
+  font-size: 12px;
+  white-space: nowrap;
+}
+#tab-daily-review .dr-chart-time-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-chart-time-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-chart-time-filter select {
+  width: auto;
+  min-width: 8.5rem;
+  margin: 0;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.8rem;
+}
+
+#tab-daily-review .dr-chart-root {
+  position: relative;
+}
+
+#tab-daily-review .dr-chart-tooltip {
+  position: absolute;
+  z-index: 40;
+  min-width: 8.5rem;
+  max-width: 16rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow-overlay);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+#tab-daily-review .dr-chart-tip-period {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text-strong);
+}
+
+#tab-daily-review .dr-chart-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+#tab-daily-review .dr-chart-tip-name {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-chart-tip-val {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-chart-hit {
+  cursor: crosshair;
+}
+
+#tab-daily-review .dr-metric-card {
+  cursor: help;
+}
+
+#tab-daily-review .dr-segment-picker {
+  width: 100%;
+  max-width: 100%;
+}
+
+#tab-daily-review .dr-segment-picker .rv-collapsed-picker-selected {
+  min-height: 1.75rem;
+  margin: 0 0 0.25rem;
+}
+
+#tab-daily-review .dr-segment-picker .rv-collapsed-picker-toolbar {
+  margin: 0;
+}
+
+#tab-daily-review .dr-segment-picker .rv-collapsed-picker-panel--popover {
+  width: min(24rem, calc(100vw - 3rem));
+  max-width: 100%;
+}
+
+#tab-daily-review .dr-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.65rem 1rem;
+}
+
+#tab-daily-review .dr-metric-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 1.4fr 1fr auto;
+  gap: 0.5rem;
+  align-items: end;
+  margin-bottom: 0.55rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  #tab-daily-review .dr-metric-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#tab-daily-review .dr-results-document {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#tab-daily-review .dr-block {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+#tab-daily-review .dr-block h2 {
+  font-size: 0.98rem;
+  margin: 0 0 0.65rem;
+  border: none;
+  padding: 0;
+}
+
+#tab-daily-review .dr-block h3 {
+  font-size: 0.88rem;
+  margin: 0.75rem 0 0.4rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+#tab-daily-review .dr-block-head[data-dr-block-toggle] {
+  cursor: pointer;
+  user-select: none;
+}
+
+#tab-daily-review .dr-block-head h2 {
+  margin: 0;
+}
+
+#tab-daily-review .dr-block-collapse-hint,
+#tab-daily-review .dr-brief-sec-collapse-hint {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.12rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface, var(--card));
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+#tab-daily-review .dr-block-head[data-dr-block-toggle]:hover .dr-block-collapse-hint,
+#tab-daily-review .dr-brief-sec-title[data-dr-brief-sec-toggle]:hover .dr-brief-sec-collapse-hint {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#tab-daily-review .dr-block-collapse-hint::after,
+#tab-daily-review .dr-brief-sec-collapse-hint::after {
+  content: "收起 ▴";
+}
+
+#tab-daily-review .dr-block.is-collapsed .dr-block-collapse-hint::after,
+#tab-daily-review .dr-brief-section.is-collapsed .dr-brief-sec-collapse-hint::after {
+  content: "展开 ▾";
+}
+
+#tab-daily-review .dr-block.is-collapsed > .dr-block-body {
+  display: none;
+}
+
+#tab-daily-review .dr-block.is-collapsed > .dr-block-head {
+  margin-bottom: 0;
+}
+
+#tab-daily-review .dr-brief-sec-title[data-dr-brief-sec-toggle] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+#tab-daily-review .dr-brief-section.is-collapsed > .dr-brief-sec-body {
+  display: none;
+}
+
+#tab-daily-review .dr-brief-anom-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#tab-daily-review .dr-brief-anom-group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.7rem;
+  background: var(--bg);
+}
+
+#tab-daily-review .dr-brief-anom-group-head {
+  font-weight: 650;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+#tab-daily-review .dr-brief-anom-side {
+  margin-top: 0.35rem;
+}
+
+#tab-daily-review .dr-brief-anom-side-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-brief-anom-side.is-worse .dr-brief-anom-side-label {
+  color: var(--danger);
+}
+
+#tab-daily-review .dr-brief-anom-side.is-better .dr-brief-anom-side-label {
+  color: var(--success);
+}
+
+#tab-daily-review .dr-grain-toggle {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+#tab-daily-review .dr-grain-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+#tab-daily-review .dr-grain-panel {
+  display: none;
+}
+
+#tab-daily-review .dr-grain-panel.active {
+  display: block;
+}
+
+#tab-daily-review .dr-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+#tab-daily-review .dr-chart-host {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+#tab-daily-review .dr-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-right: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-leg-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+#tab-daily-review .dr-delta-good {
+  color: var(--success);
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-delta-bad {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-narratives,
+#tab-daily-review .dr-anoms {
+  margin-top: 0.75rem;
+  font-size: 0.84rem;
+}
+
+#tab-daily-review .dr-narr-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.45rem;
+}
+
+#tab-daily-review .dr-narratives h4,
+#tab-daily-review .dr-anoms h4 {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-narr-filters .dr-chip {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+}
+
+#tab-daily-review .dr-narr-hint {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-narr-group {
+  margin-bottom: 0.55rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+#tab-daily-review .dr-narr-group-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+
+#tab-daily-review .dr-narr-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#tab-daily-review .dr-narr-row {
+  display: grid;
+  grid-template-columns: minmax(3.5rem, 5.5rem) minmax(4.2rem, auto) auto minmax(6rem, 1fr) auto auto;
+  gap: 0.35rem 0.55rem;
+  align-items: baseline;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  padding: 0.15rem 0;
+}
+
+#tab-daily-review .dr-narr-metric {
+  font-weight: 500;
+  color: var(--text);
+}
+
+#tab-daily-review .dr-narr-delta {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-narr-sent {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+#tab-daily-review .dr-narr-sent-good {
+  color: var(--success);
+}
+
+#tab-daily-review .dr-narr-sent-bad {
+  color: var(--danger);
+}
+
+#tab-daily-review .dr-narr-sent-flat {
+  color: var(--text-muted);
+}
+
+#tab-daily-review .dr-narr-rates,
+#tab-daily-review .dr-narr-period {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+#tab-daily-review .dr-narr-anom {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--warning, #d97706);
+  border: 1px solid color-mix(in oklch, var(--warning, #d97706) 45%, transparent);
+  border-radius: 0.25rem;
+  padding: 0 0.28rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  #tab-daily-review .dr-narr-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.15rem 0.4rem;
+  }
+  #tab-daily-review .dr-narr-rates,
+  #tab-daily-review .dr-narr-period {
+    grid-column: 1 / -1;
+  }
+}
+
+#tab-daily-review .dr-narratives ul,
+#tab-daily-review .dr-anoms ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+#tab-daily-review .dr-narrative {
+  margin: 0 0 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+#tab-daily-review .dr-contrib-table {
+  font-size: 0.8rem;
+}
+
+#tab-daily-review .dr-contrib-table .th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-contrib-table .th-sort-btn {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+#tab-daily-review .dr-contrib-table .th-sort-btn:hover {
+  color: var(--accent, var(--text));
+}
+
+#tab-daily-review .dr-rate-cell {
+  vertical-align: top;
+}
+
+#tab-daily-review .dr-rate-main {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+#tab-daily-review .dr-rate-nd {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-contrib-card {
+  margin-bottom: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+#tab-daily-review .dr-contrib-summary {
+  margin-bottom: 0.55rem;
+}
+
+#tab-daily-review .dr-contrib-sum-head {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+#tab-daily-review .dr-contrib-sum-sub {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+#tab-daily-review .dr-pw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+}
+
+#tab-daily-review .dr-pw-card {
+  padding: 0.55rem 0.65rem 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+#tab-daily-review .dr-pw-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.25rem;
+}
+
+#tab-daily-review .dr-pw-card-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-pw-flip-tag {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--warning, #d97706);
+  border: 1px solid color-mix(in oklch, var(--warning, #d97706) 45%, transparent);
+  border-radius: 0.25rem;
+  padding: 0 0.28rem;
+  line-height: 1.4;
+}
+
+#tab-daily-review .dr-pw-card-meta {
+  font-size: 0.74rem;
+  margin-bottom: 0.35rem;
+  line-height: 1.35;
+}
+
+#tab-daily-review .dr-pw-chart-host {
+  min-height: 200px;
+}
+
+#tab-daily-review .dr-pw-chart-host .chart-title {
+  font-size: 0.78rem;
+}
+
+#tab-daily-review .dr-metric-cards {
+  margin-bottom: 0.5rem;
+}
+
+#tab-daily-review #drStaleBanner {
+  display: none;
+}
+
+#tab-daily-review #drStaleBanner.visible {
+  display: flex;
+}
+
+#tab-daily-review .dr-metric-detail-hint {
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+}
+
+#tab-daily-review .dr-detail-table-wrap {
+  /* Fallback; syncDetailTableSticky() overwrites from measured cells */
+  --dr-detail-thead-row1: 1.85rem;
+  --dr-detail-col1-w: 5.5rem;
+  --dr-detail-head-bg: var(--card, var(--bg));
+  --dr-detail-head-bg-group: color-mix(in oklch, var(--card, var(--bg)) 88%, var(--accent, #60a5fa) 12%);
+  --dr-detail-head-bg-metric: color-mix(in oklch, var(--card, var(--bg)) 94%, var(--accent, #60a5fa) 6%);
+  --dr-detail-subtotal-bg: color-mix(in oklch, var(--surface, var(--card)) 86%, var(--accent, #60a5fa) 14%);
+  --dr-detail-total-bg: color-mix(in oklch, var(--surface-raised, var(--surface)) 72%, var(--accent, #60a5fa) 28%);
+  overflow: auto;
+  max-height: min(70vh, 560px);
+}
+
+#tab-daily-review .dr-detail-latest-wrap {
+  max-height: none;
+}
+
+#tab-daily-review .dr-detail-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-detail-table th,
+#tab-daily-review .dr-detail-table td {
+  padding: 0.28rem 0.45rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+}
+
+/* Freeze both header rows on vertical scroll */
+#tab-daily-review .dr-detail-table thead th {
+  position: sticky;
+  z-index: 4;
+  background: var(--dr-detail-head-bg);
+}
+
+#tab-daily-review .dr-detail-table thead tr:first-child th {
+  top: 0;
+}
+
+#tab-daily-review .dr-detail-table thead tr:nth-child(2) th {
+  top: var(--dr-detail-thead-row1);
+  /* bottom edge of frozen header (avoid box-shadow on row1 which sits mid-header) */
+  box-shadow: 0 1px 0 var(--border-strong, var(--border));
+}
+
+/* rowspan sticky covers both header rows — bottom edge aligns with row2 */
+#tab-daily-review .dr-detail-table thead tr:first-child th.dr-detail-sticky {
+  box-shadow: 0 1px 0 var(--border-strong, var(--border));
+}
+
+#tab-daily-review .dr-detail-table thead .dr-detail-group-h {
+  text-align: center;
+  font-weight: 600;
+  background: var(--dr-detail-head-bg-group);
+}
+
+#tab-daily-review .dr-detail-table thead .dr-detail-diff-h {
+  background: color-mix(in oklch, var(--card, var(--bg)) 90%, var(--text-muted) 10%);
+}
+
+#tab-daily-review .dr-detail-diff-metric-h {
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+#tab-daily-review .dr-latest-diff-cell {
+  font-variant-numeric: tabular-nums;
+}
+
+#tab-daily-review .dr-detail-diff-hint {
+  margin: 0.15rem 0 0.35rem;
+}
+
+#tab-daily-review .dr-detail-table thead .dr-detail-metric-h {
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--dr-detail-head-bg-metric);
+}
+
+#tab-daily-review .dr-detail-table thead .dr-detail-diff-metric-h {
+  background: color-mix(in oklch, var(--card, var(--bg)) 92%, var(--text-muted) 8%);
+}
+
+#tab-daily-review .dr-detail-mom-h {
+  min-width: 3.2rem;
+}
+
+#tab-daily-review .dr-detail-sticky {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--bg);
+}
+
+#tab-daily-review .dr-detail-table thead .dr-detail-sticky {
+  z-index: 6;
+  background: var(--dr-detail-head-bg);
+}
+
+#tab-daily-review .dr-detail-seg,
+#tab-daily-review .dr-detail-period-col {
+  left: var(--dr-detail-col1-w);
+}
+
+#tab-daily-review .dr-detail-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.55rem;
+}
+
+#tab-daily-review .dr-detail-tab {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--bg) 92%, var(--accent, #60a5fa) 8%);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 0.28rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#tab-daily-review .dr-detail-tab.active {
+  border-color: color-mix(in oklch, var(--accent, #60a5fa) 55%, var(--border));
+  background: color-mix(in oklch, var(--accent, #60a5fa) 22%, var(--bg));
+  font-weight: 600;
+}
+
+#tab-daily-review .dr-detail-latest-meta {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+}
+
+#tab-daily-review .dr-detail-seg-repeat {
+  border-right-color: transparent;
+}
+
+#tab-daily-review .dr-latest-collapse-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 0.25rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* 小计：抬起面 + 细 accent 左边条 + 次要 chip */
+#tab-daily-review .dr-latest-subtotal td {
+  font-weight: 600;
+  color: var(--text-strong, var(--text));
+  background: var(--dr-detail-subtotal-bg);
+  box-shadow: inset 3px 0 0 color-mix(in oklch, var(--accent, #60a5fa) 70%, transparent);
+}
+
+#tab-daily-review .dr-latest-subtotal .dr-detail-sticky {
+  background: var(--dr-detail-subtotal-bg);
+  z-index: 3;
+}
+
+/* 合计：更强填充 + 更宽左边条 + 实心 chip，与小计明显区分 */
+#tab-daily-review .dr-latest-total td {
+  font-weight: 700;
+  color: var(--text-strong, var(--text));
+  background: var(--dr-detail-total-bg);
+  border-top: 1px solid color-mix(in oklch, var(--accent, #60a5fa) 45%, var(--border));
+  box-shadow: inset 4px 0 0 var(--accent, #60a5fa);
+}
+
+#tab-daily-review .dr-latest-total .dr-detail-sticky {
+  background: var(--dr-detail-total-bg);
+  z-index: 3;
+}
+
+#tab-daily-review .dr-row-kind-chip {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  padding: 0.08rem 0.4rem;
+  border-radius: var(--radius-sm, 0.35rem);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+#tab-daily-review .dr-row-kind-chip.is-subtotal {
+  color: var(--accent, #60a5fa);
+  background: color-mix(in oklch, var(--accent, #60a5fa) 16%, transparent);
+  border: 1px solid color-mix(in oklch, var(--accent, #60a5fa) 35%, var(--border));
+}
+
+#tab-daily-review .dr-row-kind-chip.is-total {
+  color: oklch(0.16 0.02 286);
+  background: color-mix(in oklch, var(--accent, #60a5fa) 88%, white 12%);
+  border: 1px solid color-mix(in oklch, var(--accent, #60a5fa) 70%, var(--border));
+}
+
+#tab-daily-review .dr-latest-total-hint {
+  margin-left: 0.35rem;
+  font-weight: 400;
+  font-size: 0.72rem;
+}
+
+#tab-daily-review .dr-level-ab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 1100px) {
+  #tab-daily-review .dr-level-ab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#tab-daily-review .dr-level-side {
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--bg) 94%, var(--accent, #60a5fa) 6%);
+}
+
+#tab-daily-review .dr-level-side-head {
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+}
+
+#tab-daily-review .dr-level-decision-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+#tab-daily-review .dr-level-decision-select {
+  font-weight: 500;
+  min-width: 7rem;
+}
+
+#tab-daily-review .dr-level-chart-host {
+  min-height: 220px;
+  margin: 0.35rem 0 0.75rem;
+}
+
+#tab-daily-review .dr-level-table-wrap {
+  margin-top: 0.25rem;
+}
+

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>策略复盘与规则挖掘（离线单页版）</title>
+  <link rel="stylesheet" href="../assets/theme.css" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <link rel="stylesheet" href="src/styles/app-layout.css?v=20260724-drRestore1" />
+  <link rel="stylesheet" href="src/styles/profitability.css?v=20260714-binBar" />
+  <link rel="stylesheet" href="src/styles/risk-target.css?v=20260714-binBar" />
+  <link rel="stylesheet" href="src/styles/el-allocator.css?v=20260724-ea2" />
+  <link rel="stylesheet" href="src/styles/attribution.css?v=20260827-attrOrd" />
+  <link rel="stylesheet" href="src/styles/daily-review.css?v=20260827-drFold" />
+</head>
+<body class="rv-workbench-active">
+  <!-- 营销首页：打开 HTML 优先展示（含分析流程与三件事） -->
+  <div id="rvLanding" class="rv-landing" hidden>
+    <header class="rv-landing-hero" role="banner">
+      <div class="rv-landing-inner">
+        <h1 class="rv-landing-title">策略复盘与规则挖掘</h1>
+        <p class="rv-landing-tagline">浏览器离线分析：复盘策略、挖验规则、测算盈利。数据不出本机。</p>
+        <div class="rv-landing-actions">
+          <button type="button" class="rv-landing-btn rv-landing-btn-primary" id="rvEnterWorkbench">打开工具</button>
+          <a class="rv-landing-btn rv-landing-btn-ghost" href="../index.html">返回门户</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="rv-landing-pipeline" aria-labelledby="rvFlowTitle">
+      <div class="rv-landing-wrap">
+        <h2 id="rvFlowTitle">分析流程</h2>
+        <p class="rv-landing-lead">与侧栏「分析流程」一致：先接入数据，再配样本与规则，最后生成并导出。</p>
+        <div class="rv-landing-steps">
+          <div class="rv-landing-step">
+            <div class="rv-landing-step-num">步骤 1</div>
+            <h3>数据接入</h3>
+            <p>上传 CSV，完成字段识别与列类型初始化。</p>
+          </div>
+          <div class="rv-landing-step">
+            <div class="rv-landing-step-num">步骤 2</div>
+            <h3>样本与规则</h3>
+            <p>配置贷前 / 贷后样本、风险比率和规则组合。</p>
+          </div>
+          <div class="rv-landing-step">
+            <div class="rv-landing-step-num">步骤 3</div>
+            <h3>生成与导出</h3>
+            <p>生成主报告；下载 HTML 时可勾选 Tab（可只导日常检视），配置区只读、结果区可筛选。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-landing-jobs" aria-labelledby="rvJobsTitle">
+      <div class="rv-landing-wrap">
+        <h2 id="rvJobsTitle">你能做的三件事</h2>
+        <p class="rv-landing-lead">本工具只服务这三件事；术语与界面口径见使用说明。</p>
+        <article class="rv-landing-job">
+          <h3>复盘现有策略</h3>
+          <p>看清「现在这套规则」贷前挡人与贷后风险；用<strong>日常检视</strong>做日/周环比哨兵（全表 CSV），用<strong>异动归因</strong>做自选期深潜（默认跟贷后样本）。</p>
+          <p class="rv-landing-where">路径：生成分析报告 → 贷前 / 贷后 · 日常检视 · 异动归因</p>
+        </article>
+        <article class="rv-landing-job">
+          <h3>挖 / 验新规则</h3>
+          <p>数据分析三区 <strong>EDA → 分箱 → 挖规</strong> 找规则，有效性里看四象限与 Swap；通过率不够则在残差样本里继续挖。区分 <span class="tag-hard">硬规则</span>（命中就拒绝）与 <span class="tag-soft">软规则</span>（命中仍可通过，用来观察 / 排序）。</p>
+          <p class="rv-landing-where">路径：数据分析（①EDA · ②分箱 · ③挖规）→ 规则有效性检查</p>
+        </article>
+        <article class="rv-landing-job">
+          <h3>算单客赚不赚钱 / 风险目标 / 资产包 EL</h3>
+          <p>在假设参数下看单客毛利 / 净利；测算等量换客后的风险目标；或按资产包调配通过率 / 件均 / 金额风险以压组合 EL。三类测算都不需要 CSV。</p>
+          <p class="rv-landing-where">路径：盈利性测算 · 风险目标测算 · 资产包 EL 调配 Tab</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="rv-landing-footer">
+      策略复盘与规则挖掘 · 作者 王含章scott ·
+      <button type="button" class="rv-landing-footer-link" id="rvEnterWorkbenchFooter">打开工具</button>
+      · <a href="../index.html">返回门户</a>
+    </footer>
+  </div>
+
+  <div id="rvWorkbench" class="rv-workbench">
+  <header class="app-header">
+    <h1>策略复盘与规则挖掘</h1>
+    <p>
+      <a href="../index.html">返回门户</a>
+    </p>
+  </header>
+  <div id="rvProvenanceBar" class="rv-provenance-bar" role="status" aria-live="polite">样本未加载 · 规则 — · 结果 —</div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="workflow-stepper">
+        <h2>分析流程</h2>
+        <div class="workflow-step-list" id="workflowStepList">
+          <div class="workflow-step-item active" data-step-item="1">
+            <button type="button" class="workflow-step-btn" data-step-target="1">
+              <span class="workflow-step-summary"><span class="workflow-step-title">1. 数据接入</span><span class="workflow-step-chevron">▾</span></span>
+              <span class="workflow-step-status" id="workflowStepStatus1">进行中</span>
+            </button>
+            <p class="workflow-step-detail" id="workflowStepDetail1">上传 CSV，完成字段识别与列类型初始化。</p>
+          </div>
+          <div class="workflow-step-item" data-step-item="2">
+            <button type="button" class="workflow-step-btn" data-step-target="2">
+              <span class="workflow-step-summary"><span class="workflow-step-title">2. 样本与规则</span><span class="workflow-step-chevron">▾</span></span>
+              <span class="workflow-step-status" id="workflowStepStatus2">待开始</span>
+            </button>
+            <p class="workflow-step-detail" id="workflowStepDetail2">配置贷前/贷后样本、风险比率和规则组合。</p>
+          </div>
+          <div class="workflow-step-item" data-step-item="3">
+            <button type="button" class="workflow-step-btn" data-step-target="3">
+              <span class="workflow-step-summary"><span class="workflow-step-title">3. 生成与导出</span><span class="workflow-step-chevron">▾</span></span>
+              <span class="workflow-step-status" id="workflowStepStatus3">待开始</span>
+            </button>
+            <p class="workflow-step-detail" id="workflowStepDetail3">生成主报告；下载时可勾选 Tab（可只导日常检视）。</p>
+          </div>
+        </div>
+        <p id="workflowStatusLine" class="workflow-status-line">样本未配 · 规则 0 · 报告未生成</p>
+      </section>
+
+      <section class="sidebar-module" id="panelFileConfig" data-workflow-step="1">
+        <h2 class="sidebar-module-title">文件配置</h2>
+        <label>上传 CSV</label>
+        <input type="file" id="csvFile" accept=".csv,text/csv" />
+        <button type="button" class="btn btn-secondary btn-sm" id="btnLoadSample">载入示例</button>
+        <p id="loadStatus" class="status">正在载入合成示例…</p>
+        <div class="import-config-block is-locked" id="importConfigBlock">
+          <label>导入配置 JSON</label>
+          <input type="file" id="configFile" accept=".json,application/json" hidden />
+          <button type="button" class="btn btn-secondary btn-sm" id="btnImportConfig" disabled>导入配置 JSON</button>
+          <p id="importConfigHint" class="sidebar-hint">请先上传 CSV 后再导入配置</p>
+          <p id="configImportStatus" class="status"></p>
+        </div>
+      </section>
+
+      <section class="sidebar-module" id="panelPostSample" data-workflow-step="2" hidden>
+        <h2 class="sidebar-module-title">贷后样本定义</h2>
+        <div class="sidebar-section" id="postSampleBlock">
+          <h3 class="sidebar-section-title">样本筛选</h3>
+          <div class="sidebar-sub-block sample-sub-filter">
+            <h5>筛选字段</h5>
+            <div id="postPrimaryFilterSelected" class="sample-filter-selected-tags"></div>
+            <div id="postPrimaryFilterEditor" class="sample-filter-editor-panel" hidden>
+              <div class="sample-filter-editor-head">
+                <span>编辑主筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="post" data-sample-primary="1">完成</button>
+              </div>
+              <label>字段</label>
+              <select id="postPrimaryFilterCol"></select>
+              <div id="postPrimaryFilterEditorBody" class="primary-filter-ui"></div>
+            </div>
+            <div id="postPrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden aria-hidden="true"></div>
+            <p id="postPrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
+          </div>
+          <div class="sidebar-sub-block sample-sub-filter">
+            <h5>额外筛选（且）</h5>
+            <div id="postFilterSelected" class="sample-filter-selected-tags"></div>
+            <div id="postFilterEditor" class="sample-filter-editor-panel" hidden>
+              <div class="sample-filter-editor-head">
+                <span id="postFilterEditorTitle">编辑筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="post">完成</button>
+              </div>
+              <div id="postFilterEditorBody"></div>
+            </div>
+            <div id="postFilterRules" class="sample-filter-rules-pool" hidden aria-hidden="true"></div>
+            <div class="filter-add-row">
+              <input type="search" id="postFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" />
+              <button type="button" class="btn btn-secondary btn-sm" id="addPostFilter">+ 筛选</button>
+            </div>
+            <div class="batch-actions-inline">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnClearPostFilters">清空额外筛选</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnCopyPostToPreFilters">复制到贷前</button>
+            </div>
+            <p id="postFilterMeta" class="chk-filter-meta"></p>
+          </div>
+        </div>
+        <div class="sidebar-section" id="panelPostRatio">
+          <h3 class="sidebar-section-title">贷后风险定义</h3>
+          <div id="ratioRows"></div>
+          <button type="button" class="btn btn-secondary btn-sm" id="addRatio">+ 添加比率</button>
+        </div>
+      </section>
+
+      <section class="sidebar-module is-collapsed" id="panelPreSample" data-workflow-step="2" hidden>
+        <h2 class="sidebar-module-title sidebar-module-title--toggle rv-heading-with-hint" id="panelPreSampleToggle" role="button" tabindex="0" aria-expanded="false" title="点击展开/收起贷前样本（默认折叠以减滚动）">
+          贷前样本定义
+          <span class="rv-hint rv-tip-anchor" data-rv-tip="默认折叠；供 Swap/贷前分析" tabindex="0" role="img" aria-label="说明">ⓘ</span>
+          <span class="sidebar-module-chevron" aria-hidden="true">▸</span>
+        </h2>
+        <div class="sidebar-module-body" id="panelPreSampleBody">
+        <div class="sidebar-section" id="preSampleBlock">
+          <h3 class="sidebar-section-title">样本筛选</h3>
+          <div class="sidebar-sub-block sample-sub-filter">
+            <h5>筛选字段</h5>
+            <div id="prePrimaryFilterSelected" class="sample-filter-selected-tags"></div>
+            <div id="prePrimaryFilterEditor" class="sample-filter-editor-panel" hidden>
+              <div class="sample-filter-editor-head">
+                <span>编辑主筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="pre" data-sample-primary="1">完成</button>
+              </div>
+              <label>字段</label>
+              <select id="prePrimaryFilterCol"></select>
+              <div id="prePrimaryFilterEditorBody" class="primary-filter-ui"></div>
+            </div>
+            <div id="prePrimaryFilter" class="sample-filter-rules-pool primary-filter-ui" hidden aria-hidden="true"></div>
+            <p id="prePrimaryFilterMeta" class="chk-filter-meta sample-filter-meta">未选择取值（不选=全部）</p>
+          </div>
+          <div class="sidebar-sub-block sample-sub-filter">
+            <h5>额外筛选（且）</h5>
+            <div id="preFilterSelected" class="sample-filter-selected-tags"></div>
+            <div id="preFilterEditor" class="sample-filter-editor-panel" hidden>
+              <div class="sample-filter-editor-head">
+                <span id="preFilterEditorTitle">编辑筛选</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample-editor-done="pre">完成</button>
+              </div>
+              <div id="preFilterEditorBody"></div>
+            </div>
+            <div id="preFilterRules" class="sample-filter-rules-pool" hidden aria-hidden="true"></div>
+            <div class="filter-add-row">
+              <input type="search" id="preFilterSearch" class="chk-filter-input" placeholder="搜索列名…" autocomplete="off" />
+              <button type="button" class="btn btn-secondary btn-sm" id="addPreFilter">+ 筛选</button>
+            </div>
+            <div class="batch-actions-inline">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnClearPreFilters">清空额外筛选</button>
+            </div>
+            <p id="preFilterMeta" class="chk-filter-meta"></p>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <section class="sidebar-module" id="panelRules" data-workflow-step="2" hidden>
+        <h2 class="sidebar-module-title rv-heading-with-hint">当前规则配置 <span class="config-muted" style="font-weight:400;font-size:.75rem">Baseline · 线上策略</span><span class="rv-hint rv-tip-anchor" data-rv-tip="0-1可选硬/软；数值固定软；空值不命中" tabindex="0" role="img" aria-label="说明：0-1可选硬/软；数值固定软；空值不命中">ⓘ</span></h2>
+        <div id="ruleConfigRows"></div>
+        <div class="rule-actions-primary">
+          <div class="rule-actions-primary-row">
+            <button type="button" class="btn btn-primary btn-sm" id="btnRuleCreatePrimary">+ 新建规则</button>
+            <select id="ruleCreateType" class="rule-create-select">
+              <option value="binary">0-1 规则</option>
+              <option value="numeric">数值规则</option>
+              <option value="composite">复合软规则</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm rule-bulk-toggle" id="btnRuleBulkToggle" aria-expanded="false">批量操作 ▾</button>
+        <div class="rule-config-actions rule-bulk-panel" id="ruleBulkPanel" hidden>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnRulesAllSoft">全部设为软规则</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnRulesAllHard">全部设为硬规则</button>
+          <button type="button" class="btn btn-secondary btn-sm rule-btn-danger" id="btnRulesClearAll">清空全部规则</button>
+        </div>
+        <div class="rule-pack-block">
+          <p class="rule-pack-title">规则包工具</p>
+          <div class="rule-config-actions rules-pack-toolbar">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnImportStrategyRules">导入策略规则包</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnExportStrategyRules">导出 strategy-rules.json</button>
+            <input type="file" id="strategyRulesFile" accept=".json,application/json" hidden />
+          </div>
+        </div>
+        <p id="strategyRulesImportStatus" class="status"></p>
+      </section>
+
+      <section class="sidebar-actions" data-workflow-step="3" hidden>
+        <p id="analyzeStatus" class="status"></p>
+        <button type="button" class="btn btn-primary" id="btnAnalyze" disabled>生成分析报告</button>
+        <button type="button" class="btn btn-secondary" id="btnDownload" disabled>下载报告 HTML</button>
+      </section>
+    </aside>
+
+    <main class="content">
+      <div class="tabs tabs--grouped" id="reportTabs">
+        <div class="tab-group" data-tab-group="status">
+          <span class="tab-group-label">现状分析</span>
+          <div class="tab-group-btns">
+            <button type="button" class="tab-btn active" data-tab="post" data-requires-csv="1">贷后风险</button>
+            <button type="button" class="tab-btn" data-tab="pre" data-requires-csv="1">贷前策略</button>
+            <button type="button" class="tab-btn" data-tab="attribution" data-requires-csv="1">异动归因</button>
+            <button type="button" class="tab-btn" data-tab="dailyReview" data-requires-csv="1">日常检视</button>
+          </div>
+        </div>
+        <div class="tab-group" data-tab-group="mining">
+          <span class="tab-group-label">策略挖掘</span>
+          <div class="tab-group-btns">
+            <button type="button" class="tab-btn" data-tab="analysis" data-requires-csv="1">数据分析</button>
+          </div>
+        </div>
+        <div class="tab-group" data-tab-group="eval">
+          <span class="tab-group-label">策略评估</span>
+          <div class="tab-group-btns">
+            <button type="button" class="tab-btn" data-tab="validity" data-requires-csv="1">规则有效性检查</button>
+          </div>
+        </div>
+        <div class="tab-group" data-tab-group="other">
+          <span class="tab-group-label">其他</span>
+          <div class="tab-group-btns">
+            <button type="button" class="tab-btn" data-tab="profitability">盈利性测算</button>
+            <button type="button" class="tab-btn" data-tab="riskTarget">风险目标测算</button>
+            <button type="button" class="tab-btn" data-tab="elAllocator">资产包 EL 调配</button>
+          </div>
+        </div>
+        <label class="tabs-view-toggle"><input type="checkbox" id="toggleSummaryMode" /> 摘要模式（隐藏明细表）</label>
+      </div>
+      <div id="report-output">
+        <div id="csvNextStepBanner" class="csv-next-step-banner" hidden>
+          CSV 已加载。下一步：在左侧「样本与规则」配置贷后/贷前与规则，然后点 <b>生成分析报告</b>。也可继续使用「盈利性测算 / 风险目标测算 / 资产包 EL 调配」（无需报告）。
+        </div>
+        <p class="placeholder">上传 CSV 后配置左侧样本与规则并生成报告；也可直接使用「盈利性测算」「风险目标测算」「资产包 EL 调配」Tab（无需 CSV）</p>
+      </div>
+    </main>
+  </div>
+  <div id="appFeedback" class="global-feedback" aria-live="polite"></div>
+  <footer class="rv-workbench-footer">作者 王含章scott</footer>
+  </div><!-- /#rvWorkbench -->
+
+<script>
+(function () {
+  var landing = document.getElementById("rvLanding");
+  var workbench = document.getElementById("rvWorkbench");
+  var KEY = "rv.workbenchEntered";
+
+  /**
+   * 导航契约（第一性原理：一页一意图）
+   * - 默认 / ?home=1 → 营销首页（介绍）
+   * - #workbench / ?enter=1 → 分析工作台
+   * - sessionStorage 仅记住「本会话已进过工作台」，?home=1 可强制回首页
+   */
+  function showWorkbench(persist) {
+    if (!landing || !workbench) return;
+    landing.hidden = true;
+    workbench.hidden = false;
+    document.body.classList.remove("rv-landing-active");
+    document.body.classList.add("rv-workbench-active");
+    if (persist !== false) {
+      try { sessionStorage.setItem(KEY, "1"); } catch (e) { /* ignore */ }
+      if (location.hash !== "#workbench") {
+        try { history.replaceState(null, "", "#workbench"); } catch (e2) { /* ignore */ }
+      }
+    }
+    try { window.scrollTo(0, 0); } catch (e3) { /* ignore */ }
+  }
+
+  function showLanding(persistClear) {
+    if (!landing || !workbench) return;
+    workbench.hidden = true;
+    landing.hidden = false;
+    document.body.classList.add("rv-landing-active");
+    document.body.classList.remove("rv-workbench-active");
+    if (persistClear !== false) {
+      try { sessionStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+    }
+    try {
+      var q = location.search.replace(/[?&]enter=1\b/, "").replace(/[?&]home=1\b/, "");
+      q = q.replace(/^\?&/, "?").replace(/[?&]$/, "");
+      if (q === "?") q = "";
+      history.replaceState(null, "", location.pathname + q);
+    } catch (e2) { /* ignore */ }
+    try { window.scrollTo(0, 0); } catch (e3) { /* ignore */ }
+  }
+
+  function resolveSurface() {
+    showWorkbench(true);
+  }
+
+  var enterBtn = document.getElementById("rvEnterWorkbench");
+  if (enterBtn) enterBtn.addEventListener("click", function () { showWorkbench(true); });
+  var enterFooter = document.getElementById("rvEnterWorkbenchFooter");
+  if (enterFooter) enterFooter.addEventListener("click", function () { showWorkbench(true); });
+  var backBtn = document.getElementById("rvBackToLanding");
+  if (backBtn) backBtn.addEventListener("click", function () { showLanding(true); });
+
+  window.addEventListener("hashchange", function () {
+    showWorkbench(true);
+  });
+
+  resolveSurface();
+})();
+</script>
+
+<script src="src/rv/bootstrap.js"></script>
+<script src="src/rv/app/state.js"></script>
+<script src="src/rv/infra.js?v=20260715-heatAB"></script>
+<script src="src/rv/data.js"></script>
+<script src="src/rv/sample.js"></script>
+<script src="src/rv/ui/charts.js?v=20260713-minmax"></script>
+<script src="src/rv/ui/rule-expr.js?v=20260706-expr-binary"></script>
+<script src="src/rv/domain/rules.js?v=20260713-opt"></script>
+<script src="src/rv/domain/rules-pack.js?v=20260706-expr-binary"></script>
+<script src="src/rv/ui/rule-rows.js?v=20260713-adv2"></script>
+<script src="src/rv/ui/sidebar.js?v=20260714-reviewFix"></script>
+<script src="src/rv/domain/metrics.js?v=20260713-eda1"></script>
+<script src="src/rv/domain/post-risk.js"></script>
+<script src="src/rv/domain/pre-strategy.js"></script>
+<script src="src/rv/domain/summary.js?v=20260713-opt"></script>
+  <script src="src/rv/domain/eda.js?v=20260713-eda1"></script>
+  <script src="src/rv/domain/binning.js?v=20260710-bin-summary-fix"></script>
+  <script src="src/rv/domain/rule-mining.js?v=20260713-adv2"></script>
+<script src="src/rv/domain/validity.js?v=20260713-eda1"></script>
+<script src="src/rv/domain/profitability.js"></script>
+<script src="src/rv/domain/risk-target.js?v=20260713-rt2"></script>
+<script src="src/rv/domain/el-allocator.js?v=20260724-ea1"></script>
+<script src="src/rv/domain/attribution.js?v=20260827-attrOrd"></script>
+<script src="src/rv/domain/daily-review.js?v=20261010-drSegOne"></script>
+<script src="src/rv/ui/collapsed-picker.js?v=20260714-binBar"></script>
+<script src="src/rv/ui/config-panel.js?v=20260713-collapse"></script>
+<script src="src/rv/ui/waterfall-dnd.js?v=20260713-opt"></script>
+<script src="src/rv/ui/report-post.js?v=20260724-ea1"></script>
+<script src="src/rv/ui/report-pre.js?v=20260714-binBar"></script>
+<script src="src/rv/ui/report-analysis.js?v=20260714-reviewFix"></script>
+<script src="src/rv/ui/report-post-rule-review.js?v=20260714-binBar"></script>
+<script src="src/rv/ui/report-validity.js?v=20260714-reviewFix"></script>
+<script src="src/rv/ui/report-profitability.js"></script>
+<script src="src/rv/ui/report-risk-target.js?v=20260714-binBar"></script>
+<script src="src/rv/ui/report-el-allocator.js?v=20260724-ea1"></script>
+<script src="src/rv/ui/report-attribution.js?v=20260827-attrOrd"></script>
+<script src="src/rv/ui/report-daily-review.js?v=20261010-drSegOne"></script>
+<script src="src/rv/app/config.js?v=20260714-crossToolbar"></script>
+<script src="src/rv/app/rules-io.js?v=20260713-adv2"></script>
+<script src="src/rv/app/orchestrator.js?v=20260724-ea1"></script>
+<script src="src/rv/export.js?v=20260826-drNoMonth"></script>
+<script src="src/rv/events.js?v=20260724-drRestore1"></script>
+<script src="src/rv/app/main.js"></script>
+<script src="../assets/site-nav.js"></script>
+<script src="../assets/demo-sample.js"></script>
+<script>
+  document.getElementById("btnLoadSample").addEventListener("click", function () {
+    StrategyDemo.loadCsvInto("csvFile").catch(function (err) {
+      var el = document.getElementById("loadStatus");
+      if (el) el.textContent = err.message || String(err);
+    });
+  });
+  StrategyDemo.loadCsvInto("csvFile").catch(function (err) {
+    var el = document.getElementById("loadStatus");
+    if (el) el.textContent = err.message || String(err);
+  });
+</script>
+</body>
+</html>

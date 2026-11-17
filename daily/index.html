@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日常检视</title>
+  <link rel="stylesheet" href="../assets/theme.css" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <link rel="stylesheet" href="styles/app-layout.css" />
+  <link rel="stylesheet" href="styles/daily-review.css" />
+  <style>
+    .dr-shell-bar {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+      padding: .75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--wb-sheet, var(--card));
+      position: sticky;
+      top: var(--sd-nav-h, 0px);
+      z-index: 20;
+    }
+    .dr-shell-bar h1 { margin: 0; font-size: 1.05rem; }
+    .dr-shell-bar .status { margin: 0; }
+    .dr-shell-file { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    #reportTabs { display: none !important; }
+    #report-output { padding-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="dr-shell-bar">
+    <h1>日常检视</h1>
+    <label class="btn btn-primary btn-sm" for="csvFile">上传 CSV</label>
+    <button type="button" class="btn btn-secondary btn-sm" id="btnLoadSample">载入示例</button>
+    <input id="csvFile" class="dr-shell-file" type="file" accept=".csv,text/csv" />
+    <p id="shellStatus" class="status"></p>
+  </div>
+  <div class="dr-app">
+    <nav id="drToc" class="dr-toc" aria-label="目录">
+      <a class="dr-toc-link" href="#drConfig" data-dr-toc="drConfig">配置</a>
+      <a class="dr-toc-link dr-toc-chapter" href="#drChapterMetrics" data-dr-toc="drChapterMetrics">日常指标检视</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drBriefBlock" data-dr-toc="drBriefBlock">总览点评</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drPanel1" data-dr-toc="drPanel1">1. 决策组环比</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drPanel2" data-dr-toc="drPanel2">2. 指标明细表</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drPanel3" data-dr-toc="drPanel3">3. 客群贡献度</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drPanel4" data-dr-toc="drPanel4">4. 组间同客群对比</a>
+      <a class="dr-toc-link dr-toc-chapter" href="#drChapterTrack" data-dr-toc="drChapterTrack">重点数据跟踪</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drTrackMetrics" data-dr-toc="drTrackMetrics">1. 分周 KS / AUC / IV</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drTrackGrade" data-dr-toc="drTrackGrade">2. 评级监控</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drTrackBins" data-dr-toc="drTrackBins">3. 等频分箱</a>
+      <a class="dr-toc-link dr-toc-chapter" href="#drChapterAdmit" data-dr-toc="drChapterAdmit">准入策略监控</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drAdmitStatus" data-dr-toc="drAdmitStatus">1. 策略版本现状</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drAdmitReplay" data-dr-toc="drAdmitReplay">2. 版本回放</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drAdmitCross" data-dr-toc="drAdmitCross">3. 版本交叉</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drAdmitFalls" data-dr-toc="drAdmitFalls">4. 策略瀑布</a>
+      <a class="dr-toc-link dr-toc-chapter" href="#drChapterLimit" data-dr-toc="drChapterLimit">额度策略监控</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitVersion" data-dr-toc="drLimitVersion">1. 额度策略版本监控</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitLevel" data-dr-toc="drLimitLevel">2. Level 贷后</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitChange" data-dr-toc="drLimitChange">3. level_change_num 贷后</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitLevelCross" data-dr-toc="drLimitLevelCross">4. Level 交叉</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitChangeCross" data-dr-toc="drLimitChangeCross">5. level_change 交叉</a>
+      <a class="dr-toc-link dr-toc-sub" href="#drLimitSpecial" data-dr-toc="drLimitSpecial">6. 特殊策略监控</a>
+    </nav>
+    <div class="dr-app-main">
+      <div id="reportTabs" hidden></div>
+      <div id="report-output">
+        <div class="dr-empty" id="drEmpty">
+          <p>正在载入合成示例。数据只在这台浏览器里计算。</p>
+          <button type="button" class="btn btn-primary" id="btnLoadSampleEmpty">载入示例</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/rv/bootstrap.js"></script>
+  <script src="vendor/rv/app/state.js"></script>
+  <script src="vendor/rv/infra.js"></script>
+  <script src="vendor/rv/data.js"></script>
+  <script src="vendor/rv/domain/attribution.js"></script>
+  <script src="vendor/rv/domain/daily-review.js"></script>
+  <script src="vendor/rv/ui/charts.js"></script>
+  <script src="vendor/rv/ui/collapsed-picker.js"></script>
+  <script src="vendor/rv/ui/config-panel.js"></script>
+  <script src="src/shell.js"></script>
+  <script src="vendor/rv/ui/report-daily-review.js"></script>
+  <script src="src/model-track.js"></script>
+  <script src="src/model-track-ui.js"></script>
+  <script src="strategy-routes.js"></script>
+  <script src="src/strategy-monitor.js"></script>
+  <script src="src/strategy-monitor-ui.js"></script>
+  <script src="src/limit-monitor.js"></script>
+  <script src="src/limit-monitor-ui.js"></script>
+  <script src="../assets/site-nav.js"></script>
+  <script src="../assets/demo-sample.js"></script>
+  <script>
+    function loadDailySample() {
+      return StrategyDemo.loadCsvInto("csvFile").then(function () {
+        return StrategyDemo.waitUntil(function () {
+          var s = document.getElementById("shellStatus");
+          return s && s.textContent.indexOf("已载入") !== -1;
+        }, 20000);
+      }).then(function () {
+        var btn = document.getElementById("btnRunDailyReview");
+        if (btn && !btn.disabled) btn.click();
+      }).catch(function (err) {
+        var s = document.getElementById("shellStatus");
+        if (s) s.textContent = err.message || String(err);
+      });
+    }
+    document.getElementById("btnLoadSample").addEventListener("click", loadDailySample);
+    document.getElementById("btnLoadSampleEmpty").addEventListener("click", loadDailySample);
+    loadDailySample();
+  </script>
+</body>
+</html>
