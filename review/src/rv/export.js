@@ -91,7 +91,6 @@
     { id: "post", sectionId: "tab-post", label: "贷后风险", group: "现状分析" },
     { id: "pre", sectionId: "tab-pre", label: "贷前策略", group: "现状分析" },
     { id: "attribution", sectionId: "tab-attribution", label: "异动归因", group: "现状分析" },
-    { id: "dailyReview", sectionId: "tab-daily-review", label: "日常检视", group: "现状分析" },
     { id: "analysis", sectionId: "tab-analysis", label: "数据分析", group: "策略挖掘" },
     { id: "validity", sectionId: "tab-validity", label: "规则有效性检查", group: "策略评估" },
   ];

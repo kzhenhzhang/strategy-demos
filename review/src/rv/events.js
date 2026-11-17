@@ -104,7 +104,6 @@
     if (S.daResultsStale && S.lastDataAnalysis) stale.push("数据分析");
     if (S.validityResultsStale && S.lastValidityAnalysis) stale.push("有效性");
     if (S.attributionResultsStale && S.lastAttributionAnalysis) stale.push("归因");
-    if (S.dailyReviewResultsStale && S.lastDailyReview) stale.push("日常检视");
     const parts = [
       `样本 ${nRows.toLocaleString()} 行`,
       `规则 ${ruleN}${candN ? ` · 候选 ${candN}` : ""}`,

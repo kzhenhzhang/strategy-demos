@@ -175,7 +175,6 @@ async function runAnalysis() {
       riskTarget: () => remountRiskTargetTabAfterReport(priorRiskTargetState),
       elAllocator: () => remountElAllocatorTabAfterReport(priorElAllocatorState),
       attribution: () => remountAttributionTabAfterReport(priorAttributionState),
-      dailyReview: () => remountDailyReviewTabAfterReport(priorDailyReviewState),
     };
     $("reportTabs").style.display = "flex";
     showTab("post");
@@ -522,7 +521,6 @@ async function onCsvLoaded(result) {
   initRiskTargetTab();
   initElAllocatorTab();
   initAttributionTab();
-  initDailyReviewTab();
 
   const enc = getLastCsvEncoding();
   const encHint = enc ? ` · 编码 ${enc}` : "";
