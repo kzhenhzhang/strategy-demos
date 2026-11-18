@@ -15,13 +15,13 @@
   var nav = document.createElement("header");
   nav.className = "sd-nav";
   nav.setAttribute("role", "navigation");
-  nav.setAttribute("aria-label", "策略工具");
-  var html = '<a class="sd-brand" href="' + prefix + 'index.html">策略工具</a>';
+  nav.setAttribute("aria-label", "王含章 · 风控策略");
+  var html = '<a class="sd-brand" href="' + prefix + 'index.html">王含章</a><span class="sd-role">风控策略</span>';
   pages.forEach(function (p) {
     var cls = p.id === current ? ' class="is-current" aria-current="page"' : "";
     html += '<a href="' + prefix + p.path + '"' + cls + ">" + p.label + "</a>";
   });
-  html += '<span class="sd-note">合成示例 · 计算在浏览器内</span>';
+  html += '<span class="sd-note">用 AI 落地 · 合成示例</span>';
   nav.innerHTML = html;
   document.body.insertBefore(nav, document.body.firstChild);
 

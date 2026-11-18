@@ -29,9 +29,16 @@
 }
 
 .sd-brand {
-  margin-right: 0.35rem;
+  margin-right: 0.15rem;
   color: var(--text) !important;
   letter-spacing: -0.01em;
+}
+
+.sd-role {
+  margin-right: 0.55rem;
+  color: var(--text-subtle);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .sd-note {
@@ -53,6 +60,14 @@
   max-width: 68rem;
   margin: 0 auto;
   padding: 2rem 1.25rem 3rem;
+}
+
+.sd-kicker {
+  margin: 0 0 0.45rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
 }
 
 .sd-portal h1,
