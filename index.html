@@ -206,7 +206,7 @@
     <div class="sec-head">
       <h2>Writing</h2>
       <div class="big">一些思考</div>
-      <p>把踩过的坑和想明白的事写下来。文章还在写。</p>
+      <p>把想明白的事写下来。</p>
     </div>
     <div class="filters" role="group" aria-label="文章分类">
       <button class="filter active" type="button" data-cat="all">全部</button>
@@ -214,8 +214,17 @@
       <button class="filter" type="button" data-cat="tool">工具实践</button>
       <button class="filter" type="button" data-cat="industry">行业观察</button>
     </div>
-    <div id="postList"></div>
-    <div class="empty" id="emptyState">持续更新中。文章写好后会放在这里。</div>
+    <div id="postList">
+      <a class="post" href="writing/pass-rate.html" data-cat="method">
+        <div class="post-date">2026.11</div>
+        <div>
+          <div class="post-title">减少投放之后，通过率会怎么变</div>
+          <p class="post-excerpt">减少投放不改变某一类人本身的好坏，只改变各类人在进件里占多少。被砍掉的人通过率更低，整体就上升；更高就下降。</p>
+        </div>
+        <div class="post-meta">策略方法论</div>
+      </a>
+    </div>
+    <div class="empty" id="emptyState" hidden>这个分类还没有文章。</div>
   </div>
 </section>
 
@@ -271,6 +280,24 @@
     }, { rootMargin: "-45% 0px -50% 0px" });
     sections.forEach(function (section) { obs.observe(section); });
   }
+
+  var filters = document.querySelectorAll(".filter");
+  var posts = document.querySelectorAll(".post");
+  var empty = document.getElementById("emptyState");
+  filters.forEach(function (f) {
+    f.addEventListener("click", function () {
+      filters.forEach(function (x) { x.classList.remove("active"); });
+      f.classList.add("active");
+      var cat = f.getAttribute("data-cat");
+      var shown = 0;
+      posts.forEach(function (p) {
+        var ok = cat === "all" || p.getAttribute("data-cat") === cat;
+        p.hidden = !ok;
+        if (ok) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  });
 })();
 </script>
 </body>
