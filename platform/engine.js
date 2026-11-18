@@ -39,9 +39,12 @@ const flowSelected = {
 };
 const lineHover = {};
 function colorOf(p){ return COLORS[partners.indexOf(p) % COLORS.length]; }
+function ink(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
 function stageColor(month){
   const i = Math.max(applyMonths.indexOf(month), 0);
-  return "hsl(" + ((i * 47) % 360) + ",62%,42%)";
+  return "hsl(" + ((i * 47) % 360) + ",68%,64%)";
 }
 function valsOf(k){
   return k==="partner"?partners:k==="system"?systems:k==="reloan"?reloans:k==="metric"?METRICS:k==="applyMonth"?applyMonths:k==="loanMonth"?loanMonths:k==="firstMonth"?firstMonths:snapMonths;
@@ -244,8 +247,8 @@ function drawEndLabels(ctx, labels, top, bottom, w){
   ctx.globalAlpha = 1;
 }
 function drawAxis(ctx, pad, w, ymin, ymax, yAt, yLabel){
-  ctx.strokeStyle = "#e6e9ef";
-  ctx.fillStyle = "#667085";
+  ctx.strokeStyle = ink("--chart-grid");
+  ctx.fillStyle = ink("--chart-label");
   ctx.font = "11px sans-serif";
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
@@ -282,10 +285,10 @@ function drawStage(canvas, empty, months, series, ready, valueOf, yLabel, hitOf,
   drawAxis(ctx, pad, w, ymin, ymax, yAt, yLabel);
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  ctx.fillStyle = "#667085";
+  ctx.fillStyle = ink("--chart-label");
   ctx.font = "11px sans-serif";
   months.forEach((m,i) => ctx.fillText(m, xAt(i), pad.t + ih + 6));
-  ctx.fillStyle = "#98a2b3";
+  ctx.fillStyle = ink("--chart-axis");
   STAGE_GROUPS.forEach(g => ctx.fillText(g.name, (xAt(g.from) + xAt(g.to)) / 2, pad.t + ih + 24));
   const hover = series.some(s => s.name === hoverName) ? hoverName : "";
   const ordered = !hover ? series : series.filter(s => s.name !== hover).concat(series.filter(s => s.name === hover));
@@ -345,7 +348,7 @@ function drawOne(canvas, empty, months, series, ready, valueOf, yLabel, hitOf, h
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.font = "10px sans-serif";
-  ctx.fillStyle = "#667085";
+  ctx.fillStyle = ink("--chart-label");
   months.forEach((m,i) => {
     ctx.save();
     ctx.translate(xAt(i), pad.t + ih + 4);
@@ -453,59 +456,6 @@ function renderFlowTables(){
   renderHeatTable("tblFlowAvgCnt", agg, box => box.u > 0 ? box.nc / box.u : null, v => v.toFixed(2));
   renderHeatTable("tblFlowAvgAmt", agg, box => box.u > 0 ? box.na / box.u : null, v => money(v));
 }
-function renderPassTable(agg){
-  const body = [];
-  agg.months.forEach((month,i) => {
-    agg.series.forEach(s => {
-      const pt = s.pts[i];
-      if (!(pt.apply > 0)) return;
-      body.push(`<tr><td>${month}</td><td>${s.name}</td><td>${fmt(pt.apply)}</td><td>${fmt(pt.pass)}</td><td>${pct(pt.pass, pt.apply)}</td><td>${fmt(pt.loan)}</td><td>${pct(pt.loan, pt.pass)}</td><td>${money(pt.amt)}</td><td>${pt.pass>0?money(pt.amt/pt.pass):""}</td></tr>`);
-    });
-  });
-  document.getElementById("tblPass").innerHTML = `<tr><th>进件月</th><th>partner_id</th><th>进件量</th><th>通过量</th><th>通过率</th><th>放款量</th><th>用信率</th><th>通过金额</th><th>授信件均</th></tr>` + body.join("");
-}
-function renderReloanTable(agg){
-  const body = [];
-  agg.months.forEach((month,i) => {
-    agg.series.forEach(s => {
-      const pt = s.pts[i];
-      if (!(pt.settle > 0)) return;
-      body.push(`<tr><td>${month}</td><td>${s.name}</td><td>${fmt(pt.settle)}</td><td>${fmt(pt.next)}</td><td>${pct(pt.next, pt.settle)}</td></tr>`);
-    });
-  });
-  document.getElementById("tblReloan").innerHTML = `<tr><th>结清月</th><th>partner_id</th><th>结清量</th><th>下一笔放款量</th><th>结清复借率</th></tr>` + body.join("");
-}
-function renderRiskTable(agg){
-  const head = ["<tr><th>首借月</th><th>partner_id</th>"];
-  agg.metrics.forEach(m => {
-    head.push(`<th>${m}订单分子</th><th>${m}订单分母</th><th>${m}订单风险</th><th>${m}金额分子</th><th>${m}金额分母</th><th>${m}金额风险</th>`);
-  });
-  head.push("</tr>");
-  const map = {};
-  RISK.filter(r => selected.partner.has(r.p) && selected.system.has(r.s) && selected.reloan.has(r.r) && selected.applyMonth.has(r.am) && selected.loanMonth.has(r.lm)).forEach(row => {
-    const key = row.lm+"\t"+row.p;
-    if (!map[key]) map[key] = {month:row.lm, partner:row.p};
-    const box = map[key];
-    agg.metrics.forEach(m => {
-      if (!box[m]) box[m] = [0,0,0,0];
-      box[m][0] += row[m][0];
-      box[m][1] += row[m][1];
-      box[m][2] += row[m][2];
-      box[m][3] += row[m][3];
-    });
-  });
-  const keys = Object.keys(map).sort();
-  const body = keys.map(k => {
-    const box = map[k];
-    const cells = [`<td>${box.month}</td><td>${box.partner}</td>`];
-    agg.metrics.forEach(m => {
-      const v = box[m] || [0,0,0,0];
-      cells.push(`<td>${fmt(v[1])}</td><td>${fmt(v[0])}</td><td>${pct(v[1], v[0])}</td><td>${money(v[3])}</td><td>${money(v[2])}</td><td>${pct(v[3], v[2])}</td>`);
-    });
-    return "<tr>"+cells.join("")+"</tr>";
-  });
-  document.getElementById("tblRisk").innerHTML = head.join("") + body.join("");
-}
 function paintCharts(){
   const pass = aggPass();
   const pct1 = v => (v * 100).toFixed(1) + "%";
@@ -531,10 +481,7 @@ function paintCharts(){
   return {pass, cnt, reloan};
 }
 function drawCharts(){
-  const painted = paintCharts();
-  renderPassTable(painted.pass);
-  renderReloanTable(painted.reloan);
-  renderRiskTable(painted.cnt);
+  paintCharts();
   renderFlowTables();
 }
 function draw(){
@@ -546,7 +493,6 @@ function showTip(ev, canvas){
   if (!tipEl){
     tipEl = document.createElement("div");
     tipEl.id = "tip";
-    tipEl.style.cssText = "position:fixed;pointer-events:none;background:#111827;color:#fff;padding:6px 8px;border-radius:6px;font-size:12px;z-index:20;display:none";
     document.body.appendChild(tipEl);
   }
   const hit = canvas._hit || [];

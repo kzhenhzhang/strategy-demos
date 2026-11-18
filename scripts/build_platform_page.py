@@ -226,11 +226,6 @@ def main():
   <div class="sub">在贷非逾期放款合计 / 人数。分母是该首借月队列人数。</div>
   <div class="heat"><table id="tblFlowAvgAmt"></table></div>
 </section>
-<div class="wrap">
-  <div class="scroll"><table id="tblPass"></table></div>
-  <div class="scroll"><table id="tblReloan"></table></div>
-  <div class="scroll"><table id="tblRisk"></table></div>
-</div>
 <script>
 const PASS = {js(pass_rows)};
 const RISK = {js(risk_rows)};
