@@ -67,21 +67,8 @@ section{padding:96px 0;border-bottom:1px solid rgba(42,51,45,.8)}
 .hero .status-dot{background:var(--brand-400)}
 .hero .btn-ghost{border-color:rgba(246,240,226,.42);color:#F6F0E2}
 .hero .btn-ghost:hover{border-color:#F6F0E2;color:#F6F0E2}
-.hero .thing{background:#070908;border-color:#1C2B22}
-.hero .thing p{color:#A8B5AC}
-.hero .thing:hover{border-color:var(--brand-400)}
 .hero .cta-row{display:flex;gap:12px;flex-wrap:wrap}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--success);margin-right:7px;vertical-align:middle}
-
-/* three things */
-.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:64px}
-.thing{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px 24px;
-  transition:transform .2s ease,border-color .2s}
-.thing:hover{transform:translateY(-3px);border-color:var(--brand-700)}
-.thing .num{font-size:12px;color:var(--brand-400);font-weight:500;margin-bottom:18px;letter-spacing:.04em}
-.thing h3{font-size:19px;font-weight:500;margin-bottom:8px;letter-spacing:-.01em}
-.thing p{color:var(--text-subtle);font-size:14px;line-height:1.65}
-.bar{height:3px;width:40px;background:linear-gradient(90deg,var(--brand-600),transparent);border-radius:2px;margin-top:20px}
 
 .lines{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .line{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px 24px;
