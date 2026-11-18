@@ -112,82 +112,113 @@
     <div class="sec-head">
       <h2>Portfolio</h2>
       <div class="big">作品集</div>
-      <p>这四页是在奋钛做的，每个都能打开。数字是合成示例，不是真实业务。</p>
+      <p>这四页是在奋钛做的。从左到右是观测、归因、迭代、监控，前三步可以打开。数字是合成示例，不是真实业务。</p>
     </div>
-    <div class="work-grid">
-      <article class="case feature">
-        <div class="case-top"><span class="case-idx">CASE 01</span><span class="tag">策略复盘</span></div>
-        <div class="case-visual" aria-hidden="true">
-          <svg viewBox="0 0 400 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="110" x2="380" y2="110" stroke="#2A332D" stroke-width="1"/>
-            <line x1="30" y1="20" x2="30" y2="110" stroke="#2A332D" stroke-width="1"/>
-            <polyline points="30,90 90,80 150,84 210,66 270,58 330,42 380,36" fill="none" stroke="#3DDC84" stroke-width="2.5"/>
-            <polyline points="30,95 90,92 150,88 210,86 270,82 330,80 380,78" fill="none" stroke="#8ED9A8" stroke-width="2" stroke-dasharray="4 3"/>
-            <circle cx="330" cy="42" r="4" fill="#B7F5CE"/>
+    <ol class="flow">
+      <li>
+        <div class="flow-head">
+          <span class="flow-num">1</span>
+          <h3>观测</h3>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="flow-body">
+          <svg class="flow-spark" viewBox="0 0 148 40" role="img" aria-label="订单风险小折线，10 月抬升">
+            <line x1="2" y1="34" x2="146" y2="34" stroke="#2A332D" stroke-width="1"/>
+            <polyline points="2,24 22,25 42,23 62,24 82,18 102,13 122,9 144,4" fill="none" stroke="#3DDC84" stroke-width="2"/>
+            <circle cx="144" cy="4" r="2.5" fill="#B7F5CE"/>
           </svg>
+          <p>日常检视：10 月 26 日那周对上一周。全平台检视：P-01 同向抬升。</p>
         </div>
-        <div class="case-body">
-          <h3>策略复盘</h3>
-          <p>9 月对 10 月，订单风险从 22.23% 升到 25.89%。客群权重几乎没变，升高主要来自 800 分以上占比。贷前有硬规则和软规则的瀑布。</p>
-          <div class="tags"><span class="tag">贷前 / 贷后</span><span class="tag">异动归因</span><span class="tag hard">规则瀑布</span></div>
-          <a href="review/" class="case-link">打开策略复盘</a>
+        <div class="flow-links">
+          <a href="daily/">打开日常检视</a>
+          <a href="platform/">打开全平台检视</a>
         </div>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><span class="case-idx">CASE 02</span><span class="tag">策略迭代</span></div>
-        <div class="case-visual" aria-hidden="true">
-          <svg viewBox="0 0 400 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="40" y="70" width="48" height="40" fill="#0E5C32" opacity="0.7"/>
-            <rect x="100" y="56" width="48" height="54" fill="#1B7A40" opacity="0.8"/>
-            <rect x="160" y="44" width="48" height="66" fill="#2EAE62" opacity="0.85"/>
-            <rect x="220" y="34" width="48" height="76" fill="#8ED9A8" opacity="0.9"/>
-            <rect x="280" y="26" width="48" height="84" fill="#C8EBD4"/>
-            <line x1="30" y1="110" x2="380" y2="110" stroke="#2A332D"/>
+      </li>
+      <li>
+        <div class="flow-head">
+          <span class="flow-num">2</span>
+          <h3>归因</h3>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="flow-body">
+          <p>从客群下钻。这一层两边接近，再进到老客，800 分明显更大。</p>
+          <div class="flow-levels">
+            <div>
+              <span class="flow-lvl">客群 · 贡献</span>
+              <div class="meter"><span>老客</span><span class="track"><i style="width:51%"></i></span><b>51%</b></div>
+              <div class="meter"><span>新客</span><span class="track"><i style="width:49%"></i></span><b>49%</b></div>
+            </div>
+            <div>
+              <span class="flow-lvl">老客内 · 贡献</span>
+              <div class="meter hot"><span>800 分</span><span class="track"><i style="width:64%"></i></span><b>64%</b></div>
+              <div class="meter"><span>880 分</span><span class="track"><i style="width:32%"></i></span><b>32%</b></div>
+              <div class="meter"><span>720 分</span><span class="track"><i style="width:18%"></i></span><b>18%</b></div>
+            </div>
+          </div>
+          <p class="gap">客群权重几乎没变。800 分的结构贡献 64%。560 分 −12%，640 分 −1%。</p>
+        </div>
+        <div class="flow-links">
+          <a href="review/">打开策略复盘</a>
+        </div>
+      </li>
+      <li>
+        <div class="flow-head">
+          <span class="flow-num">3</span>
+          <h3>迭代</h3>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="flow-body">
+          <p>先测算目标，再按目标挖策略。</p>
+          <div class="flow-seq">
+            <div class="beat">
+              <i>先</i>
+              <strong> 测算目标</strong>
+              <p>放行率目标 70%。</p>
+            </div>
+            <div class="beat">
+              <i>再</i>
+              <strong> 迭代策略</strong>
+              <p>放行率 80%。额度从 9,000 降到 6,000。打开后仍是风险方案。</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-links">
+          <a href="iterate/">打开策略迭代</a>
+        </div>
+      </li>
+      <li>
+        <div class="flow-head">
+          <span class="flow-num">4</span>
+          <h3>监控</h3>
+        </div>
+        <div class="flow-body">
+          <svg class="flow-chart" viewBox="0 0 220 128" role="img" aria-label="订单风险。决策、OOT 有 Swap-in、Swap-out、两边都过。上线后没有 Swap-out。">
+            <line x1="26" y1="8" x2="216" y2="8" stroke="#2A332D" stroke-width="1"/>
+            <line x1="26" y1="54" x2="216" y2="54" stroke="#2A332D" stroke-width="1"/>
+            <line x1="26" y1="100" x2="216" y2="100" stroke="#2A332D" stroke-width="1"/>
+            <text x="22" y="11" text-anchor="end">40</text>
+            <text x="22" y="57" text-anchor="end">20</text>
+            <text x="22" y="103" text-anchor="end">0</text>
+            <rect x="44.2" y="37.9" width="7" height="62.1" fill="#3DDC84"/>
+            <rect x="54.2" y="26.4" width="7" height="73.6" fill="#8ED9A8"/>
+            <rect x="64.2" y="51.7" width="7" height="48.3" fill="#146B38"/>
+            <rect x="107.5" y="35.6" width="7" height="64.4" fill="#3DDC84"/>
+            <rect x="117.5" y="24.1" width="7" height="75.9" fill="#8ED9A8"/>
+            <rect x="127.5" y="49.4" width="7" height="50.6" fill="#146B38"/>
+            <rect x="170.8" y="40.2" width="7" height="59.8" fill="#3DDC84"/>
+            <rect x="190.8" y="51.7" width="7" height="48.3" fill="#146B38"/>
+            <text x="57.7" y="116" text-anchor="middle">决策</text>
+            <text x="121" y="116" text-anchor="middle">OOT</text>
+            <text x="184.3" y="116" text-anchor="middle">上线后</text>
           </svg>
+          <div class="flow-legend">
+            <span><i class="swatch in"></i>Swap-in</span>
+            <span><i class="swatch out"></i>Swap-out</span>
+            <span><i class="swatch both"></i>两边都过</span>
+          </div>
         </div>
-        <div class="case-body">
-          <h3>策略迭代</h3>
-          <p>给出通过率和风险目标，AI 挖掘两套准入方案。打开页面看到的是风险方案。</p>
-          <div class="tags"><span class="tag">准入</span><span class="tag soft">风险方案</span></div>
-          <a href="iterate/" class="case-link">打开策略迭代</a>
-        </div>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><span class="case-idx">CASE 03</span><span class="tag">日常检视</span></div>
-        <div class="case-visual" aria-hidden="true">
-          <svg viewBox="0 0 400 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <polyline points="30,70 80,66 130,72 180,60 230,64 280,55 330,58 380,50" fill="none" stroke="#3DDC84" stroke-width="2"/>
-            <polyline points="30,84 80,82 130,86 180,80 230,83 280,78 330,80 380,74" fill="none" stroke="#8E9B93" stroke-width="1.5" stroke-dasharray="3 3"/>
-            <line x1="30" y1="110" x2="380" y2="110" stroke="#2A332D"/>
-          </svg>
-        </div>
-        <div class="case-body">
-          <h3>日常检视</h3>
-          <p>按日、按周看通过率和风险有没有突然变。a 组和 b 组对照着看。</p>
-          <div class="tags"><span class="tag">日</span><span class="tag">周</span></div>
-          <a href="daily/" class="case-link">打开日常检视</a>
-        </div>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><span class="case-idx">CASE 04</span><span class="tag">全平台检视</span></div>
-        <div class="case-visual" aria-hidden="true">
-          <svg viewBox="0 0 400 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <polyline points="30,88 90,76 150,80 210,62 270,70 330,48 380,44" fill="none" stroke="#3DDC84" stroke-width="2"/>
-            <polyline points="30,96 90,90 150,92 210,84 270,86 330,78 380,74" fill="none" stroke="#8ED9A8" stroke-width="2" stroke-dasharray="4 3"/>
-            <line x1="30" y1="110" x2="380" y2="110" stroke="#2A332D"/>
-          </svg>
-        </div>
-        <div class="case-body">
-          <h3>全平台检视</h3>
-          <p>按平台看通过率、用信率、授信件均、结清复借率、订单风险和金额风险，以及资产走势和用户流转。</p>
-          <div class="tags"><span class="tag">平台</span><span class="tag">首借 / 复借</span></div>
-          <a href="platform/" class="case-link">打开全平台检视</a>
-        </div>
-      </article>
-    </div>
+      </li>
+    </ol>
   </div>
 </section>
 
