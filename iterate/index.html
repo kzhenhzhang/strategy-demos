@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>迭代准入策略报告</title>
 <style>
 /**
@@ -668,6 +668,11 @@ details.appendix summary, details.model-bins summary {
 .plan-tab-panels { margin-top: .35rem; }
 .plan-panel { display: none; margin-top: 0; }
 .plan-panel.is-active { display: block; }
+[data-plan-tab$="-pass"],
+.plan-panel[id$="-pass"],
+.plan-pass-block,
+.decision-grid .decision-strip:last-child { display: none !important; }
+.report-section.is-locked > .collapse-head .collapse-toggle { display: none; }
 .plan-panel > h3 { margin-top: 1.1rem; }
 .plan-panel > h3:first-child { margin-top: 0; }
 .plan-panel .plan-title { margin: 0 0 .35rem; font-size: 1rem; }
@@ -712,8 +717,8 @@ details.appendix summary, details.model-bins summary {
         <div class="toc-sub">
           <a class="toc-sub-link" href="#toc-decision-1b" data-toc-link="toc-decision-1b">结.1b 影响对照</a>
           <a class="toc-sub-link" href="#toc-decision-2" data-toc-link="toc-decision-2">结.2 规则与瀑布</a>
-        </div>
       </div>
+    </div>
       <a href="#tab-admission-plan-eval" data-toc-link="tab-admission-plan-eval">方案评估</a>
       <a href="#tab-admission-plans-detail" data-toc-link="tab-admission-plans-detail">双方案详情</a>
       <a href="#tab-admission-status" data-toc-link="tab-admission-status">现状对照</a>
@@ -724,7 +729,7 @@ details.appendix summary, details.model-bins summary {
           <a class="toc-sub-link" href="#toc-mine-cands" data-toc-link="toc-mine-cands">6.2 Candidates</a>
           <a class="toc-sub-link" href="#toc-mine-rounds" data-toc-link="toc-mine-rounds">6.3 采纳轮次</a>
           <a class="toc-sub-link" href="#toc-mine-residual" data-toc-link="toc-mine-residual">6.5 残差未入选</a>
-        </div>
+  </div>
       </div>
       <a href="#tab-admission-meta" data-toc-link="tab-admission-meta">口径与自查</a>
       <div class="toc-group">
@@ -739,10 +744,10 @@ details.appendix summary, details.model-bins summary {
 <main class="content">
   <div class="report-document">
 
-<section id="tab-admission-scope" class="report-section sample-scope" data-collapse-key="tab-admission-scope" data-collapse-level="section" data-toc="样本口径">
+<section id="tab-admission-scope" class="report-section sample-scope is-collapsed is-locked" data-collapse-key="tab-admission-scope" data-collapse-level="section" data-toc="样本口径">
     <div class="section-head collapse-head">
       <h2>样本口径</h2>
-      <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
+      <button type="button" class="collapse-toggle" aria-expanded="false" hidden>展开</button>
     </div>
     <div class="section-body collapse-body"><p class="scope-lead">本报告在指定客群与时间窗内，用与主站同源的 <code>RV.domain</code> 运行时完成挖规与测算。训练窗用于挖规、跨月门禁、剪枝与方案主结论；回测窗在规则冻结后重算 Swap 风险预估与贷后瀑布，不重挖。</p>
       <ul class="scope-list">
@@ -792,7 +797,7 @@ details.appendix summary, details.model-bins summary {
       <button type="button" class="collapse-toggle" aria-expanded="true">收起</button>
     </div>
     <div class="submodule-body collapse-body"><div class="module-stack" style="gap:1rem">
-            <div>
+      <div>
               <h4 style="margin:0 0 .35rem;font-size:.9rem">风险方案</h4>
               
     <div class="table-wrap">
@@ -830,10 +835,10 @@ details.appendix summary, details.model-bins summary {
   </tr>
         </tbody>
       </table>
-    </div>
+      </div>
     
             </div>
-            <div>
+            <div class="plan-pass-block">
               <h4 style="margin:0 0 .35rem;font-size:.9rem">通过率方案</h4>
               
     <div class="table-wrap">
@@ -2538,10 +2543,10 @@ details.appendix summary, details.model-bins summary {
       </div></div>
   </section>
 
-<section id="tab-admission-meta" class="report-section  is-collapsed" data-collapse-key="tab-admission-meta" data-collapse-level="section" data-toc="口径与自查">
+<section id="tab-admission-meta" class="report-section is-collapsed is-locked" data-collapse-key="tab-admission-meta" data-collapse-level="section" data-toc="口径与自查">
     <div class="section-head collapse-head">
       <h2>7. 口径与自查</h2>
-      <button type="button" class="collapse-toggle" aria-expanded="false">展开</button>
+      <button type="button" class="collapse-toggle" aria-expanded="false" hidden>展开</button>
     </div>
     <div class="section-body collapse-body"><div class="module-stack">
         <div class="submodule" data-sub="摘.1" data-collapse-key="sub-摘.1" data-collapse-level="sub">
@@ -3207,9 +3212,14 @@ details.appendix summary, details.model-bins summary {
     btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
     btn.textContent = collapsed ? "展开" : "收起";
   }
+  const LOCKED_COLLAPSE = new Set(["tab-admission-scope", "tab-admission-meta"]);
   const collapseState = loadCollapseState();
   document.querySelectorAll("[data-collapse-key]").forEach((el) => {
     const key = el.getAttribute("data-collapse-key");
+    if (LOCKED_COLLAPSE.has(key)) {
+      setCollapsed(el, true);
+      return;
+    }
     if (!key || !(key in collapseState)) return;
     setCollapsed(el, !!collapseState[key]);
   });
@@ -3219,6 +3229,7 @@ details.appendix summary, details.model-bins summary {
       const host = btn.closest("[data-collapse-key]");
       if (!host) return;
       const key = host.getAttribute("data-collapse-key");
+      if (LOCKED_COLLAPSE.has(key)) return;
       const collapsed = !host.classList.contains("is-collapsed");
       setCollapsed(host, collapsed);
       if (key) {
@@ -3253,6 +3264,7 @@ details.appendix summary, details.model-bins summary {
     if (el.classList.contains("submodule") || el.hasAttribute("data-collapse-key")) hosts.push(el);
     hosts.forEach((host) => {
       if (!host.classList.contains("is-collapsed")) return;
+      if (LOCKED_COLLAPSE.has(host.getAttribute("data-collapse-key"))) return;
       setCollapsed(host, false);
       const key = host.getAttribute("data-collapse-key");
       if (key) {
