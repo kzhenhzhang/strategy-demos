@@ -52,6 +52,7 @@ section{padding:96px 0;border-bottom:1px solid rgba(42,51,45,.8)}
 .sec-head{margin-bottom:44px}
 .sec-head h2{font-size:14px;font-weight:500;color:var(--brand-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
 .sec-head .big{font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.sec-head h2.big{font-size:clamp(28px,4vw,40px);color:var(--text);letter-spacing:-.02em;line-height:1.2;text-transform:none;margin-bottom:0}
 .sec-head p{color:var(--text-muted);margin-top:12px;max-width:60ch}
 
 /* ---------- Hero ---------- */
