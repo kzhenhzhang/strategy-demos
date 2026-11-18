@@ -28,6 +28,7 @@ FIELDS = [
     "渠道",
     "进件量",
     "通过量",
+    "本次额度",
     "放款订单数",
     "放款金额",
     "fpd1_cnt_fz",
@@ -41,55 +42,68 @@ FIELDS = [
 ]
 
 
-def drift_for(day: date) -> float:
-    if day >= date(2026, 10, 1):
-        return 0.04
-    if day >= date(2026, 9, 1):
-        return 0.025
-    return 0.0
+MONTHS = ["2026-06", "2026-07", "2026-08", "2026-09", "2026-10"]
+# Apply mix by score. September is the base month; October shifts into 800/880.
+SCORE_SHARE = {
+    "2026-06": {560: 0.32, 640: 0.28, 720: 0.22, 800: 0.12, 880: 0.06},
+    "2026-07": {560: 0.30, 640: 0.27, 720: 0.23, 800: 0.13, 880: 0.07},
+    "2026-08": {560: 0.29, 640: 0.26, 720: 0.24, 800: 0.13, 880: 0.08},
+    "2026-09": {560: 0.28, 640: 0.26, 720: 0.24, 800: 0.14, 880: 0.08},
+    "2026-10": {560: 0.20, 640: 0.22, 720: 0.24, 800: 0.22, 880: 0.12},
+}
+PASS_RATE = {560: 0.88, 640: 0.80, 720: 0.72, 800: 0.55, 880: 0.40}
+COUNT_RISK = {560: 0.14, 640: 0.20, 720: 0.26, 800: 0.42, 880: 0.56}
+TICKET = {560: 4000, 640: 5000, 720: 6000, 800: 7500, 880: 9000}
 
 
 def main() -> None:
     rows = []
-    day = date(2026, 6, 1)
-    end = date(2026, 10, 31)
-    while day <= end:
-        drift = drift_for(day)
-        iso = day.isoformat()
-        month = iso[:7]
-        for group, risk_mul in (("a组", 0.82), ("b组", 1.0)):
-            for score, base_risk, base_pass in BANDS:
-                apply_n = rng.randint(40, 88)
-                pass_rate = min(0.94, max(0.18, base_pass - drift + rng.uniform(-0.015, 0.015)))
-                pass_n = max(1, min(apply_n, round(apply_n * pass_rate)))
-                loan_n = max(1, min(pass_n, round(pass_n * rng.uniform(0.74, 0.9))))
-                amount = loan_n * rng.randint(4200, 6800)
-                due = max(1, round(loan_n * rng.uniform(0.62, 0.86)))
-                risk = min(0.85, max(0.02, base_risk * risk_mul + drift + rng.uniform(-0.02, 0.02)))
-                bad = min(due, max(0, round(due * risk)))
-                due_amt = max(amount // 5, int(amount * rng.uniform(0.55, 0.82)))
-                bad_amt = min(due_amt, int(due_amt * (bad / due if due else 0)))
-                rows.append({
-                    "决策组": group,
-                    "提交日期": iso,
-                    "submit_date": iso,
-                    "submit_month": month,
-                    "客群": "新客" if rng.random() < 0.62 else "老客",
-                    "渠道": "线上" if rng.random() < 0.7 else "线下",
-                    "进件量": apply_n,
-                    "通过量": pass_n,
-                    "放款订单数": loan_n,
-                    "放款金额": amount,
-                    "fpd1_cnt_fz": bad,
-                    "fpd1_cnt_fm": due,
-                    "fpd1_amt_fz": bad_amt,
-                    "fpd1_amt_fm": due_amt,
-                    "hard_rule_demo": 1 if score >= 880 else 0,
-                    "soft_rule_demo": 1 if score >= 800 else 0,
-                    "p3_demo_score": score,
-                    "模型分": 1000 - score,
-                })
-        day += timedelta(days=1)
+    for month in MONTHS:
+        month_apply = 20000
+        for group, group_w, risk_mul, pass_mul in (
+            ("a组", 0.55, 0.92, 1.03),
+            ("b组", 0.45, 1.0, 1.0),
+        ):
+            for segment, seg_w in (("新客", 0.62), ("老客", 0.38)):
+                for channel, chan_w in (("线上", 0.70), ("线下", 0.30)):
+                    for score, _base_risk, _base_pass in BANDS:
+                        share = SCORE_SHARE[month][score]
+                        apply_n = max(1, round(month_apply * group_w * seg_w * chan_w * share))
+                        pass_rate = min(0.96, PASS_RATE[score] * pass_mul)
+                        pass_n = max(1, min(apply_n, round(apply_n * pass_rate)))
+                        loan_n = max(1, min(pass_n, round(pass_n * 0.82)))
+                        ticket = TICKET[score]
+                        credit = pass_n * ticket
+                        amount = loan_n * ticket
+                        due = max(1, round(loan_n * 0.80))
+                        risk = COUNT_RISK[score] * risk_mul
+                        if segment == "老客" and month == "2026-10":
+                            risk = min(0.85, risk + 0.02)
+                        bad = min(due, max(0, round(due * risk)))
+                        due_amt = max(1, round(loan_n * ticket * 0.75))
+                        bad_amt = min(due_amt, round(due_amt * risk * 0.92))
+                        iso = f"{month}-01"
+                        rows.append({
+                            "决策组": group,
+                            "提交日期": iso,
+                            "submit_date": iso,
+                            "submit_month": month,
+                            "客群": segment,
+                            "渠道": channel,
+                            "进件量": apply_n,
+                            "通过量": pass_n,
+                            "本次额度": credit,
+                            "放款订单数": loan_n,
+                            "放款金额": amount,
+                            "fpd1_cnt_fz": bad,
+                            "fpd1_cnt_fm": due,
+                            "fpd1_amt_fz": bad_amt,
+                            "fpd1_amt_fm": due_amt,
+                            "hard_rule_demo": 1 if score >= 880 else 0,
+                            "soft_rule_demo": 1 if score >= 800 else 0,
+                            "p3_demo_score": score,
+                            "模型分": 1000 - score,
+                        })
 
     sample_path = ROOT / "samples" / "demo.csv"
     with sample_path.open("w", newline="", encoding="utf-8") as f:
