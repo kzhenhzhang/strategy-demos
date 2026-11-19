@@ -98,6 +98,10 @@ section{padding:96px 0;border-bottom:1px solid rgba(42,51,45,.8)}
 .tl-item h3{font-size:15px;font-weight:500;margin-bottom:2px}
 .tl-item p{color:var(--text-subtle);font-size:13px;font-weight:400;line-height:1.65}
 .tl-item p+p{margin-top:8px}
+.tl-beat{margin-top:14px}
+.tl-item .tl-beat p+p{margin-top:0}
+.tl-beat .tl-name{color:var(--brand-200);font-weight:500}
+.tl-beat .tl-result{color:var(--text)}
 
 /* ---------- Work ---------- */
 .flow{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
