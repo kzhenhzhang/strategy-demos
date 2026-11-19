@@ -59,9 +59,8 @@ section{padding:96px 0;border-bottom:1px solid rgba(42,51,45,.8)}
   background:linear-gradient(180deg,#16543A 0%,#0E3A28 72%);color:#F6F0E2}
 .hero::before{content:"";position:absolute;top:-160px;right:-80px;width:520px;height:520px;
   background:radial-gradient(circle,rgba(61,220,132,.18),transparent 68%);pointer-events:none}
-.hero h1{font-size:clamp(38px,6.4vw,72px);font-weight:500;letter-spacing:-.035em;line-height:1.14;margin-bottom:24px;max-width:16ch;color:#F6F0E2}
-.hero h1 em{font-style:normal;color:#B7F5CE}
-.hero .lead{font-size:clamp(15px,2vw,18px);color:rgba(246,240,226,.78);max-width:56ch;line-height:1.75;margin-bottom:34px}
+.hero h1{font-size:clamp(38px,6.4vw,72px);font-weight:500;letter-spacing:-.035em;line-height:1.14;margin-bottom:14px;max-width:9em;color:#F6F0E2}
+.hero .creed-en{font-size:clamp(16px,2vw,18px);font-style:normal;color:rgba(246,240,226,.72);max-width:40ch;line-height:1.5;margin-bottom:34px}
 .hero .kicker{color:#D7F5E3;border-color:rgba(215,245,227,.38);background:rgba(7,9,8,.16)}
 .hero .status-dot{background:var(--brand-400)}
 .hero .btn-ghost{border-color:rgba(246,240,226,.42);color:#F6F0E2}
