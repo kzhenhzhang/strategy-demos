@@ -131,6 +131,50 @@ section{padding:96px 0;border-bottom:1px solid rgba(42,51,45,.8)}
 .tool-row{display:flex;flex-wrap:wrap;gap:4px 20px;margin-top:14px}
 .tool-row a{display:inline-flex;align-items:center;min-height:44px;color:var(--brand-200);font-size:14px;font-weight:500}
 .tool-row a:hover{color:var(--brand-100)}
+.walk-enter{display:inline-flex;align-items:center;min-height:44px;margin-top:4px;color:var(--brand-200);font-size:15px;font-weight:500}
+.walk-enter:hover{color:var(--brand-100)}
+
+/* ---------- Workflow demo ---------- */
+.walk{max-width:860px;margin:0 auto;padding:28px 24px 80px}
+.walk .back{color:var(--brand-200);font-size:13px;font-weight:500}
+.walk-back{color:var(--text-subtle);font-size:14px;padding:7px 0 7px 14px}
+.walk-back:hover{color:var(--text)}
+.walk .beat:first-child{padding-top:0;margin-top:0;border-top:0}
+.walk-ctrl .btn:disabled{opacity:.4;transform:none;cursor:default}
+.walk h1{font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:-.02em;line-height:1.25;margin:14px 0 10px}
+.walk .lede{color:var(--text-muted);font-size:16px;line-height:1.7;max-width:62ch}
+.walk-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+.walk-tab{font:inherit;font-size:14px;font-weight:500;padding:8px 14px;min-height:44px;border:1px solid var(--border);border-radius:var(--radius-pill);background:transparent;color:var(--text-subtle);cursor:pointer;transition:transform 80ms cubic-bezier(0.2,0,0,1),color .2s,border-color .2s,background .2s}
+.walk-tab:hover{transform:translateY(-2px);color:var(--text);border-color:var(--brand-400)}
+.walk-tab:active{transform:scale(0.97)}
+.walk-tab[aria-selected="true"]{background:rgba(61,220,132,.14);color:var(--brand-100);border-color:var(--brand-600)}
+.walk-stage{position:relative;min-height:280px}
+.walk-panel{display:none}
+.walk-panel.on{display:block;animation:walk-in .42s cubic-bezier(.2,0,0,1)}
+@keyframes walk-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.walk-panel .meter i{width:0;transition:width .75s cubic-bezier(.2,0,0,1)}
+.walk-panel.on .meter i{width:var(--w)}
+.walk-spark{width:100%;max-width:280px;height:72px;display:block;margin:8px 0 14px}
+.walk-spark .spark{stroke-dasharray:1;stroke-dashoffset:1}
+.walk-panel.on .walk-spark .spark{animation:walk-draw 1s cubic-bezier(.2,0,0,1) forwards}
+@keyframes walk-draw{to{stroke-dashoffset:0}}
+.bars{display:flex;gap:28px;align-items:flex-end;margin-top:16px;min-height:160px}
+.bars .col{display:flex;flex-direction:column;align-items:center;gap:8px}
+.stack{height:120px;display:flex;align-items:flex-end;gap:4px}
+.bar{width:10px;height:var(--h);border-radius:2px;transform:scaleY(0);transform-origin:bottom;transition:transform .65s cubic-bezier(.2,0,0,1)}
+.bar.in{background:var(--brand-400)}
+.bar.out{background:var(--brand-200)}
+.bar.both{background:var(--brand-700)}
+.slot{width:10px;align-self:flex-end}
+.walk .beat{padding-top:16px;margin-top:16px}
+.walk .beat p{color:var(--text);font-size:16px;font-weight:500;line-height:1.7;margin-top:6px}
+.walk-panel.on .bar{transform:scaleY(1)}
+.walk-panel.on .bar:nth-child(2){transition-delay:.08s}
+.walk-panel.on .bar:nth-child(3){transition-delay:.16s}
+.bars .col span{font-size:12px;color:var(--text-subtle)}
+.walk-ctrl{display:flex;gap:12px;margin-top:18px}
+.walk-tools{margin-top:36px;padding-top:8px;border-top:1px solid var(--border)}
+.walk-tools h2{font-size:15px;font-weight:500;color:var(--text-subtle);margin:18px 0 4px}
 .flow .gap{margin-top:8px}
 .flow-seq{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .beat{padding-top:8px;border-top:1px solid var(--border)}

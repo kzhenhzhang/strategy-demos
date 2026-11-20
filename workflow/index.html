@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>工作流 · scott王</title>
+  <link rel="stylesheet" href="../assets/portal.css" />
+</head>
+<body>
+<nav class="nav" aria-label="主导航">
+  <div class="nav-inner">
+    <a href="../index.html" class="brand">scott王<small>风控策略</small></a>
+    <a class="walk-back" href="../index.html#work">返回作品集</a>
+  </div>
+</nav>
+
+<main class="walk">
+  <p><a class="back" href="../index.html#work">返回个人主页</a></p>
+  <h1>AI 加速个人工作流</h1>
+  <p class="lede">合成示例。四步和主页作品集是同一套数。</p>
+
+  <div class="walk-tabs" role="tablist" aria-label="工作流步骤">
+    <button class="walk-tab" type="button" role="tab" id="tab-watch" aria-controls="panel-watch" aria-selected="true">观测</button>
+    <button class="walk-tab" type="button" role="tab" id="tab-cause" aria-controls="panel-cause" aria-selected="false">归因</button>
+    <button class="walk-tab" type="button" role="tab" id="tab-iterate" aria-controls="panel-iterate" aria-selected="false">迭代</button>
+    <button class="walk-tab" type="button" role="tab" id="tab-guard" aria-controls="panel-guard" aria-selected="false">监控</button>
+  </div>
+
+  <div class="walk-stage">
+    <article class="finding walk-panel on" id="panel-watch" role="tabpanel" aria-labelledby="tab-watch">
+      <h3>观测</h3>
+      <svg class="walk-spark" viewBox="0 0 148 40" role="img" aria-label="订单风险小折线，10 月抬升">
+        <line x1="2" y1="34" x2="146" y2="34" stroke="#2A332D" stroke-width="1"/>
+        <polyline class="spark" pathLength="1" points="2,24 22,25 42,23 62,24 82,18 102,13 122,9 144,4" fill="none" stroke="#3DDC84" stroke-width="2"/>
+        <circle cx="144" cy="4" r="2.5" fill="#B7F5CE"/>
+      </svg>
+      <p>日常检视：10 月 26 日那周对上一周。全平台检视：P-01 同向抬升。</p>
+    </article>
+
+    <article class="finding walk-panel" id="panel-cause" role="tabpanel" aria-labelledby="tab-cause" hidden>
+      <h3>归因</h3>
+      <p>从客群下钻。这一层两边接近，再进到老客，800 分明显更大。</p>
+      <div class="finding-levels">
+        <div>
+          <span class="flow-lvl">客群 · 贡献</span>
+          <div class="meter"><span>老客</span><span class="track"><i style="--w:51%"></i></span><b>51%</b></div>
+          <div class="meter"><span>新客</span><span class="track"><i style="--w:49%"></i></span><b>49%</b></div>
+        </div>
+        <div>
+          <span class="flow-lvl">老客内 · 贡献</span>
+          <div class="meter hot"><span>800 分</span><span class="track"><i style="--w:64%"></i></span><b>64%</b></div>
+          <div class="meter"><span>880 分</span><span class="track"><i style="--w:32%"></i></span><b>32%</b></div>
+          <div class="meter"><span>720 分</span><span class="track"><i style="--w:18%"></i></span><b>18%</b></div>
+        </div>
+      </div>
+      <p class="gap">客群权重几乎没变。800 分的结构贡献 64%。560 分 −12%，640 分 −1%。</p>
+    </article>
+
+    <article class="finding walk-panel" id="panel-iterate" role="tabpanel" aria-labelledby="tab-iterate" hidden>
+      <h3>迭代</h3>
+      <div class="beat">
+        <i>先</i><strong> 测算目标</strong>
+        <p>通过率目标 80%，风险目标 28%。</p>
+      </div>
+      <div class="beat">
+        <i>再</i><strong> 迭代策略</strong>
+        <p>打开的这版仍按风险方案挖，页面里写的是放行率不低于 70%。额度从 9,000 降到 6,000。</p>
+      </div>
+    </article>
+
+    <article class="finding walk-panel" id="panel-guard" role="tabpanel" aria-labelledby="tab-guard" hidden>
+      <h3>监控</h3>
+      <p>决策、OOT 有 Swap-in、Swap-out、两边都过。上线后没有 Swap-out。</p>
+      <div class="bars" aria-hidden="true">
+        <div class="col">
+          <div class="stack">
+            <i class="bar in" style="--h:82%"></i>
+            <i class="bar out" style="--h:97%"></i>
+            <i class="bar both" style="--h:64%"></i>
+          </div>
+          <span>决策</span>
+        </div>
+        <div class="col">
+          <div class="stack">
+            <i class="bar in" style="--h:85%"></i>
+            <i class="bar out" style="--h:100%"></i>
+            <i class="bar both" style="--h:67%"></i>
+          </div>
+          <span>OOT</span>
+        </div>
+        <div class="col">
+          <div class="stack">
+            <i class="bar in" style="--h:79%"></i>
+            <i class="slot"></i>
+            <i class="bar both" style="--h:64%"></i>
+          </div>
+          <span>上线后</span>
+        </div>
+      </div>
+      <div class="flow-legend">
+        <span><i class="swatch in"></i>Swap-in</span>
+        <span><i class="swatch out"></i>Swap-out</span>
+        <span><i class="swatch both"></i>两边都过</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="walk-ctrl">
+    <button class="btn btn-ghost" type="button" id="walkPrev">上一步</button>
+    <button class="btn btn-primary" type="button" id="walkNext">下一步</button>
+  </div>
+
+  <div class="walk-tools" id="tools">
+    <h2>打开对应的页面</h2>
+    <nav class="tool-row" aria-label="工具">
+      <a href="../daily/">观测 · 日常检视</a>
+      <a href="../platform/">观测 · 全平台检视</a>
+      <a href="../review/">归因 · 策略复盘</a>
+      <a href="../iterate/">迭代 · 策略迭代</a>
+      <a href="../daily/">监控 · 日常检视</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 scott王 · 用 AI 落地风控策略。作品集页面中的数字均为合成示例。</div>
+</footer>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".walk-tab"));
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".walk-panel"));
+  var prev = document.getElementById("walkPrev");
+  var next = document.getElementById("walkNext");
+  var index = 0;
+
+  function show(n) {
+    index = Math.max(0, Math.min(panels.length - 1, n));
+    panels.forEach(function (panel, i) {
+      var on = i === index;
+      panel.classList.remove("on");
+      panel.hidden = !on;
+      tabs[i].setAttribute("aria-selected", on ? "true" : "false");
+    });
+    var panel = panels[index];
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { panel.classList.add("on"); });
+    });
+    prev.disabled = index === 0;
+    next.textContent = index === panels.length - 1 ? "看工具" : "下一步";
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener("click", function () { show(i); });
+  });
+  prev.addEventListener("click", function () { show(index - 1); });
+  next.addEventListener("click", function () {
+    if (index === panels.length - 1) {
+      document.getElementById("tools").scrollIntoView({ block: "start" });
+      return;
+    }
+    show(index + 1);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") show(index + 1);
+    if (e.key === "ArrowLeft") show(index - 1);
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>
