@@ -4,70 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>日常检视 · scott王</title>
+  <title>日常 · scott王</title>
   <link rel="stylesheet" href="../assets/portal.css" />
 </head>
 <body>
-<nav class="nav" aria-label="主导航">
+<nav class="nav" aria-label="示例">
   <div class="nav-inner">
-    <a href="../index.html" class="brand">scott王<small>风控策略</small></a>
-    <a class="walk-back" href="../index.html#work">返回作品集</a>
+    <a href="../index.html#work" class="brand">scott王<small>风控策略</small></a>
+    <div class="ex-nav">
+      <a class="on" href="daily.html" aria-current="page">日常</a>
+      <a href="attribution.html">异动归因</a>
+      <a href="allocate.html">资产包</a>
+      <a href="iterate.html">策略迭代</a>
+      <a href="monitor.html">日常监控</a>
+    </div>
   </div>
 </nav>
-<main class="walk">
-  <p><a class="back" href="../index.html#work">返回个人主页</a></p>
-  <h1>日常检视</h1>
-  <p class="lede">合成示例。</p>
-
-  <article class="finding reveal">
-    <h3>观测</h3>
-    <svg class="walk-spark" viewBox="0 0 148 40" role="img" aria-label="订单风险小折线，10 月抬升">
-      <line x1="2" y1="34" x2="146" y2="34" stroke="#2A332D" stroke-width="1"/>
-      <polyline class="spark" pathLength="1" points="2,24 22,25 42,23 62,24 82,18 102,13 122,9 144,4" fill="none" stroke="#3DDC84" stroke-width="2"/>
-      <circle cx="144" cy="4" r="2.5" fill="#B7F5CE"/>
-    </svg>
-    <p>10 月 26 日那周对上一周。</p>
-  </article>
-
-  <article class="finding reveal">
-    <h3>监控</h3>
-    <p>决策、OOT 有 Swap-in、Swap-out、两边都过。上线后没有 Swap-out。</p>
-    <div class="bars" aria-hidden="true">
-      <div class="col">
-        <div class="stack">
-          <i class="bar in" style="--h:82%"></i>
-          <i class="bar out" style="--h:97%"></i>
-          <i class="bar both" style="--h:64%"></i>
+<main class="ex-app">
+  <p class="ex-kicker">合成示例 · 全量 · 进件月 2026-05 至 2026-10</p>
+  <div class="ex-layout">
+    <aside class="ex-side">
+      <h2>日常检视</h2>
+      <div class="ex-step on"><span>分月总览</span><b>当前</b></div>
+      <div class="ex-step"><span>分周走势</span><b>未打开</b></div>
+      <div class="ex-step"><span>重点数据跟踪</span><b>未打开</b></div>
+      <p class="ex-note">这一屏只打开分月。通过率 = 通过量 / 进件量。用信率 = 放款件 / 通过件。放款件均 = 放款金额 / 放款件。订单风险 = 坏样本 / 到期样本。</p>
+    </aside>
+    <section class="ex-main reveal">
+      <h1>分月总览</h1>
+      <div class="ex-charts">
+        <div class="ex-chart-card">
+          <h3>订单风险</h3>
+          <b>27.35%</b>
+          <span class="ex-sub">2026-09 21.90% → 2026-10 27.35%</span>
+          <svg class="ex-chart" viewBox="0 0 560 120" role="img" aria-label="订单风险，2026-05 21.40% 到 2026-10 27.35%">
+            <polyline class="spark" pathLength="1" points="16.0,90.3 121.6,88.8 227.2,87.4 332.8,86.4 438.4,85.4 544.0,32.1" fill="none" stroke="#3DDC84" stroke-width="2" />
+            <circle cx="544" cy="32.1" r="3.5" fill="#F3F6F4" />
+          </svg>
+          <div class="ex-axis"><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div>
         </div>
-        <span>决策</span>
-      </div>
-      <div class="col">
-        <div class="stack">
-          <i class="bar in" style="--h:85%"></i>
-          <i class="bar out" style="--h:100%"></i>
-          <i class="bar both" style="--h:67%"></i>
+        <div class="ex-chart-card">
+          <h3>通过率</h3>
+          <b>67.57%</b>
+          <span class="ex-sub">2026-09 65.80% → 2026-10 67.57%</span>
+          <svg class="ex-chart" viewBox="0 0 560 120" role="img" aria-label="通过率，2026-05 64.20% 到 2026-10 67.57%">
+            <polyline class="spark" pathLength="1" points="16.0,86.4 121.6,81.3 227.2,73.2 332.8,68.8 438.4,62.9 544.0,37.0" fill="none" stroke="#3DDC84" stroke-width="2" />
+            <circle cx="544" cy="37.0" r="3.5" fill="#F3F6F4" />
+          </svg>
+          <div class="ex-axis"><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div>
         </div>
-        <span>OOT</span>
-      </div>
-      <div class="col">
-        <div class="stack">
-          <i class="bar in" style="--h:79%"></i>
-          <i class="slot"></i>
-          <i class="bar both" style="--h:64%"></i>
+        <div class="ex-chart-card">
+          <h3>放款件均</h3>
+          <b>12,010</b>
+          <span class="ex-sub">2026-09 12,420 → 2026-10 12,010</span>
+          <svg class="ex-chart" viewBox="0 0 560 120" role="img" aria-label="放款件均，2026-05 12680 到 2026-10 12010">
+            <polyline class="spark" pathLength="1" points="16.0,26.6 121.6,30.1 227.2,38.0 332.8,43.3 438.4,49.4 544.0,85.5" fill="none" stroke="#3DDC84" stroke-width="2" />
+            <circle cx="544" cy="85.5" r="3.5" fill="#F3F6F4" />
+          </svg>
+          <div class="ex-axis"><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div>
         </div>
-        <span>上线后</span>
+        <div class="ex-chart-card">
+          <h3>用信率</h3>
+          <b>69.05%</b>
+          <span class="ex-sub">2026-09 70.80% → 2026-10 69.05%</span>
+          <svg class="ex-chart" viewBox="0 0 560 120" role="img" aria-label="用信率，2026-05 72.40% 到 2026-10 69.05%">
+            <polyline class="spark" pathLength="1" points="16.0,39.5 121.6,43.9 227.2,51.2 332.8,57.1 438.4,62.9 544.0,88.6" fill="none" stroke="#3DDC84" stroke-width="2" />
+            <circle cx="544" cy="88.6" r="3.5" fill="#F3F6F4" />
+          </svg>
+          <div class="ex-axis"><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div>
+        </div>
       </div>
-    </div>
-    <div class="flow-legend">
-      <span><i class="swatch in"></i>Swap-in</span>
-      <span><i class="swatch out"></i>Swap-out</span>
-      <span><i class="swatch both"></i>两边都过</span>
-    </div>
-  </article>
+      <p class="ex-sub" style="margin-top:14px">2026-10 全量：通过 21,622 / 32,000，放款 14,931，件均 179,325,420 / 14,931，到期 3,200 / 11,700。订单风险比上一月高 5.45pp。下一屏按客群拆这 5.45pp。</p>
+      <p class="ex-next"><a href="attribution.html">下一屏 · 异动归因</a></p>
+    </section>
+  </div>
 </main>
-<footer>
-  <div class="wrap">© 2026 scott王 · 用 AI 落地风控策略。作品集页面中的数字均为合成示例。</div>
-</footer>
+<footer><div class="wrap">作品集页面中的数字均为合成示例。</div></footer>
 <script src="reveal.js"></script>
 </body>
 </html>

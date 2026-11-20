@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>异动归因 · scott王</title>
+  <link rel="stylesheet" href="../assets/portal.css" />
+</head>
+<body>
+<nav class="nav" aria-label="示例">
+  <div class="nav-inner">
+    <a href="../index.html#work" class="brand">scott王<small>风控策略</small></a>
+    <div class="ex-nav">
+      <a href="daily.html">日常</a>
+      <a class="on" href="attribution.html" aria-current="page">异动归因</a>
+      <a href="allocate.html">资产包</a>
+      <a href="iterate.html">策略迭代</a>
+      <a href="monitor.html">日常监控</a>
+    </div>
+  </div>
+</nav>
+<main class="ex-app">
+  <p class="ex-kicker">合成示例 · 订单风险 · 基期 2026-09 · 比较期 2026-10 · 第一维 客群</p>
+  <div class="ex-layout">
+    <aside class="ex-side">
+      <h2>策略复盘</h2>
+      <div class="ex-step"><span>执行摘要</span><b>已完成</b></div>
+      <div class="ex-step on"><span>贡献度</span><b>当前</b></div>
+      <div class="ex-step"><span>画像对比</span><b>未打开</b></div>
+      <p class="ex-note">合计贡献 = 比较期权重 × 比较期比率 − 基期权重 × 基期比率。风险迁移 + 结构效应 + 交互效应 = 合计贡献。各段相加等于整体 ΔR。比较期到期样本与日常屏 3,200 / 11,700 是同一笔。</p>
+    </aside>
+    <section class="ex-main reveal">
+      <h1>风险异动归因</h1>
+      <div class="ex-tabs" aria-label="报告分页">
+        <span class="ex-tab">贷后风险</span>
+        <span class="ex-tab on">异动归因</span>
+        <span class="ex-tab">资产包 EL 调配</span>
+        <span class="ex-tab">规则有效性</span>
+      </div>
+      <div class="ex-metrics">
+        <div class="ex-metric"><b>21.90%</b><span>基期 · 2,234 / 10,200</span></div>
+        <div class="ex-metric"><b>27.35%</b><span>比较期 · 3,200 / 11,700 · ΔR +5.45pp</span></div>
+      </div>
+      <h2 class="ex-block-title" style="margin-top:18px">贡献度 · 客群</h2>
+      <p class="ex-sub">分段 4 · ΔR +5.45pp · 按分子分母勾稽误差为 0</p>
+      <div class="ex-scroll">
+        <table class="ex-table">
+          <thead>
+            <tr>
+              <th>分段</th>
+              <th>基期比率</th>
+              <th>比较期比率</th>
+              <th>基期权重</th>
+              <th>比较期权重</th>
+              <th>合计贡献</th>
+              <th>风险迁移</th>
+              <th>结构效应</th>
+              <th>交互效应</th>
+              <th>贡献%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hot">
+              <td>新客·高多头</td>
+              <td>31.00%</td>
+              <td>41.20%</td>
+              <td>17.65%</td>
+              <td>34.19%</td>
+              <td>+8.62pp</td>
+              <td>+1.80pp</td>
+              <td>+5.13pp</td>
+              <td>+1.69pp</td>
+              <td>158.2%</td>
+            </tr>
+            <tr>
+              <td>新客·低多头</td>
+              <td>19.00%</td>
+              <td>19.60%</td>
+              <td>25.49%</td>
+              <td>21.37%</td>
+              <td>−0.66pp</td>
+              <td>+0.15pp</td>
+              <td>−0.78pp</td>
+              <td>−0.03pp</td>
+              <td>−12.1%</td>
+            </tr>
+            <tr>
+              <td>老客·在贷</td>
+              <td>19.00%</td>
+              <td>19.50%</td>
+              <td>41.18%</td>
+              <td>34.19%</td>
+              <td>−1.16pp</td>
+              <td>+0.21pp</td>
+              <td>−1.33pp</td>
+              <td>−0.04pp</td>
+              <td>−21.3%</td>
+            </tr>
+            <tr>
+              <td>老客·结清</td>
+              <td>24.00%</td>
+              <td>23.50%</td>
+              <td>15.69%</td>
+              <td>10.26%</td>
+              <td>−1.35pp</td>
+              <td>−0.08pp</td>
+              <td>−1.30pp</td>
+              <td>+0.03pp</td>
+              <td>−24.8%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ex-sub" style="margin-top:14px">新客·高多头比较期 1,648 / 4,000 = 41.20%，权重大、风险也高，合计贡献 +8.62pp。其余三段合计 1,552 / 7,700。下一屏用这个客群的比较期风险做资产包。</p>
+      <p class="ex-next"><a href="allocate.html">下一屏 · 资产包</a></p>
+    </section>
+  </div>
+</main>
+<footer><div class="wrap">作品集页面中的数字均为合成示例。</div></footer>
+<script src="reveal.js"></script>
+</body>
+</html>

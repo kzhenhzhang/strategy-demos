@@ -8,39 +8,162 @@
   <link rel="stylesheet" href="../assets/portal.css" />
 </head>
 <body>
-<nav class="nav" aria-label="主导航">
+<nav class="nav" aria-label="示例">
   <div class="nav-inner">
-    <a href="../index.html" class="brand">scott王<small>风控策略</small></a>
-    <a class="walk-back" href="../index.html#work">返回作品集</a>
+    <a href="../index.html#work" class="brand">scott王<small>风控策略</small></a>
+    <div class="ex-nav">
+      <a href="daily.html">日常</a>
+      <a href="attribution.html">异动归因</a>
+      <a href="allocate.html">资产包</a>
+      <a class="on" href="iterate.html" aria-current="page">策略迭代</a>
+      <a href="monitor.html">日常监控</a>
+    </div>
   </div>
 </nav>
-<main class="walk">
-  <p><a class="back" href="../index.html#work">返回个人主页</a></p>
-  <h1>策略迭代</h1>
-  <p class="lede">合成示例。</p>
+<main class="ex-app">
+  <p class="ex-kicker">合成示例 · 客群 新客·高多头 · 比较期 2026-10 · 和归因同一批到期样本</p>
+  <div class="ex-layout">
+    <aside class="ex-side">
+      <h2>报告</h2>
+      <div class="ex-step"><a href="#scope">样本口径</a></div>
+      <div class="ex-step on"><a href="#decision">结论</a><b>当前</b></div>
+      <div class="ex-step"><a href="#rules">规则与瀑布</a></div>
+      <div class="ex-step"><a href="#swap">Swap 预估</a></div>
+      <p class="ex-note">方案后逾期 =（现状坏样本 − 命中坏样本）/（现状到期 − 命中到期）。目标就是资产包给这个客群的 36.50% 和 66.78%。命中到期不超过命中进件。</p>
+    </aside>
+    <section class="ex-main reveal">
+      <h1>迭代准入策略报告</h1>
 
-  <article class="finding reveal">
-    <div class="beat">
-      <i>先</i><strong> 测算目标</strong>
-      <div class="ex-nums">
-        <div><b>80%</b><span>通过率目标</span></div>
-        <div><b>28%</b><span>风险目标</span></div>
+      <div class="ex-block" id="scope">
+        <h2 class="ex-block-title">样本口径</h2>
+        <div class="ex-row"><b>客群</b><span>新客·高多头 · 进件 10,000</span><b>比较期</b></div>
+        <div class="ex-row"><b>现状</b><span>通过 7,420 · 放行率 74.20% · 放款 4,541</span><b>用信 61.20%</b></div>
+        <div class="ex-row"><b>到期</b><span>已到期 4,000，坏样本 1,648</span><b>41.20%</b></div>
+        <div class="ex-row"><b>目标</b><span>风险 36.50% · 放行率 66.78%</span><b>资产包</b></div>
       </div>
-      <p>通过率目标 80%，风险目标 28%。</p>
-    </div>
-    <div class="beat">
-      <i>再</i><strong> 迭代策略</strong>
-      <div class="ex-nums">
-        <div><b>70%</b><span>放行率不低于</span></div>
-        <div><b>9,000 → 6,000</b><span>额度</span></div>
+
+      <div class="ex-block" id="decision">
+        <h2 class="ex-block-title">结论</h2>
+        <div class="ex-decide">
+          <article>
+            <span class="ex-ok">风险降到测算值</span>
+            <b>36.50%</b>
+            <span class="ex-sub">1,314 / 3,600 · 低于现状 41.20% · 等于建议 36.50%</span>
+          </article>
+          <article>
+            <span class="ex-ok">放行率落到测算值</span>
+            <b>66.78%</b>
+            <span class="ex-sub">6,678 / 10,000 · 现状 74.20% · 等于建议 66.78%</span>
+          </article>
+        </div>
+        <p class="ex-sub" style="margin-top:10px">全量预计订单风险 (3,200 − 334) / (11,700 − 400) = 2,866 / 11,300 = 25.36%，低于现在的 27.35%。</p>
       </div>
-      <p>打开的这版仍按风险方案挖，页面里写的是放行率不低于 70%。额度从 9,000 降到 6,000。</p>
-    </div>
-  </article>
+
+      <div class="ex-block" id="rules">
+        <h2 class="ex-block-title">规则与瀑布</h2>
+        <p class="ex-sub">新采纳 2 条，互不重叠。硬规则先走。未命中是放行残差。到期占通过的比例，命中和留下的都是 4,000 / 7,420。</p>
+        <div class="ex-scroll">
+          <table class="ex-table">
+            <thead>
+              <tr>
+                <th>规则</th>
+                <th>命中进件</th>
+                <th>进件占比</th>
+                <th>到期样本</th>
+                <th>坏样本</th>
+                <th>订单风险</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>硬 · 近30日查询机构数 ≥ 9</td>
+                <td>480</td>
+                <td>4.80%</td>
+                <td>260</td>
+                <td>221</td>
+                <td>85.00%</td>
+              </tr>
+              <tr>
+                <td>软 · 多头分 ≥ 0.72</td>
+                <td>262</td>
+                <td>2.62%</td>
+                <td>140</td>
+                <td>113</td>
+                <td>80.71%</td>
+              </tr>
+              <tr class="hot">
+                <td>未命中 · 放行残差</td>
+                <td>6,678</td>
+                <td>66.78%</td>
+                <td>3,600</td>
+                <td>1,314</td>
+                <td>36.50%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ex-sub" style="margin-top:8px">两条合计多拒 742 件，到期 400，坏样本 334，命中风险 83.50%。测算：(1,648 − 334) / (4,000 − 400) = 1,314 / 3,600 = 36.50%。</p>
+      </div>
+
+      <div class="ex-block" id="swap">
+        <h2 class="ex-block-title">Swap 预估</h2>
+        <p class="ex-sub">线上策略 × 新策略。swapin 为 0：这版只加拒绝。swapout 就是上面两条命中的人。</p>
+        <div class="ex-scroll">
+          <table class="ex-table">
+            <thead>
+              <tr>
+                <th>分段</th>
+                <th>进件量</th>
+                <th>进件占比</th>
+                <th>贷后样本量</th>
+                <th>坏样本</th>
+                <th>订单风险</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>inin · 两边都过</td>
+                <td>6,678</td>
+                <td>66.78%</td>
+                <td>3,600</td>
+                <td>1,314</td>
+                <td>36.50%</td>
+              </tr>
+              <tr>
+                <td>swapin · 旧拒新过</td>
+                <td>0</td>
+                <td>0.00%</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+              <tr class="hot">
+                <td>swapout · 旧过新拒</td>
+                <td>742</td>
+                <td>7.42%</td>
+                <td>400</td>
+                <td>334</td>
+                <td>83.50%</td>
+              </tr>
+              <tr>
+                <td>outout · 两边都拒</td>
+                <td>2,580</td>
+                <td>25.80%</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ex-sub" style="margin-top:8px">线上通过 7,420，到期风险 41.20%。新策略通过 6,678，到期风险 36.50%。6,678 + 742 + 2,580 = 10,000。换出去的风险高于留下来的。</p>
+      </div>
+
+      <p class="ex-next"><a href="monitor.html">下一屏 · 日常监控</a></p>
+    </section>
+  </div>
 </main>
-<footer>
-  <div class="wrap">© 2026 scott王 · 用 AI 落地风控策略。作品集页面中的数字均为合成示例。</div>
-</footer>
+<footer><div class="wrap">作品集页面中的数字均为合成示例。</div></footer>
 <script src="reveal.js"></script>
 </body>
 </html>
