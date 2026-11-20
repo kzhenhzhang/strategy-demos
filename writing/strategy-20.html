@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>策略20问 · 王含章</title>
+  <link rel="stylesheet" href="../assets/portal.css" />
+</head>
+<body>
+<article class="article">
+  <p class="backline"><a class="back" href="../index.html">返回个人主页</a></p>
+  <h1>策略20问</h1>
+  <p>这是我判断一条策略时会问的。三组：效果怎么证明，策略怎么设计，风险从哪来。</p>
+
+  <h2>效果怎么证明</h2>
+  <ol class="questions">
+    <li>一条策略上线之后，你怎么评估它的效果？和谁比，看哪个数？</li>
+    <li id="q-sample">策略效果不好的时候，你怎么判断是策略的问题，还是样本的问题？</li>
+    <li>你知道自己这条产品的收支平衡点在哪里吗？过了哪个数开始亏？</li>
+    <li>风险、通过率和放款规模顶在一起，谁先让？</li>
+    <li>数据漏斗、数据魔方和 AB 测试，在你的工作里各占多少？</li>
+    <li>样本一直不够的时候，为什么还要上线一条当时算不清效果、却说是数据驱动的策略？</li>
+    <li>被拒绝的人没有贷后表现，你怎么做拒绝推断？</li>
+    <li>一条策略上线半年后还有效吗？你怎么发现有人已经在适应它？</li>
+    <li>一条策略上线之后，为什么还要继续迭代？</li>
+  </ol>
+
+  <h2>策略怎么设计</h2>
+  <ol class="questions" start="10">
+    <li>这条策略是在进件时做，还是在支用、贷中调额时做？换一个时点，结论还一样吗？</li>
+    <li>同一个人准了，额度给多少、价格定多少、期限放多长？</li>
+    <li>你的规则里，模型用得多还是少？为什么？</li>
+    <li>模型分的高低，和这个用户信用风险的高低，是什么关系？</li>
+    <li id="q-segment">为什么要分群？你怎么分？</li>
+    <li>复杂规则有用吗？比如一城一策，或者好几条条件叠在一起。</li>
+  </ol>
+
+  <h2>风险从哪来</h2>
+  <ol class="questions" start="16">
+    <li>用户为什么违约？</li>
+    <li>你怎么量化这批客群的逆选程度？</li>
+    <li id="q-source">一批人风险高，你怎么判断主要来自获客、策略，还是贷后催收？</li>
+    <li>你是不是觉得，做这份工作总会被监管政策压着走？</li>
+    <li>监管政策变了，进件规模、通过率、额度、风险、催回率、投诉，哪些会跟着变？你为什么这么判断？</li>
+  </ol>
+
+  <p>你对哪一问已经有自己的数，微信发我。</p>
+  <p><button type="button" class="copy-wechat" id="copyWechat">复制微信 ScottLaoWang</button></p>
+  <p class="copy-note" id="copyNote" role="status"></p>
+</article>
+<script>
+(function () {
+  var wechat = "ScottLaoWang";
+  var btn = document.getElementById("copyWechat");
+  var note = document.getElementById("copyNote");
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "0";
+    ta.style.left = "0";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  btn.addEventListener("click", function () {
+    var done = function (ok) {
+      btn.textContent = ok ? "已复制 ScottLaoWang" : "复制微信 ScottLaoWang";
+      note.textContent = ok ? "微信号已复制：ScottLaoWang" : "复制没成功，微信号是 ScottLaoWang";
+    };
+    if (fallbackCopy(wechat)) done(true);
+    else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(wechat).then(function () { done(true); }, function () { done(false); });
+    } else done(false);
+  });
+})();
+</script>
+</body>
+</html>
